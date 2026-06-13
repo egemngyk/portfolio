@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio - Panel</title>
+    <link rel="icon" href="data:," />
+    <style>
+      body { visibility: hidden; background: #0a0a0a; }
+    </style>
+    <script type="module">
+      import { getActiveTheme } from "/firebase/firebase.js";
+      
+      const DEFAULT_THEME = "claudemade";
+      
+      async function loadThemeStyles() {
+        let theme = DEFAULT_THEME;
+        try {
+          theme = await getActiveTheme();
+        } catch (err) {}
+        
+        if (!theme || !/^[\w-]+$/.test(theme)) {
+          theme = DEFAULT_THEME;
+        }
+
+        const linkCss = document.createElement("link");
+        linkCss.rel = "stylesheet";
+        linkCss.href = `/themes/${theme}/css/panel.css`;
+        document.head.appendChild(linkCss);
+
+        let iconLink = document.createElement('link');
+        iconLink.rel = 'icon';
+        iconLink.type = 'image/png';
+        iconLink.href = `/themes/${theme}/assets/favicon.png?v=${Date.now()}`;
+        document.head.appendChild(iconLink);
+
+        linkCss.onload = () => {
+          document.body.style.visibility = 'visible';
+        };
+        linkCss.onerror = () => {
+          document.body.style.visibility = 'visible';
+        };
+      }
+      loadThemeStyles();
+    </script>
+  </head>
+  <body>
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen">
+      <div class="login-box">
+        <div class="login-logo">EG</div>
+        <div class="login-title">Control Panel</div>
+        <div class="login-sub">Yönetici Girişi</div>
+        <div class="form-group">
+          <input
+            type="email"
+            id="login-email"
+            placeholder="E-posta"
+            autocomplete="email"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="password"
+            id="login-pw"
+            placeholder="Şifre"
+            autocomplete="current-password"
+          />
+        </div>
+        <button class="btn-primary" id="login-btn">Giriş Yap</button>
+        <div class="login-error" id="login-error"></div>
+      </div>
+    </div>
+
+    <!-- PANEL -->
+    <div id="panel" style="display: none">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <span class="logo-eg">EG</span>
+          <span class="logo-label">Panel</span>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="#" class="nav-item active" data-tab="overview">
+            <svg viewBox="0 0 20 20">
+              <path
+                d="M3 3h6v6H3zm8 0h6v6h-6zM3 11h6v6H3zm8 0h6v6h-6z"
+                fill="currentColor"
+                opacity=".6"
+              />
+            </svg>
+            Genel Bakış
+          </a>
+          <a href="#" class="nav-item" data-tab="meta">
+            <svg viewBox="0 0 20 20">
+              <circle cx="10" cy="7" r="3" fill="currentColor" opacity=".6" />
+              <path
+                d="M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6"
+                stroke="currentColor"
+                stroke-width="1.5"
+                fill="none"
+                opacity=".6"
+              />
+            </svg>
+            Profil & Meta
+          </a>
+          <a href="#" class="nav-item" data-tab="stats">
+            <svg viewBox="0 0 20 20">
+              <path
+                d="M5 5h3v3H5zM12 5h3v3h-3z
+                   M5 12h3v3H5zM12 12h3v3h-3z"
+                stroke="currentColor"
+                stroke-width="1.2"
+                fill="none"
+                opacity=".6"
+              />
+            </svg>
+            Sayısal Değerler
+          </a>
+          <a href="#" class="nav-item" data-tab="analystic">
+            <svg viewBox="0 0 20 20">
+              <path d="M3 17V10M7 17V7M11 17V4M15 17V9"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              fill="none"
+              opacity=".6"
+              />
+            </svg>
+            Analiz
+          </a>
+          <a href="#" class="nav-item" data-tab="languages">
+            <svg viewBox="0 0 20 20">
+              <path
+                d="M4 5h12M4 10h8M4 15h10"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                fill="none"
+                opacity=".6"
+              />
+            </svg>
+            Diller & Stack
+          </a>
+          <a href="#" class="nav-item" data-tab="projects">
+            <svg viewBox="0 0 20 20">
+              <rect
+                x="3"
+                y="3"
+                width="14"
+                height="14"
+                rx="2"
+                stroke="currentColor"
+                stroke-width="1.5"
+                fill="none"
+                opacity=".6"
+              />
+              <path
+                d="M7 10h6M10 7v6"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                fill="none"
+                opacity=".6"
+              />
+            </svg>
+            Projeler
+          </a>
+          <a href="#" class="nav-item" data-tab="contact">
+            <svg viewBox="0 0 20 20">
+              <path
+                d="M3 5h14a1 1 0 011 1v8a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1z"
+                stroke="currentColor"
+                stroke-width="1.5"
+                fill="none"
+                opacity=".6"
+              />
+              <path
+                d="M2 6l8 5 8-5"
+                stroke="currentColor"
+                stroke-width="1.5"
+                fill="none"
+                opacity=".6"
+              />
+            </svg>
+            İletişim
+          </a>
+          <a href="#" class="nav-item" data-tab="messages">
+            <svg viewBox="0 0 20 20">
+              <path
+                d="M3 4h14v10H3z"
+                stroke="currentColor"
+                stroke-width="1.5"
+                fill="none"
+                opacity=".6"
+              />
+              <path
+                d="M3 16l4-2h6l4 2"
+                stroke="currentColor"
+                stroke-width="1.5"
+                fill="none"
+                opacity=".6"
+              />
+            </svg>
+            Mesajlar
+            <span class="badge-count" id="msg-badge" style="display: none">0</span>
+          </a>
+          <a href="#" class="nav-item" data-tab="themes">
+            <svg viewBox="0 0 20 20">
+              <circle
+                cx="10"
+                cy="10"
+                r="7"
+                stroke="currentColor"
+                stroke-width="1.5"
+                fill="none"
+                opacity=".7"
+              />
+              <circle cx="10" cy="10" r="3" fill="currentColor" opacity=".35" />
+            </svg>
+            Temalar
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <a href="/" target="_blank" class="sidebar-link">Siteyi Aç ↗</a>
+          <button class="btn-logout" id="logout-btn">Çıkış</button>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="panel-main">
+        <!-- OVERVIEW -->
+        <div class="tab-content active" id="tab-overview">
+          <div class="tab-header">
+            <h1>Genel Bakış</h1>
+            <p>Portfolio durumu ve hızlı istatistikler</p>
+          </div>
+          <div class="overview-cards">
+            <div class="ov-card">
+              <div class="ov-label">Yaş</div>
+              <div class="ov-val" id="ov-age">—</div>
+            </div>
+            <div class="ov-card">
+              <div class="ov-label">Aktif Proje</div>
+              <div class="ov-val" id="ov-projects">—</div>
+            </div>
+            <div class="ov-card">
+              <div class="ov-label">Dil Sayısı</div>
+              <div class="ov-val" id="ov-langs">—</div>
+            </div>
+            <div class="ov-card accent">
+              <div class="ov-label">Okunmamış Mesaj</div>
+              <div class="ov-val" id="ov-unread">—</div>
+            </div>
+          </div>
+          <div class="section-card">
+            <div class="sc-title">Son Mesajlar</div>
+            <div id="recent-messages">Yükleniyor...</div>
+          </div>
+          <div class="section-card">
+            <div class="sc-title">İstatistikler</div>
+            <div id="stats-overview">Yükleniyor...</div>
+          </div>
+        </div>
+
+        <!-- META -->
+        <div class="tab-content" id="tab-meta">
+          <div class="tab-header">
+            <h1>Profil & Meta</h1>
+            <p>Hero, hakkımda ve hedef bölümleri</p>
+          </div>
+          <div class="section-card">
+            <div class="sc-title">Temel Bilgiler</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Ad Soyad</label><input id="m-name" type="text" />
+              </div>
+              <div class="form-group">
+                <label>Doğum Tarihi</label><input id="m-birthdate" type="date" />
+              </div>
+              <div class="form-group">
+                <label>Lokasyon</label><input id="m-location" type="text" />
+              </div>
+              <div class="form-group">
+                <label>Hostname</label><input id="m-host" type="text" />
+              </div>
+              <div class="form-group">
+                <label>Domain</label><input id="m-domain" type="text" />
+              </div>
+            </div>
+            <div class="i18n-pair">
+              <div class="form-group">
+                <label class="label-tr">🇹🇷 Başlık</label>
+                <input id="m-title" type="text" placeholder="Türkçe başlık..." />
+              </div>
+              <div class="i18n-actions">
+                <button class="btn-auto-translate" data-src="m-title" data-dst="m-title-en" title="Otomatik çevir">🌐 Çevir</button>
+              </div>
+              <div class="form-group">
+                <label class="label-en">🇬🇧 Title (EN)</label>
+                <input id="m-title-en" type="text" placeholder="English title..." />
+              </div>
+            </div>
+            <div class="i18n-pair">
+              <div class="form-group">
+                <label class="label-tr">🇹🇷 Durum Metni (nav)</label>
+                <input id="m-status" type="text" placeholder="Türkçe durum..." />
+              </div>
+              <div class="i18n-actions">
+                <button class="btn-auto-translate" data-src="m-status" data-dst="m-status-en" title="Otomatik çevir">🌐 Çevir</button>
+              </div>
+              <div class="form-group">
+                <label class="label-en">🇬🇧 Status Text (EN)</label>
+                <input id="m-status-en" type="text" placeholder="English status..." />
+              </div>
+            </div>
+            <button class="btn-primary" id="btn-save-meta-1">Kaydet</button>
+            <div class="save-msg" id="meta-msg"></div>
+          </div>
+          <div class="section-card">
+            <div class="sc-title">Hakkımda Bölümü</div>
+            <div class="i18n-pair">
+              <div class="form-group">
+                <label class="label-tr">🇹🇷 Başlık (\n = satır sonu)</label>
+                <input id="m-about-heading" type="text" />
+              </div>
+              <div class="i18n-actions">
+                <button class="btn-auto-translate" data-src="m-about-heading" data-dst="m-about-heading-en" title="Otomatik çevir">🌐 Çevir</button>
+              </div>
+              <div class="form-group">
+                <label class="label-en">🇬🇧 Heading (EN)</label>
+                <input id="m-about-heading-en" type="text" />
+              </div>
+            </div>
+            <div class="i18n-pair">
+              <div class="form-group">
+                <label class="label-tr">🇹🇷 1. Paragraf</label>
+                <textarea id="m-about-p1" rows="3"></textarea>
+              </div>
+              <div class="i18n-actions">
+                <button class="btn-auto-translate" data-src="m-about-p1" data-dst="m-about-p1-en" title="Otomatik çevir">🌐 Çevir</button>
+              </div>
+              <div class="form-group">
+                <label class="label-en">🇬🇧 Paragraph 1 (EN)</label>
+                <textarea id="m-about-p1-en" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="i18n-pair">
+              <div class="form-group">
+                <label class="label-tr">🇹🇷 2. Paragraf</label>
+                <textarea id="m-about-p2" rows="3"></textarea>
+              </div>
+              <div class="i18n-actions">
+                <button class="btn-auto-translate" data-src="m-about-p2" data-dst="m-about-p2-en" title="Otomatik çevir">🌐 Çevir</button>
+              </div>
+              <div class="form-group">
+                <label class="label-en">🇬🇧 Paragraph 2 (EN)</label>
+                <textarea id="m-about-p2-en" rows="3"></textarea>
+              </div>
+            </div>
+            <button class="btn-primary" id="btn-save-meta-2">Kaydet</button>
+          </div>
+          <div class="section-card">
+            <div class="sc-title">Hedef Bölümü</div>
+            <div class="i18n-pair">
+              <div class="form-group">
+                <label class="label-tr">🇹🇷 Alıntı</label>
+                <textarea id="m-goal-quote" rows="2"></textarea>
+              </div>
+              <div class="i18n-actions">
+                <button class="btn-auto-translate" data-src="m-goal-quote" data-dst="m-goal-quote-en" title="Otomatik çevir">🌐 Çevir</button>
+              </div>
+              <div class="form-group">
+                <label class="label-en">🇬🇧 Quote (EN)</label>
+                <textarea id="m-goal-quote-en" rows="2"></textarea>
+              </div>
+            </div>
+            <div class="i18n-pair">
+              <div class="form-group">
+                <label class="label-tr">🇹🇷 Açıklama</label>
+                <textarea id="m-goal-desc" rows="3"></textarea>
+              </div>
+              <div class="i18n-actions">
+                <button class="btn-auto-translate" data-src="m-goal-desc" data-dst="m-goal-desc-en" title="Otomatik çevir">🌐 Çevir</button>
+              </div>
+              <div class="form-group">
+                <label class="label-en">🇬🇧 Description (EN)</label>
+                <textarea id="m-goal-desc-en" rows="3"></textarea>
+              </div>
+            </div>
+            <button class="btn-primary" id="btn-save-meta-3">Kaydet</button>
+          </div>
+        </div>
+
+        <!-- VALUES -->
+        <div class="tab-content" id="tab-stats">
+          <div class="tab-header">
+            <h1>Sayısal istatistikler</h1>
+            <p>Hakkımda bölümündeki sayısal değerler</p>
+          </div>
+          <div class="section-card">
+            <div class="sc-title">Sayaç Değerleri</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Aktif Proje Sayısı</label>
+                <input id="s-projects" type="number" min="0" max="99" />
+              </div>
+              <div class="form-group">
+                <label>Programlama Dili Sayısı</label>
+                <input id="s-langs" type="number" min="0" max="99" />
+              </div>
+              <div class="form-group">
+                <label>Yıl</label>
+                <input id="s-year" type="number" min="2000" max="2100" />
+              </div>
+              <div class="form-group">
+                <label>Mesaj Karakter Limiti</label>
+                <input id="s-message-limit" type="number" min="0" max="9999" />
+              </div>
+            </div>
+            <button class="btn-primary" id="btn-save-stats">Kaydet</button>
+            <div class="save-msg" id="stats-msg"></div>
+          </div>
+        </div>
+
+        <!-- ANALYSTIC -->
+        <div class="tab-content" id="tab-analystic">
+          <div class="tab-header">
+            <h1>Analiz</h1>
+            <p>Ziyaretçi sayılarını ve trafik istatistiklerini görüntüle ve analiz et.</p>
+          </div>
+          <div class="section-card">
+            <div class="sc-title">İstatistikler</div>
+            <div id="stats-overview-2">Yükleniyor...</div>
+          </div>
+        </div>
+
+        <!-- LANGUAGES -->
+        <div class="tab-content" id="tab-languages">
+          <div class="tab-header">
+            <h1>Diller & Stack</h1>
+            <p>Görünür dilleri ve seviyelerini ayarla</p>
+          </div>
+          <div class="section-card">
+            <div class="sc-title">Programlama Dilleri — havuzdan seç</div>
+            <p class="sc-sub">
+              Yanındaki toggle'a tıklayarak hangi dillerin sayfada görüneceğini
+              seç. Kaydırıcıyla seviye ayarla.
+            </p>
+            <div id="lang-list">Yükleniyor...</div>
+            <button class="btn-primary" id="btn-save-langs">Kaydet</button>
+            <div class="save-msg" id="lang-msg"></div>
+          </div>
+        </div>
+
+        <!-- PROJECTS -->
+        <div class="tab-content" id="tab-projects">
+          <div class="tab-header">
+            <h1>Projeler</h1>
+            <p>Projeleri düzenle, sil veya yeni ekle</p>
+          </div>
+          <div class="section-card">
+            <div class="sc-title">
+              Proje Listesi
+              <button class="btn-sm" id="btn-add-project">+ Yeni Ekle</button>
+            </div>
+            <div id="project-list">Yükleniyor...</div>
+          </div>
+          <div class="modal-overlay" id="proj-modal" style="display: none">
+            <div class="modal">
+              <div class="modal-title" id="modal-title">Yeni Proje</div>
+              <input type="hidden" id="proj-id" />
+              <div class="form-group">
+                <label>Başlık</label><input id="proj-title" type="text" />
+              </div>
+              <div class="i18n-pair">
+                <div class="form-group">
+                  <label class="label-tr">🇹🇷 Açıklama</label>
+                  <textarea id="proj-desc" rows="3"></textarea>
+                </div>
+                <div class="i18n-actions">
+                  <button class="btn-auto-translate" data-src="proj-desc" data-dst="proj-desc-en" title="Otomatik çevir">🌐 Çevir</button>
+                </div>
+                <div class="form-group">
+                  <label class="label-en">🇬🇧 Description (EN)</label>
+                  <textarea id="proj-desc-en" rows="3"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Etiketler (virgülle ayır)</label>
+                <input id="proj-tags" type="text" placeholder="Python, AI, OpenCV" />
+              </div>
+              <div class="form-group">
+                <label>Durum</label>
+                <select id="proj-status">
+                  <option value="active">Aktif Geliştirme</option>
+                  <option value="done">Tamamlandı</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>GitHub URL (boş bırakırsan link olmaz)</label>
+                <input id="proj-github" type="text" placeholder="https://github.com/..." />
+              </div>
+              <div class="modal-actions">
+                <button class="btn-secondary" id="btn-modal-cancel">İptal</button>
+                <button class="btn-primary" id="btn-modal-save">Kaydet</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="tab-content" id="tab-contact">
+          <div class="tab-header">
+            <h1>İletişim Bilgileri</h1>
+            <p>Footer ve iletişim bölümündeki veriler</p>
+          </div>
+          <div class="section-card">
+            <div class="sc-title">Bağlantılar</div>
+            <div class="form-group">
+              <label>E-posta</label><input id="c-email" type="email" />
+            </div>
+            <div class="form-group">
+              <label>GitHub URL</label><input id="c-github" type="text" />
+            </div>
+            <div class="form-group">
+              <label>Website URL</label><input id="c-website" type="text" />
+            </div>
+            <button class="btn-primary" id="btn-save-contact">Kaydet</button>
+            <div class="save-msg" id="contact-msg"></div>
+          </div>
+        </div>
+
+        <!-- MESSAGES -->
+        <div class="tab-content" id="tab-messages">
+          <div class="tab-header">
+            <h1>Gelen Mesajlar</h1>
+            <p>İletişim formundan gelen mesajlar</p>
+          </div>
+          <div id="messages-list">Yükleniyor...</div>
+        </div>
+
+        <!-- THEMES -->
+        <div class="tab-content" id="tab-themes">
+          <div class="tab-header">
+            <h1>Temalar</h1>
+            <p>Portfolio'nun görünümünü düzenle</p>
+            <p>Temalar arasında geçiş yap</p>
+          </div>
+          <div class="section-card">
+            <div class="sc-title">Temalar</div>
+            <div class="form-group">
+              <label>Temalar</label>
+              <div id="theme-list" class="theme-card-list">Yükleniyor...</div>
+              <div class="theme-toolbar">
+                <button type="button" class="btn-secondary" id="btn-refresh-themes">
+                  Temaları Yenile
+                </button>
+                <button type="button" class="btn-primary" id="btn-restart-apply" hidden>
+                  Temayı Uygula
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="/shared/panel-loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
+    <!-- Firebase Auth ile login formunu bağla -->
+    <script type="module">
+      import { waitForAuth } from "/firebase/firebase.js";
+
+      // Email alanı eklendi — login butonunu Firebase uyumlu hale getir
+      document.addEventListener("DOMContentLoaded", async () => {
+        const loginBtn = document.getElementById("login-btn");
+        const loginError = document.getElementById("login-error");
+
+        if (!loginBtn) return;
+
+        // Zaten giriş yapılmışsa panel'i göster
+        const user = await waitForAuth();
+        if (user) {
+          document.getElementById("login-screen").style.display = "none";
+          document.getElementById("panel").style.display = "flex";
+        }
+
+        loginBtn.addEventListener("click", async () => {
+          const emailEl = document.getElementById("login-email");
+          const pwEl = document.getElementById("login-pw");
+
+          const email = emailEl?.value?.trim() || window._ADMIN_EMAIL || "";
+          const password = pwEl?.value || "";
+
+          if (!email || !password) {
+            loginError.textContent = "E-posta ve şifre gerekli.";
+            return;
+          }
+
+          loginBtn.disabled = true;
+          loginError.textContent = "";
+
+          // ADMIN.login yüklenene kadar bekle
+          let tries = 0;
+          while (!window.ADMIN && tries < 50) {
+            await new Promise((r) => setTimeout(r, 100));
+            tries++;
+          }
+
+          if (!window.ADMIN) {
+            loginError.textContent = "Panel yüklenemedi, sayfayı yenileyin.";
+            loginBtn.disabled = false;
+            return;
+          }
+
+          // Email'i ADMIN_EMAIL olarak set et, login sadece şifre alır
+          window._ADMIN_EMAIL = email;
+          const res = await window.ADMIN.login(password);
+
+          if (res.ok) {
+            document.getElementById("login-screen").style.display = "none";
+            document.getElementById("panel").style.display = "flex";
+          } else {
+            loginError.textContent = res.error || "Giriş başarısız.";
+          }
+
+          loginBtn.disabled = false;
+        });
+
+        // Enter tuşu
+        document.getElementById("login-pw")?.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") loginBtn.click();
+        });
+      });
+    </script>
+  </body>
+</html>

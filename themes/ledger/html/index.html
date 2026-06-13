@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+  <base href="/themes/ledger/html/">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Egemen Geyik</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="shortcut icon" href="../assets/favicon.png" type="image/x-icon" />
+  </head>
+  <body>
+
+    <!-- NAV -->
+    <nav id="nav">
+      <div class="nav-logo">EG</div>
+      <ul class="nav-links">
+        <li><a href="#about" data-i18n="nav_about">Hakkımda</a></li>
+        <li><a href="#stack" data-i18n="nav_stack">Stack</a></li>
+        <li><a href="#projects" data-i18n="nav_projects">Projeler</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">İletişim</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-status">
+          <span class="status-dot"></span>
+          <span id="nav-status-text"></span>
+        </div>
+        <button class="lang-toggle" id="lang-toggle" title="Switch language" aria-label="Switch language">
+          <span id="lang-flag"></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-inner">
+        <div class="hero-index">00</div>
+        <div class="hero-content">
+          <p class="hero-label" id="hero-tag"></p>
+          <h1>
+            <span class="name-line" id="hero-name"></span>
+            <span class="name-line dimmed">
+              <span id="hero-age"></span>&thinsp;<span data-i18n="hero_age_suffix">yaşında</span>
+            </span>
+          </h1>
+          <p class="hero-desc" id="hero-sub"></p>
+          <div class="hero-data">
+            <dl>
+              <dt>Host</dt>
+              <dd id="meta-host"></dd>
+            </dl>
+            <dl>
+              <dt>Domain</dt>
+              <dd id="meta-domain"></dd>
+            </dl>
+            <dl>
+              <dt>Loc</dt>
+              <dd id="meta-location"></dd>
+            </dl>
+            <dl>
+              <dt data-i18n="hero_age_label">Yaş</dt>
+              <dd id="meta-age"></dd>
+            </dl>
+          </div>
+          <a href="#projects" class="hero-cta">
+            <span data-i18n="hero_cta">Projelere Bak</span>
+            <span class="cta-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section-about">
+      <div class="section-header">
+        <span class="section-index">01</span>
+        <span class="section-label" data-i18n="section_about">Hakkımda</span>
+      </div>
+      <div class="about-grid">
+        <div class="about-left reveal">
+          <h2 id="about-heading"></h2>
+        </div>
+        <div class="about-right reveal delay-1">
+          <p id="about-p1"></p>
+          <p id="about-p2"></p>
+          <div class="about-stats">
+            <div class="stat">
+              <span class="stat-num" id="stat-projects" data-count="0">0</span>
+              <span class="stat-label" data-i18n="stat_projects">Aktif Proje</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num" id="stat-langs" data-count="0">0</span>
+              <span class="stat-label" data-i18n="stat_langs">Programlama Dili</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num" id="stat-year" data-count="0">0</span>
+              <span class="stat-label" data-i18n="stat_year">Yıl</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section id="stack" class="section-stack">
+      <div class="section-header">
+        <span class="section-index">02</span>
+        <span class="section-label" data-i18n="section_stack">Teknoloji Stack</span>
+      </div>
+      <h2 class="section-title reveal" data-i18n="stack_title">Araçlarım</h2>
+      <div class="stack-grid" id="stack-grid"></div>
+      <div class="tech-badges reveal" id="tech-badges"></div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section-projects">
+      <div class="section-header">
+        <span class="section-index">03</span>
+        <span class="section-label" data-i18n="section_projects">Projeler</span>
+      </div>
+      <h2 class="section-title reveal" data-i18n="projects_title">Ne İnşa Ettim</h2>
+      <div class="projects-list" id="projects-grid"></div>
+    </section>
+
+    <!-- GOAL -->
+    <section class="section-goal">
+      <div class="goal-inner reveal">
+        <div class="section-header" style="margin-bottom: 40px;">
+          <span class="section-index">04</span>
+          <span class="section-label" data-i18n="section_goal">Hedef</span>
+        </div>
+        <blockquote id="goal-quote"></blockquote>
+        <p id="goal-desc"></p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section-contact">
+      <div class="section-header">
+        <span class="section-index">05</span>
+        <span class="section-label" data-i18n="section_contact">İletişim</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-left reveal">
+          <h2 data-i18n="contact_heading">Birlikte bir şeyler<br /><em>üretelim.</em></h2>
+          <div id="contact-links" class="contact-links-list"></div>
+        </div>
+        <div class="contact-right reveal delay-1">
+          <div class="contact-form-wrap">
+            <p class="form-title" data-i18n="form_title">Doğrudan Yaz</p>
+            <div class="form-group">
+              <label data-i18n="form_name">Ad Soyad</label>
+              <input type="text" id="form-name" data-i18n-placeholder="form_name_ph" placeholder="Adın" />
+            </div>
+            <div class="form-group">
+              <label data-i18n="form_email">E-posta</label>
+              <input type="email" id="form-email" data-i18n-placeholder="form_email_ph" placeholder="email@ornek.com" />
+            </div>
+            <div class="form-group">
+              <label data-i18n="form_message">Mesaj</label>
+              <textarea id="form-message" rows="6" data-i18n-placeholder="form_message_ph" placeholder="Merhaba Egemen..."></textarea>
+            </div>
+            <button class="form-submit" id="form-submit">
+              <span data-i18n="form_send">Gönder</span>
+              <span class="arrow">→</span>
+            </button>
+            <div class="form-feedback" id="form-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-left" id="footer-copy"></div>
+        <div class="footer-center">
+          <span id="footer-host"></span>
+          <span class="sep">·</span>
+          <span id="footer-domain"></span>
+        </div>
+        <div class="footer-right">
+          <span class="status-dot small"></span>
+          <span>Online</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/main/main.js"></script>
+    </body>
+</html>
