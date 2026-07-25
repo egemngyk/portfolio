@@ -18,34 +18,49 @@ service cloud.firestore {
         request.resource.data.keys().hasOnly(['name', 'email', 'message', 'createdAt', 'read'])
         && request.resource.data.name is string
         && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 100
         && request.resource.data.email is string
         && request.resource.data.email.size() > 0
+        && request.resource.data.email.size() <= 200
         && request.resource.data.message is string
         && request.resource.data.message.size() > 0
-        && request.resource.data.message.size() <= 2000;
+        && request.resource.data.message.size() <= 2000
+        && request.resource.data.read == false;
 
       allow read, update, delete: if request.auth != null;
     }
 
     // ─── Analytics ───────────────────────────────────────────────────────────
-    // Herkes okuyabilir ve güncelleyebilir (ziyaretçi tracking).
-    // Sadece izin verilen alanlar güncellenebilir (veri bozulması engellenir).
+    // Herkes okuyabilir. Yazma yalnızca belirli koşullarla.
+    // visitor_ids array'i max 50.000 kayıtla sınırlı (bellek/kota koruması).
     match /analytics/{doc} {
       allow read: if true;
 
-      // Yeni doküman oluşturma (ilk ziyaretçi)
+      // Yeni doküman oluşturma — yalnızca doküman yoksa izin ver
       allow create: if
-        request.resource.data.keys().hasOnly([
+        !exists(/databases/$(database)/documents/analytics/$(doc))
+        && request.resource.data.keys().hasOnly([
           'unique_visitors', 'visitor_ids', 'sessions',
           'durations', 'avg_duration_sec', 'last_updated'
-        ]);
+        ])
+        && request.resource.data.unique_visitors == 1
+        && request.resource.data.visitor_ids.size() == 1;
 
-      // Güncelleme — sadece analytics alanları değişebilir
+      // Güncelleme — yalnızca izin verilen analytics alanları değişebilir
+      // visitor_ids max 50.000 ile sınırlı (kota patlamasını engeller)
       allow update: if
         request.resource.data.diff(resource.data).affectedKeys().hasOnly([
           'unique_visitors', 'visitor_ids', 'sessions',
           'durations', 'avg_duration_sec', 'last_updated'
-        ]);
+        ])
+        && (
+          !('visitor_ids' in request.resource.data.diff(resource.data).affectedKeys())
+          || request.resource.data.visitor_ids.size() <= 50000
+        )
+        && (
+          !('durations' in request.resource.data.diff(resource.data).affectedKeys())
+          || request.resource.data.durations.size() <= 1000
+        );
     }
   }
 }
