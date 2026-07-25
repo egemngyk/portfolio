@@ -5,6 +5,15 @@ A premium, modern, and highly interactive developer portfolio website. Built wit
 ## 🚀 Live Demo & Hosting
 The application is optimized for deployment on **Vercel** and connects directly to **Firebase** for backend database services.
 
+You can visit the live website at any of the following domains:
+- 🌐 [egemen.is-a.dev](https://egemen.is-a.dev) (Primary)
+- 🌐 [muhammedegemen.is-a.dev](https://muhammedegemen.is-a.dev)
+- 🌐 [geyik.is-a.dev](https://geyik.is-a.dev)
+- 🌐 [gyk.is-a.dev](https://gyk.is-a.dev)
+- 🌐 [egemengeyik.is-a.dev](https://egemengeyik.is-a.dev)
+- 🌐 [egemngyk.is-a.dev](https://egemngyk.is-a.dev)
+- 🌐 [egemen-portfolio-six.vercel.app](https://egemen-portfolio-six.vercel.app)
+
 ---
 
 ## ✨ Features
