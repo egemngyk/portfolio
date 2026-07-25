@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+  <base href="/themes/terminal/html/">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Egemen Geyik</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="shortcut icon" href="../assets/favicon.png" type="image/x-icon" />
+    <script type="module">
+      import { injectSpeedInsights } from 'https://esm.sh/@vercel/speed-insights';
+      injectSpeedInsights();
+    </script>
+  </head>
+  <body>
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- BOOT SCREEN -->
+    <div id="boot-screen">
+      <div class="boot-text">
+        <div class="boot-line" id="boot-0">BIOS v2.26.04 — System OK</div>
+        <div class="boot-line" id="boot-1">Loading egemen.kernel...</div>
+        <div class="boot-line" id="boot-2">Mounting /portfolio... done</div>
+        <div class="boot-line" id="boot-3">Starting services...</div>
+        <div class="boot-line" id="boot-4">Portfolio online. <span class="blink-cursor">█</span></div>
+      </div>
+    </div>
+
+    <!-- MAIN WRAPPER -->
+    <div id="main-wrap" style="opacity:0">
+
+      <!-- NAV -->
+      <nav id="nav">
+        <div class="nav-logo">root@egemen:~$<span class="blink-cursor">_</span></div>
+        <ul class="nav-links">
+          <li><a href="#about" data-i18n="nav_about">Hakkımda</a></li>
+          <li><a href="#stack" data-i18n="nav_stack">Stack</a></li>
+          <li><a href="#projects" data-i18n="nav_projects">Projeler</a></li>
+          <li><a href="#contact" data-i18n="nav_contact">İletişim</a></li>
+        </ul>
+        <div class="nav-right">
+          <div class="nav-status">
+            <span class="status-dot"></span>
+            <span id="nav-status-text"></span>
+          </div>
+          <button class="lang-toggle" id="lang-toggle" title="Switch language" aria-label="Switch language">
+            <span id="lang-flag"></span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- HERO -->
+      <section class="hero" id="hero">
+        <div class="term-window">
+          <div class="term-titlebar">
+            <div class="term-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="term-title">egemen@portfolio:~</div>
+          </div>
+          <div class="term-body">
+            <div class="term-line"><span class="prompt">$</span> <span class="cmd">whoami</span></div>
+            <div class="term-output" id="hero-name-out"></div>
+            <div class="term-line mt"><span class="prompt">$</span> <span class="cmd">cat ./meta.json</span></div>
+            <div class="term-json" id="term-json-out"></div>
+            <div class="term-line mt"><span class="prompt">$</span> <span class="cmd">echo $STATUS</span></div>
+            <div class="term-output" id="term-status-out"></div>
+            <div class="term-line mt"><span class="prompt">$</span> <span class="cmd">./projects --list</span></div>
+            <div class="term-output green-dim" id="term-projects-preview"></div>
+            <div class="term-line mt"><span class="prompt">$</span> <span class="blink-cursor">█</span></div>
+          </div>
+        </div>
+        <div class="hero-aside">
+          <div class="hero-tag" id="hero-tag"></div>
+          <h1 id="hero-name"></h1>
+          <div class="hero-age-line">
+            <span class="age-val"><span id="hero-age"></span> <span data-i18n="hero_age_suffix">yaşında</span></span>
+          </div>
+          <p class="hero-sub" id="hero-sub"></p>
+          <div class="hero-meta-list">
+            <div class="meta-row">
+              <span class="meta-key">host</span>
+              <span class="meta-eq">=</span>
+              <span class="meta-val str" id="meta-host"></span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">domain</span>
+              <span class="meta-eq">=</span>
+              <span class="meta-val str" id="meta-domain"></span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">location</span>
+              <span class="meta-eq">=</span>
+              <span class="meta-val str" id="meta-location"></span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key" data-i18n="hero_age_label">yaş</span>
+              <span class="meta-eq">=</span>
+              <span class="meta-val num" id="meta-age"></span>
+            </div>
+          </div>
+          <a href="#projects" class="hero-cta">
+            <span class="cta-prompt">$</span>
+            <span data-i18n="hero_cta">Projelere Bak</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="section-about">
+        <div class="section-label" data-i18n="section_about">01 / Hakkımda</div>
+        <div class="about-grid">
+          <div class="about-left reveal">
+            <div class="term-comment">/* about */</div>
+            <h2 id="about-heading"></h2>
+          </div>
+          <div class="about-right reveal delay-1">
+            <p id="about-p1"></p>
+            <p id="about-p2"></p>
+            <div class="about-stats">
+              <div class="stat">
+                <span class="stat-num" id="stat-projects" data-count="0">0</span>
+                <span class="stat-label" data-i18n="stat_projects">Aktif Proje</span>
+              </div>
+              <div class="stat">
+                <span class="stat-num" id="stat-langs" data-count="0">0</span>
+                <span class="stat-label" data-i18n="stat_langs">Programlama Dili</span>
+              </div>
+              <div class="stat">
+                <span class="stat-num" id="stat-year" data-count="0">0</span>
+                <span class="stat-label" data-i18n="stat_year">Yıl</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STACK -->
+      <section id="stack" class="section-stack">
+        <div class="section-label" data-i18n="section_stack">02 / Teknoloji Stack</div>
+        <h2 class="section-title reveal" data-i18n="stack_title">Araçlarım</h2>
+        <div class="stack-grid" id="stack-grid"></div>
+        <div class="tech-badges reveal" id="tech-badges"></div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="section-projects">
+        <div class="section-label" data-i18n="section_projects">03 / Projeler</div>
+        <h2 class="section-title reveal" data-i18n="projects_title">Ne İnşa Ettim</h2>
+        <div class="projects-grid" id="projects-grid"></div>
+      </section>
+
+      <!-- GOAL -->
+      <section class="section-goal">
+        <div class="goal-inner reveal">
+          <div class="section-label" data-i18n="section_goal">04 / Hedef</div>
+          <blockquote id="goal-quote"></blockquote>
+          <p id="goal-desc"></p>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="section-contact">
+        <div class="section-label" data-i18n="section_contact">05 / İletişim</div>
+        <div class="contact-grid">
+          <div class="contact-left reveal">
+            <h2 data-i18n="contact_heading">Birlikte bir şeyler<br /><em>üretelim.</em></h2>
+            <div id="contact-links" class="contact-links-list"></div>
+          </div>
+          <div class="contact-right reveal delay-1">
+            <div class="contact-form-wrap term-panel">
+              <div class="term-titlebar-sm">
+                <span class="prompt">$</span> <span class="cmd" data-i18n="form_title">Doğrudan Yaz</span>
+              </div>
+              <div class="form-body">
+                <div class="form-group">
+                  <label><span class="prompt">></span> <span data-i18n="form_name">Ad Soyad</span></label>
+                  <input type="text" id="form-name" data-i18n-placeholder="form_name_ph" placeholder="Adın" />
+                </div>
+                <div class="form-group">
+                  <label><span class="prompt">></span> <span data-i18n="form_email">E-posta</span></label>
+                  <input type="email" id="form-email" data-i18n-placeholder="form_email_ph" placeholder="email@ornek.com" />
+                </div>
+                <div class="form-group">
+                  <label><span class="prompt">></span> <span data-i18n="form_message">Mesaj</span></label>
+                  <textarea id="form-message" rows="5" data-i18n-placeholder="form_message_ph" placeholder="Merhaba Egemen..."></textarea>
+                </div>
+                <button class="form-submit" id="form-submit">
+                  <span class="prompt">$</span>
+                  <span data-i18n="form_send">Gönder</span>
+                </button>
+                <div class="form-feedback" id="form-feedback"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="footer-inner">
+          <div class="footer-left" id="footer-copy"></div>
+          <div class="footer-center">
+            <span id="footer-host"></span>
+            <span class="sep">·</span>
+            <span id="footer-domain"></span>
+          </div>
+          <div class="footer-right">
+            <span class="status-dot small"></span>
+            <span>Online</span>
+          </div>
+        </div>
+      </footer>
+
+    </div><!-- end main-wrap -->
+
+    <script src="../js/main/main.js"></script>
+    </body>
+</html>

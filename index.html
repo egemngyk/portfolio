@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <link rel="icon" href="data:," />
+    <script type="module">
+      import { injectSpeedInsights } from 'https://esm.sh/@vercel/speed-insights';
+      injectSpeedInsights();
+    </script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        background: #0a0a0a;
+        color: #fff;
+        font-family: system-ui, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+      .loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        opacity: 0;
+        animation: fadeIn 0.3s ease 0.1s forwards;
+      }
+      .loader-dot {
+        width: 8px;
+        height: 8px;
+        background: #555;
+        border-radius: 50%;
+        animation: pulse 1.2s ease-in-out infinite;
+      }
+      .loader-text {
+        font-size: 12px;
+        color: #444;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      @keyframes fadeIn { to { opacity: 1; } }
+      @keyframes pulse {
+        0%, 100% { background: #333; transform: scale(0.8); }
+        50% { background: #666; transform: scale(1.1); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loader" id="loader">
+      <div class="loader-dot"></div>
+      <div class="loader-text">Yükleniyor</div>
+    </div>
+
+    <script type="module">
+      import { getActiveTheme } from "/firebase/firebase.js";
+
+      const DEFAULT_THEME = "claudemade";
+
+      async function loadTheme() {
+        let theme = DEFAULT_THEME;
+        try {
+          theme = await getActiveTheme();
+        } catch (err) {
+          console.warn("[index] Tema alınamadı, varsayılan kullanılıyor:", err.message);
+        }
+
+        // Geçerli bir tema klasör adı mı kontrol et
+        if (!theme || !/^[\w-]+$/.test(theme)) {
+          theme = DEFAULT_THEME;
+        }
+
+        // Tema HTML'ini yükle ve sayfayı değiştir
+        try {
+          const res = await fetch(`/themes/${theme}/html/index.html`);
+          if (!res.ok) throw new Error(`Tema bulunamadı: ${theme}`);
+          const html = await res.text();
+
+          // Mevcut sayfayı tema içeriğiyle değiştir
+          document.open();
+          document.write(html);
+          document.close();
+
+          // Force browser to load the theme's favicon
+          setTimeout(() => {
+            document.querySelectorAll("link[rel~='icon']").forEach(e => e.remove());
+            let iconLink = document.createElement('link');
+            iconLink.rel = 'shortcut icon';
+            iconLink.type = 'image/png';
+            iconLink.href = `/themes/${theme}/assets/favicon.png?v=${Date.now()}`;
+            document.head.appendChild(iconLink);
+          }, 50);
+        } catch (err) {
+          console.error("[index] Tema yüklenemedi:", err.message);
+          // Fallback: default temayı dene
+          if (theme !== DEFAULT_THEME) {
+            try {
+              const res = await fetch(`/themes/${DEFAULT_THEME}/html/index.html`);
+              const html = await res.text();
+              document.open();
+              document.write(html);
+              document.close();
+
+              // Force browser to load the theme's favicon
+              setTimeout(() => {
+                document.querySelectorAll("link[rel~='icon']").forEach(e => e.remove());
+                let iconLink = document.createElement('link');
+                iconLink.rel = 'shortcut icon';
+                iconLink.type = 'image/png';
+                iconLink.href = `/themes/${DEFAULT_THEME}/assets/favicon.png?v=${Date.now()}`;
+                document.head.appendChild(iconLink);
+              }, 50);
+            } catch {
+              document.body.innerHTML = `
+                <div style="text-align:center;padding:40px">
+                  <p style="color:#666">Tema yüklenemedi. Lütfen daha sonra tekrar deneyin.</p>
+                </div>
+              `;
+            }
+          }
+        }
+      }
+
+      loadTheme();
+    </script>
+
+    <!-- Service Worker Kaydı -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .catch(err => console.warn('[SW] Kayıt başarısız:', err));
+        });
+      }
+    </script>
+  </body>
+</html>

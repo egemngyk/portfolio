@@ -1,0 +1,16 @@
+{
+  "name": "egemen-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio website",
+  "type": "module",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && npx http-server -p 3000",
+    "lint": "echo 'No linter configured'"
+  },
+  "dependencies": {
+    "@vercel/speed-insights": "^1.0.12"
+  },
+  "devDependencies": {},
+  "private": true
+}
