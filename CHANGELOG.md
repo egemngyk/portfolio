@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-07-26
+
+### Changed
+- **Simplified Deployment**: Removed build-time environment variable injection system (`build.js`, template files, `.env`). Firebase client credentials are now committed directly as they are public client-side keys; real security is enforced by Firestore Security Rules.
+- **Hardened Firestore Security Rules**: Added field-level validation and array size caps (`visitor_ids` max 50,000, `durations` max 1,000) to prevent database abuse and quota exhaustion.
+- **Cleaner Dev Workflow**: `npm run dev` now starts the local server directly without an intermediate build step.
+
+### Removed
+- `build.js` — no longer needed.
+- `firebase/firebase.template.js` — replaced by direct `firebase/firebase.js`.
+- `shared/panel-loader.template.js` — replaced by direct `shared/panel-loader.js`.
+
+---
+
 ## [1.0.0] - 2026-07-26
 
 ### Added

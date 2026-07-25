@@ -20,7 +20,5 @@ Thumbs.db
 # Vercel
 .vercel/
 
-# Secrets and Generated Files
+# Local environment (never commit)
 .env
-firebase/firebase.js
-shared/panel-loader.js

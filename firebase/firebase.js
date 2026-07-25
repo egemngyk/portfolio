@@ -24,12 +24,12 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "%%FIREBASE_API_KEY%%",
-  authDomain: "%%FIREBASE_AUTH_DOMAIN%%",
-  projectId: "%%FIREBASE_PROJECT_ID%%",
-  storageBucket: "%%FIREBASE_STORAGE_BUCKET%%",
-  messagingSenderId: "%%FIREBASE_MESSAGING_SENDER_ID%%",
-  appId: "%%FIREBASE_APP_ID%%",
+  apiKey: "AIzaSyCXzLzOwAbXx6npZRelr3iAlLm_fNgzspE",
+  authDomain: "portfolio-database-31a1e.firebaseapp.com",
+  projectId: "portfolio-database-31a1e",
+  storageBucket: "portfolio-database-31a1e.firebasestorage.app",
+  messagingSenderId: "611771864691",
+  appId: "1:611771864691:web:1ff8ea6f67fa4929ddfc06",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -142,7 +142,6 @@ async function recordVisit({ visitor_id, new_session }) {
     const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 
     if (!snap.exists()) {
-      // İlk kez oluştur
       tx.set(statsRef, {
         unique_visitors: 1,
         visitor_ids: [visitor_id],
@@ -163,9 +162,7 @@ async function recordVisit({ visitor_id, new_session }) {
     const visitor_ids = data.visitor_ids || [];
     const isNew = !visitor_ids.includes(visitor_id);
 
-    const updates = {
-      last_updated: now.toISOString(),
-    };
+    const updates = { last_updated: now.toISOString() };
 
     if (isNew) {
       updates.visitor_ids = [...visitor_ids, visitor_id];
@@ -206,7 +203,6 @@ async function recordDuration({ visitor_id, duration, type }) {
   });
 }
 
-// ISO hafta numarası yardımcısı
 // ISO hafta numarası yardımcısı
 function getISOWeek(date) {
   const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));

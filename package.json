@@ -1,11 +1,10 @@
 {
   "name": "egemen-portfolio",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A dynamic multi-themed developer portfolio with a built-in Firebase administration panel for real-time content management.",
   "type": "module",
   "scripts": {
-    "build": "node build.js",
-    "dev": "node build.js && npx http-server -p 3000",
+    "dev": "npx http-server -p 3000",
     "lint": "echo 'No linter configured'"
   },
   "dependencies": {

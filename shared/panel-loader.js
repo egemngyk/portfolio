@@ -2,12 +2,10 @@
    Panel için script yükleme sırası:
    1. api.js      → window.API (Firebase tabanlı)
    2. panel.js    → window.ADMIN + window.portfolio bağlamaları
-   3. panel-render.js → DOM render
+   3. modules/main.js → DOM render
 ────────────────────────────────────────────────────────────────────────────── */
 
-// Admin Firebase email — Firebase Auth email+şifre gerektirir.
-// Bu değeri değiştirmek için sadece bu satırı güncelleyin.
-window._ADMIN_EMAIL = "%%ADMIN_EMAIL%%";
+window._ADMIN_EMAIL = "admin@portfolio.dev";
 
 function scriptYukle(src, isModule = false) {
   return new Promise((resolve, reject) => {
