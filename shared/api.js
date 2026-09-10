@@ -203,7 +203,7 @@ const API = {
     // panel.js login(password) çağırırsa, email ADMIN_EMAIL sabitinden gelir.
     let email, password;
     if (passwordArg !== undefined) {
-      email = passwordOrEmail;
+      email = passwordOrEmail || window._ADMIN_EMAIL || "admin@portfolio.dev";
       password = passwordArg;
     } else {
       // Sadece şifre verilmişse sabit admin email kullan
