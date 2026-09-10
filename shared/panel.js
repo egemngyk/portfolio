@@ -23,9 +23,9 @@ window.ADMIN.checkAuth = async function () {
   }
 };
 
-window.ADMIN.login = async function (password) {
+window.ADMIN.login = async function (email, password) {
   try {
-    await API.login(password);
+    await API.login(email, password);
     window.ADMIN.auth.loggedIn = true;
     return { ok: true };
   } catch (err) {

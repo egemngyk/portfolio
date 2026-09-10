@@ -117,16 +117,21 @@ async function init() {
 
   // Login events
   document.getElementById("login-btn")?.addEventListener("click", async () => {
-    const pw = getVal("login-pw");
-    const err = document.getElementById("login-error");
-    if (err) err.textContent = "";
-    const loginRes = await window.ADMIN.login(pw);
-    if (loginRes.ok) {
-      showPanel();
-    } else if (err) {
-      err.textContent = loginRes.error || "Giriş başarısız.";
-    }
-  });
+      const email = getVal("login-email");
+        const pw = getVal("login-pw");
+          const err = document.getElementById("login-error");
+
+            if (err) err.textContent = "";
+
+              const loginRes = await window.ADMIN.login(email, pw);
+
+                if (loginRes.ok) {
+                    showPanel();
+                      } else if (err) {
+                          err.textContent = loginRes.error || "Giriş başarısız.";
+                            }
+                            });
+  })
 
   document.getElementById("login-pw")?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") document.getElementById("login-btn")?.click();
