@@ -131,7 +131,6 @@ async function init() {
                           err.textContent = loginRes.error || "Giriş başarısız.";
                             }
                             });
-  })
 
   document.getElementById("login-pw")?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") document.getElementById("login-btn")?.click();
