@@ -1,0 +1,26 @@
+{
+  "siteUrl": "https://egemen.is-a.dev",
+  "siteName": "Muhammed Egemen Geyik",
+  "alternateNames": ["Egemen Geyik", "egemngyk"],
+  "lang": "tr",
+  "locale": "tr_TR",
+  "title": "Muhammed Egemen Geyik | Yazılım Geliştirici",
+  "description": "Muhammed Egemen Geyik'in kişisel sitesi. TEDx konuşmacısı ve yazılım geliştirici. Projeler, çalışmalar ve iletişim.",
+  "shortDescription": "TEDx konuşmacısı ve yazılım geliştirici.",
+  "jobTitle": "Yazılım Geliştirici",
+  "image": "/og.png",
+  "googleSiteVerification": "",
+  "sameAs": [
+    { "label": "TED sayfası", "url": "https://www.ted.com/talks/muhammed_egemen_geyik_inovasyon" },
+    { "label": "YouTube", "url": "https://www.youtube.com/watch?v=BgNjGG_GllA" },
+    { "label": "Facebook paylaşımı", "url": "https://www.facebook.com/adiyamanmem/posts/tedxin-en-k%C3%BC%C3%A7%C3%BCk-konu%C5%9Fmac%C4%B1s%C4%B1-muhammed-egemen-geyik-kendisinin-yapt%C4%B1%C4%9F%C4%B1-oyuncak-ara/150071992387567/" },
+    { "label": "GitHub", "url": "https://github.com/egemngyk" }
+  ],
+  "tedx": {
+    "enabled": true,
+    "heading": "Muhammed Egemen Geyik – TEDx Konuşması",
+    "text": "Muhammed Egemen Geyik'in TEDx sahnesinde yaptığı \"İnovasyon\" başlıklı konuşma.",
+    "youtubeId": "BgNjGG_GllA"
+  },
+  "sitemapPaths": ["/"]
+}

@@ -1,139 +1,219 @@
 <!doctype html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio</title>
-    <link rel="icon" href="data:," />
-    <script type="module">
-      import { injectSpeedInsights } from 'https://esm.sh/@vercel/speed-insights';
-      injectSpeedInsights();
-    </script>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body {
-        background: #0a0a0a;
-        color: #fff;
-        font-family: system-ui, sans-serif;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-      }
-      .loader {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-        opacity: 0;
-        animation: fadeIn 0.3s ease 0.1s forwards;
-      }
-      .loader-dot {
-        width: 8px;
-        height: 8px;
-        background: #555;
-        border-radius: 50%;
-        animation: pulse 1.2s ease-in-out infinite;
-      }
-      .loader-text {
-        font-size: 12px;
-        color: #444;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-      }
-      @keyframes fadeIn { to { opacity: 1; } }
-      @keyframes pulse {
-        0%, 100% { background: #333; transform: scale(0.8); }
-        50% { background: #666; transform: scale(1.1); }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="loader" id="loader">
-      <div class="loader-dot"></div>
-      <div class="loader-text">Yükleniyor</div>
-    </div>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script type="module">
-      import { getActiveTheme } from "/firebase/firebase.js";
+<!-- SEO:START -->
+<title data-seo>Muhammed Egemen Geyik | Yazılım Geliştirici</title>
+<meta data-seo name="description" content="Muhammed Egemen Geyik'in kişisel sitesi. TEDx konuşmacısı ve yazılım geliştirici. Projeler, çalışmalar ve iletişim." />
+<link data-seo rel="canonical" href="https://egemen.is-a.dev/" />
+<meta data-seo property="og:type" content="website" />
+<meta data-seo property="og:site_name" content="Muhammed Egemen Geyik" />
+<meta data-seo property="og:title" content="Muhammed Egemen Geyik" />
+<meta data-seo property="og:description" content="TEDx konuşmacısı ve yazılım geliştirici." />
+<meta data-seo property="og:url" content="https://egemen.is-a.dev/" />
+<meta data-seo property="og:locale" content="tr_TR" />
+<meta data-seo name="twitter:card" content="summary_large_image" />
+<meta data-seo name="twitter:title" content="Muhammed Egemen Geyik" />
+<meta data-seo name="twitter:description" content="TEDx konuşmacısı ve yazılım geliştirici." />
+<meta data-seo property="og:image" content="https://egemen.is-a.dev/og.png" />
+<meta data-seo name="twitter:image" content="https://egemen.is-a.dev/og.png" />
+<script data-seo type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://egemen.is-a.dev/#website",
+      "url": "https://egemen.is-a.dev/",
+      "name": "Muhammed Egemen Geyik",
+      "alternateName": [
+        "Egemen Geyik",
+        "egemngyk",
+        "egemen.is-a.dev"
+      ],
+      "inLanguage": "tr",
+      "publisher": {
+        "@id": "https://egemen.is-a.dev/#person"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://egemen.is-a.dev/#person",
+      "name": "Muhammed Egemen Geyik",
+      "alternateName": [
+        "Egemen Geyik",
+        "egemngyk"
+      ],
+      "url": "https://egemen.is-a.dev/",
+      "mainEntityOfPage": "https://egemen.is-a.dev/",
+      "jobTitle": "Yazılım Geliştirici",
+      "sameAs": [
+        "https://www.ted.com/talks/muhammed_egemen_geyik_inovasyon",
+        "https://www.youtube.com/watch?v=BgNjGG_GllA",
+        "https://www.facebook.com/adiyamanmem/posts/tedxin-en-k%C3%BC%C3%A7%C3%BCk-konu%C5%9Fmac%C4%B1s%C4%B1-muhammed-egemen-geyik-kendisinin-yapt%C4%B1%C4%9F%C4%B1-oyuncak-ara/150071992387567/",
+        "https://github.com/egemngyk"
+      ],
+      "image": "https://egemen.is-a.dev/og.png"
+    }
+  ]
+}
+</script>
+<!-- SEO:END -->
 
-      const DEFAULT_THEME = "claudemade";
+<link rel="icon" href="data:," />
+<script type="module">
+  import { injectSpeedInsights } from 'https://esm.sh/@vercel/speed-insights';
+  injectSpeedInsights();
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0a0a;
+    color: #fff;
+    font-family: system-ui, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  .loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    opacity: 0;
+    animation: fadeIn 0.3s ease 0.1s forwards;
+  }
+  .loader-dot {
+    width: 8px;
+    height: 8px;
+    background: #555;
+    border-radius: 50%;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  .loader-text {
+    font-size: 12px;
+    color: #444;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  @keyframes fadeIn { to { opacity: 1; } }
+  @keyframes pulse {
+    0%, 100% { background: #333; transform: scale(0.8); }
+    50% { background: #666; transform: scale(1.1); }
+  }
+</style>
+</head>
+<body>
 
-      async function loadTheme() {
-        let theme = DEFAULT_THEME;
+<div class="loader" id="loader">
+  <div class="loader-dot"></div>
+  <div class="loader-text">Yükleniyor</div>
+</div>
+
+<!-- SEO-NOSCRIPT:START -->
+<noscript><main style="max-width:640px;padding:40px;line-height:1.6"><h1>Muhammed Egemen Geyik</h1><p>Muhammed Egemen Geyik'in kişisel sitesi. TEDx konuşmacısı ve yazılım geliştirici. Projeler, çalışmalar ve iletişim.</p><ul><li><a href="https://www.ted.com/talks/muhammed_egemen_geyik_inovasyon">TED sayfası</a></li><li><a href="https://www.youtube.com/watch?v=BgNjGG_GllA">YouTube</a></li><li><a href="https://www.facebook.com/adiyamanmem/posts/tedxin-en-k%C3%BC%C3%A7%C3%BCk-konu%C5%9Fmac%C4%B1s%C4%B1-muhammed-egemen-geyik-kendisinin-yapt%C4%B1%C4%9F%C4%B1-oyuncak-ara/150071992387567/">Facebook paylaşımı</a></li><li><a href="https://github.com/egemngyk">GitHub</a></li></ul></main></noscript>
+<!-- SEO-NOSCRIPT:END -->
+
+<script type="module">
+  import { getActiveTheme } from "/firebase/firebase.js";
+  import { loadSeoConfig, applySeo, injectTedx } from "/shared/seo.mjs";
+
+  const DEFAULT_THEME = "claudemade";
+
+  // document.write head'i sileceği için ham sayfadaki SEO etiketlerini yedekle (config okunamazsa kullanılır)
+  const shellSeoHTML = [...document.head.querySelectorAll("[data-seo]")]
+    .map((el) => el.outerHTML)
+    .join("\n");
+
+  let seo = null;
+  try {
+    seo = await loadSeoConfig();
+  } catch (err) {
+    console.warn("[index] SEO config okunamadı, ham etiketler kullanılacak:", err.message);
+  }
+
+  function finalizeSeo() {
+    if (seo) {
+      applySeo(seo);
+      injectTedx(seo);
+    } else {
+      document.head.insertAdjacentHTML("beforeend", shellSeoHTML);
+    }
+  }
+
+  function setFavicon(theme) {
+    setTimeout(() => {
+      document.querySelectorAll("link[rel~='icon']").forEach((e) => e.remove());
+      const iconLink = document.createElement("link");
+      iconLink.rel = "shortcut icon";
+      iconLink.type = "image/png";
+      iconLink.href = `/themes/${theme}/assets/favicon.png?v=${Date.now()}`;
+      document.head.appendChild(iconLink);
+    }, 50);
+  }
+
+  async function showTheme(theme) {
+    const res = await fetch(`/themes/${theme}/html/index.html`);
+    if (!res.ok) throw new Error(`Tema bulunamadı: ${theme}`);
+    const html = await res.text();
+
+    document.open();
+    document.write(html);
+    document.close();
+
+    finalizeSeo();
+    setFavicon(theme);
+  }
+
+  async function loadTheme() {
+    let theme = DEFAULT_THEME;
+
+    try {
+      theme = await getActiveTheme();
+    } catch (err) {
+      console.warn("[index] Tema alınamadı, varsayılan kullanılıyor:", err.message);
+    }
+
+    // Geçerli bir tema klasör adı mı kontrol et
+    if (!theme || !/^[\w-]+$/.test(theme)) {
+      theme = DEFAULT_THEME;
+    }
+
+    try {
+      await showTheme(theme);
+    } catch (err) {
+      console.error("[index] Tema yüklenemedi:", err.message);
+
+      // Fallback: default temayı dene
+      if (theme !== DEFAULT_THEME) {
         try {
-          theme = await getActiveTheme();
-        } catch (err) {
-          console.warn("[index] Tema alınamadı, varsayılan kullanılıyor:", err.message);
-        }
-
-        // Geçerli bir tema klasör adı mı kontrol et
-        if (!theme || !/^[\w-]+$/.test(theme)) {
-          theme = DEFAULT_THEME;
-        }
-
-        // Tema HTML'ini yükle ve sayfayı değiştir
-        try {
-          const res = await fetch(`/themes/${theme}/html/index.html`);
-          if (!res.ok) throw new Error(`Tema bulunamadı: ${theme}`);
-          const html = await res.text();
-
-          // Mevcut sayfayı tema içeriğiyle değiştir
-          document.open();
-          document.write(html);
-          document.close();
-
-          // Force browser to load the theme's favicon
-          setTimeout(() => {
-            document.querySelectorAll("link[rel~='icon']").forEach(e => e.remove());
-            let iconLink = document.createElement('link');
-            iconLink.rel = 'shortcut icon';
-            iconLink.type = 'image/png';
-            iconLink.href = `/themes/${theme}/assets/favicon.png?v=${Date.now()}`;
-            document.head.appendChild(iconLink);
-          }, 50);
-        } catch (err) {
-          console.error("[index] Tema yüklenemedi:", err.message);
-          // Fallback: default temayı dene
-          if (theme !== DEFAULT_THEME) {
-            try {
-              const res = await fetch(`/themes/${DEFAULT_THEME}/html/index.html`);
-              const html = await res.text();
-              document.open();
-              document.write(html);
-              document.close();
-
-              // Force browser to load the theme's favicon
-              setTimeout(() => {
-                document.querySelectorAll("link[rel~='icon']").forEach(e => e.remove());
-                let iconLink = document.createElement('link');
-                iconLink.rel = 'shortcut icon';
-                iconLink.type = 'image/png';
-                iconLink.href = `/themes/${DEFAULT_THEME}/assets/favicon.png?v=${Date.now()}`;
-                document.head.appendChild(iconLink);
-              }, 50);
-            } catch {
-              document.body.innerHTML = `
-                <div style="text-align:center;padding:40px">
-                  <p style="color:#666">Tema yüklenemedi. Lütfen daha sonra tekrar deneyin.</p>
-                </div>
-              `;
-            }
-          }
+          await showTheme(DEFAULT_THEME);
+        } catch {
+          document.body.innerHTML = `
+            <div style="text-align:center;padding:40px">
+              <p style="color:#666">Tema yüklenemedi. Lütfen daha sonra tekrar deneyin.</p>
+            </div>
+          `;
         }
       }
+    }
+  }
 
-      loadTheme();
-    </script>
+  loadTheme();
+</script>
 
-    <!-- Service Worker Kaydı -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .catch(err => console.warn('[SW] Kayıt başarısız:', err));
-        });
-      }
-    </script>
-  </body>
+<!-- Service Worker Kaydı -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .catch(err => console.warn('[SW] Kayıt başarısız:', err));
+    });
+  }
+</script>
+
+</body>
 </html>
