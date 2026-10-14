@@ -3,14 +3,33 @@
   "outputDirectory": ".",
   "redirects": [
     {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "(muhammedegemen|geyik|gyk|egemengeyik|egemngyk)\\.is-a\\.dev"
-        }
-      ],
-      "destination": "https://egemen.is-a.dev/:path*",
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "muhammedegemen.is-a.dev" }],
+      "destination": "https://egemen.is-a.dev/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "geyik.is-a.dev" }],
+      "destination": "https://egemen.is-a.dev/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "gyk.is-a.dev" }],
+      "destination": "https://egemen.is-a.dev/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "egemengeyik.is-a.dev" }],
+      "destination": "https://egemen.is-a.dev/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "egemngyk.is-a.dev" }],
+      "destination": "https://egemen.is-a.dev/$1",
       "permanent": true
     }
   ],
