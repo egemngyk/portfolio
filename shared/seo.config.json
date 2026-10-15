@@ -14,7 +14,7 @@
     { "label": "TED sayfası", "url": "https://www.ted.com/talks/muhammed_egemen_geyik_inovasyon" },
     { "label": "YouTube", "url": "https://www.youtube.com/watch?v=BgNjGG_GllA" },
     { "label": "Facebook paylaşımı", "url": "https://www.facebook.com/adiyamanmem/posts/tedxin-en-k%C3%BC%C3%A7%C3%BCk-konu%C5%9Fmac%C4%B1s%C4%B1-muhammed-egemen-geyik-kendisinin-yapt%C4%B1%C4%9F%C4%B1-oyuncak-ara/150071992387567/" },
-    { "label": "GitHub", "url": "https://github.com/egemngyk" }
+    { "label": "GitHub", "url": "https://github.com/egemngyk", "showInTedx": false }
   ],
   "tedx": {
     "enabled": true,

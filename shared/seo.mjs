@@ -85,7 +85,9 @@ export function buildNoscriptHTML(c) {
 
 export function buildTedxHTML(c) {
   const t = c.tedx;
+  // showInTedx: false olan bağlantılar bu bölümde gösterilmez (JSON-LD'de yine yer alır)
   const links = c.sameAs
+    .filter((l) => l.showInTedx !== false)
     .map((l) => `<a href="${esc(l.url)}" rel="me noopener" target="_blank">${esc(l.label)}</a>`)
     .join(" · ");
   return (
