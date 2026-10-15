@@ -48,6 +48,7 @@
     }
   ],
   "rewrites": [
+    { "source": "/favicon.ico", "destination": "/themes/claudemade/assets/favicon.png" },
     { "source": "/panel", "destination": "/panel.html" },
     { "source": "/shared/:path*", "destination": "/shared/:path*" },
     { "source": "/themes/:path*", "destination": "/themes/:path*" },
