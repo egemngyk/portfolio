@@ -91,7 +91,7 @@ export function buildTedxHTML(c) {
     .map((l) => `<a href="${esc(l.url)}" rel="me noopener" target="_blank">${esc(l.label)}</a>`)
     .join(" · ");
   return (
-    `<section id="tedx" data-seo-section style="max-width:960px;margin:0 auto;padding:80px 24px;color:inherit;font-family:inherit;">` +
+    `<section id="tedx" data-seo-section style="max-width:960px;margin:0 auto;padding:80px 24px;scroll-margin-top:80px;color:inherit;font-family:inherit;">` +
     `<h2 style="margin-bottom:16px;">${esc(t.heading)}</h2>` +
     `<p style="max-width:640px;margin-bottom:28px;line-height:1.7;opacity:.8;">${esc(t.text)}</p>` +
     `<div style="max-width:720px;aspect-ratio:16/9;">` +
@@ -124,13 +124,36 @@ export function applySeo(c) {
   document.head.insertAdjacentHTML("beforeend", buildHeadHTML(c));
 }
 
+// Navbar'a "TEDx" bağlantısı ekler (tema fark etmeksizin .nav-links veya nav ul bulunursa).
+function addTedxNavLink(c) {
+  const list = document.querySelector(".nav-links") || document.querySelector("nav ul");
+  if (!list || list.querySelector('a[href="#tedx"]')) return;
+
+  const li = document.createElement("li");
+  const a = document.createElement("a");
+  a.href = "#tedx";
+  a.textContent = c.tedx.navLabel || "TEDx";
+  // Temadaki <base href> yüzünden düz #tedx linki yanlış adrese gidebilir; kaydırmayı kendimiz yapıyoruz.
+  a.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.getElementById("tedx")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  li.appendChild(a);
+  list.appendChild(li);
+}
+
 // Temada #tedx yoksa footer'dan önce (footer yoksa body sonuna) TEDx bölümünü ekler.
 export function injectTedx(c) {
-  if (!c.tedx?.enabled || document.getElementById("tedx")) return;
-  const tpl = document.createElement("template");
-  tpl.innerHTML = buildTedxHTML(c);
-  const section = tpl.content.firstElementChild;
-  const footer = document.querySelector("footer");
-  if (footer) footer.before(section);
-  else document.body.appendChild(section);
+  if (!c.tedx?.enabled) return;
+
+  if (!document.getElementById("tedx")) {
+    const tpl = document.createElement("template");
+    tpl.innerHTML = buildTedxHTML(c);
+    const section = tpl.content.firstElementChild;
+    const footer = document.querySelector("footer");
+    if (footer) footer.before(section);
+    else document.body.appendChild(section);
+  }
+
+  addTedxNavLink(c);
 }
