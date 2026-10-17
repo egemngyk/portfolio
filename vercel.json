@@ -4,54 +4,80 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "muhammedegemen.is-a.dev" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "muhammedegemen.is-a.dev"
+        }
+      ],
       "destination": "https://egemen.is-a.dev/$1",
       "permanent": true
     },
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "geyik.is-a.dev" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "geyik.is-a.dev"
+        }
+      ],
       "destination": "https://egemen.is-a.dev/$1",
       "permanent": true
     },
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "gyk.is-a.dev" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "gyk.is-a.dev"
+        }
+      ],
       "destination": "https://egemen.is-a.dev/$1",
       "permanent": true
     },
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "egemengeyik.is-a.dev" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "egemengeyik.is-a.dev"
+        }
+      ],
       "destination": "https://egemen.is-a.dev/$1",
       "permanent": true
     },
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "egemngyk.is-a.dev" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "egemngyk.is-a.dev"
+        }
+      ],
       "destination": "https://egemen.is-a.dev/$1",
       "permanent": true
-    }
-  ],
-  "headers": [
-    {
-      "source": "/shared/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
-    },
-    {
-      "source": "/themes/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
-    },
-    {
-      "source": "/firebase/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
     }
   ],
   "rewrites": [
-    { "source": "/favicon.ico", "destination": "/themes/claudemade/assets/favicon.png" },
-    { "source": "/panel", "destination": "/panel.html" },
-    { "source": "/shared/:path*", "destination": "/shared/:path*" },
-    { "source": "/themes/:path*", "destination": "/themes/:path*" },
-    { "source": "/firebase/:path*", "destination": "/firebase/:path*" }
+    {
+      "source": "/favicon.ico",
+      "destination": "/themes/claudemade/assets/favicon.png"
+    },
+    {
+      "source": "/panel",
+      "destination": "/panel.html"
+    },
+    {
+      "source": "/shared/:path*",
+      "destination": "/shared/:path*"
+    },
+    {
+      "source": "/themes/:path*",
+      "destination": "/themes/:path*"
+    },
+    {
+      "source": "/firebase/:path*",
+      "destination": "/firebase/:path*"
+    }
   ]
 }
