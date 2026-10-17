@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
     <title>Portfolio - Panel</title>
     <link rel="icon" href="data:," />
     <style>
@@ -27,6 +28,12 @@
         linkCss.rel = "stylesheet";
         linkCss.href = `/themes/${theme}/css/panel.css`;
         document.head.appendChild(linkCss);
+
+        // Tema bağımsız ek stiller (açılır kartlar, mesaj kartı, cevap butonu) — tema CSS'inden sonra gelmeli
+        const linkExtras = document.createElement("link");
+        linkExtras.rel = "stylesheet";
+        linkExtras.href = "/shared/css/panel-extras.css";
+        document.head.appendChild(linkExtras);
 
         let iconLink = document.createElement('link');
         iconLink.rel = 'icon';
@@ -90,6 +97,19 @@
               />
             </svg>
             Genel Bakış
+          </a>
+          <a href="#" class="nav-item" data-tab="analytics">
+            <svg viewBox="0 0 20 20">
+              <path
+                d="M4 16V9m4 7V5m4 11v-6m4 6V7"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                fill="none"
+                opacity=".6"
+              />
+            </svg>
+            İstatistikler
           </a>
           <a href="#" class="nav-item" data-tab="meta">
             <svg viewBox="0 0 20 20">
@@ -242,13 +262,36 @@
               <div class="ov-val" id="ov-unread">—</div>
             </div>
           </div>
-          <div class="section-card">
-            <div class="sc-title">Son Mesajlar</div>
-            <div id="recent-messages">Yükleniyor...</div>
+          <div class="section-card collapsible">
+            <button
+              type="button"
+              class="sc-toggle"
+              data-collapse-toggle
+              aria-expanded="false"
+              aria-controls="recent-messages"
+            >
+              <svg class="sc-chevron" viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              </svg>
+              <span class="sc-toggle-title">Mesajlar</span>
+              <span class="sc-count" id="recent-messages-count"></span>
+            </button>
+            <div class="collapsible-body" id="recent-messages" hidden>Yükleniyor...</div>
           </div>
-          <div class="section-card">
-            <div class="sc-title">İstatistikler</div>
-            <div id="stats-overview">Yükleniyor...</div>
+          <div class="section-card collapsible">
+            <button
+              type="button"
+              class="sc-toggle"
+              data-collapse-toggle
+              aria-expanded="false"
+              aria-controls="stats-overview"
+            >
+              <svg class="sc-chevron" viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              </svg>
+              <span class="sc-toggle-title">İstatistikler</span>
+            </button>
+            <div class="collapsible-body" id="stats-overview" hidden>Yükleniyor...</div>
           </div>
         </div>
 
@@ -381,10 +424,21 @@
           </div>
         </div>
 
+        <!-- ANALYTICS (ziyaretçi istatistikleri) -->
+        <div class="tab-content" id="tab-analytics">
+          <div class="tab-header">
+            <h1>İstatistikler</h1>
+            <p>Ziyaretçi ve oturum istatistikleri</p>
+          </div>
+          <div class="section-card">
+            <div id="stats-page">Yükleniyor...</div>
+          </div>
+        </div>
+
         <!-- VALUES -->
         <div class="tab-content" id="tab-stats">
           <div class="tab-header">
-            <h1>Sayısal istatistikler</h1>
+            <h1>Sayısal Değerler</h1>
             <p>Hakkımda bölümündeki sayısal değerler</p>
           </div>
           <div class="section-card">

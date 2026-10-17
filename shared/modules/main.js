@@ -1,4 +1,4 @@
-import { esc, fmtDate, getVal, calcAge } from "./utils.js";
+import { getVal, calcAge } from "./utils.js";
 import { renderMetaForm, initMeta } from "./meta.js";
 import { renderStatsForm, renderStats, initStats } from "./stats.js";
 import { renderLanguagesForm, initLanguages } from "./languages.js";
@@ -6,6 +6,7 @@ import { renderProjectsList, initProjects } from "./projects.js";
 import { renderContactForm, initContact } from "./contact.js";
 import { loadMessages, initMessages, updateMsgBadge } from "./messages.js";
 import { renderThemesList, initThemes } from "./themes.js";
+import { initCollapsibles } from "./collapsible.js";
 import "../components/message-card.js";
 
 function waitForADMIN() {
@@ -22,45 +23,25 @@ function waitForADMIN() {
   });
 }
 
+// Genel Bakış: üstteki sayaç kartları.
+// Mesaj listesi (kapalı/açık kart) loadMessages() tarafından çizilir.
 function renderOverview(d) {
   const age = calcAge(d.meta?.birthdate);
   const unread = (d.messages || []).filter((m) => !m.read).length;
 
   const ovAge = document.getElementById("ov-age");
   if (ovAge) ovAge.textContent = age;
-  
+
   const ovProjects = document.getElementById("ov-projects");
   if (ovProjects && d.stats) ovProjects.textContent = d.stats.active_projects;
-  
+
   const ovLangs = document.getElementById("ov-langs");
-  if (ovLangs && d.languages) ovLangs.textContent = d.languages.filter(l => l.visible).length;
-  
+  if (ovLangs && d.languages) ovLangs.textContent = d.languages.filter((l) => l.visible).length;
+
   const ovUnread = document.getElementById("ov-unread");
   if (ovUnread) ovUnread.textContent = unread;
-  
-  updateMsgBadge(unread);
 
-  // Son 3 mesaj (Component kullanmadan veya Component kullanarak)
-  const msgs = (d.messages || []).slice(-3).reverse();
-  const el = document.getElementById("recent-messages");
-  if (!el) return;
-  
-  if (!msgs.length) {
-    el.innerHTML = '<div class="empty-state">Henüz mesaj yok.</div>';
-    return;
-  }
-  
-  el.innerHTML = "";
-  msgs.forEach(m => {
-    const card = document.createElement("message-card");
-    card.setAttribute("data-id", m.id);
-    card.setAttribute("data-name", m.name);
-    card.setAttribute("data-email", m.email);
-    card.setAttribute("data-timestamp", m.timestamp);
-    card.setAttribute("data-message", m.message.substring(0, 120) + (m.message.length > 120 ? "…" : ""));
-    card.setAttribute("data-read", m.read);
-    el.appendChild(card);
-  });
+  updateMsgBadge(unread);
 }
 
 export async function loadAllData() {
@@ -84,7 +65,7 @@ export async function loadAllData() {
   renderStats();
 
   await loadMessages();
-  
+
   try {
     const themesRes = await window.ADMIN.getThemes();
     const themes = Array.isArray(themesRes) ? themesRes : (themesRes.themes || []);
@@ -117,20 +98,20 @@ async function init() {
 
   // Login events
   document.getElementById("login-btn")?.addEventListener("click", async () => {
-      const email = getVal("login-email");
-        const pw = getVal("login-pw");
-          const err = document.getElementById("login-error");
+    const email = getVal("login-email");
+    const pw = getVal("login-pw");
+    const err = document.getElementById("login-error");
 
-            if (err) err.textContent = "";
+    if (err) err.textContent = "";
 
-              const loginRes = await window.ADMIN.login(email, pw);
+    const loginRes = await window.ADMIN.login(email, pw);
 
-                if (loginRes.ok) {
-                    showPanel();
-                      } else if (err) {
-                          err.textContent = loginRes.error || "Giriş başarısız.";
-                            }
-                            });
+    if (loginRes.ok) {
+      showPanel();
+    } else if (err) {
+      err.textContent = loginRes.error || "Giriş başarısız.";
+    }
+  });
 
   document.getElementById("login-pw")?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") document.getElementById("login-btn")?.click();
@@ -150,10 +131,18 @@ async function init() {
       document.querySelectorAll(".tab-content").forEach((t) => t.classList.remove("active"));
       item.classList.add("active");
       document.getElementById(`tab-${tab}`)?.classList.add("active");
-      
+
       if (tab === "messages") loadMessages();
       if (tab === "themes") loadThemes();
+      // Grafikler gizliyken çizilince boyutsuz kalabilir; sekme açılınca yeniden çiz
+      if (tab === "analytics") renderStats();
     });
+  });
+
+  // Açılır kartlar (Genel Bakış: Mesajlar, İstatistikler)
+  initCollapsibles();
+  document.addEventListener("collapsible-open", (e) => {
+    if (e.target?.id === "stats-overview") renderStats();
   });
 
   // Initialize modules
@@ -166,10 +155,10 @@ async function init() {
   initThemes();
 
   // Listen to reload data event
-  window.addEventListener('reload-data', loadAllData);
+  window.addEventListener("reload-data", loadAllData);
   // themes.js döngüsel import'tan kaçınmak için bu event'i dinler
-  window.addEventListener('load-themes', loadThemes);
-  
+  window.addEventListener("load-themes", loadThemes);
+
   // Expose loadThemes for themes.js
   window.loadThemes = loadThemes;
 }

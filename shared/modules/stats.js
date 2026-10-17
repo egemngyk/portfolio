@@ -23,25 +23,39 @@ async function saveStats() {
   if (res.ok) reloadData();
 }
 
-let _currentFilter = "daily";
+// Aynı istatistik arayüzü iki yerde çizilir: Genel Bakış kartı ("") ve İstatistikler menüsü ("-2").
+// Her biri kendi filtresini tutar.
+const _targets = [
+  { s: "", id: "stats-overview" },
+  { s: "-2", id: "stats-page" },
+];
+const _filters = { "": "daily", "-2": "daily" };
 
-export function renderStats() {
-  const containers = [
-    document.getElementById("stats-overview"),
-  ].filter(Boolean);
+const _filterLabels = {
+  daily: "Günlük",
+  weekly: "Haftalık",
+  monthly: "Aylık",
+  all: "Tümü",
+};
 
-  if (!containers.length) return;
-
+function _buildStatsHTML(s) {
   const analytics = window.analytics || {};
   const sessions = analytics.sessions || {};
+  const current = _filters[s] || "daily";
 
-  const buildHTML = (s) => `
+  const filterBtns = Object.entries(_filterLabels)
+    .map(
+      ([key, label]) =>
+        `<button class="filter-btn${key === current ? " active" : ""}" data-filter="${key}" data-s="${s}"${
+          key === "all" ? ' style="margin-left:8px;"' : ""
+        }>${label}</button>`
+    )
+    .join("\n    ");
+
+  return `
   <div class="filter-bar">
     <span class="filter-label">Görünüm:</span>
-    <button class="filter-btn active" data-filter="daily" data-s="${s}">Günlük</button>
-    <button class="filter-btn" data-filter="weekly" data-s="${s}">Haftalık</button>
-    <button class="filter-btn" data-filter="monthly" data-s="${s}">Aylık</button>
-    <button class="filter-btn" data-filter="all" data-s="${s}" style="margin-left:8px;">Tümü</button>
+    ${filterBtns}
   </div>
   <div class="stat-grid">
     <div class="stat-card accent">
@@ -85,36 +99,30 @@ export function renderStats() {
   </div>
   <div class="last-updated" id="sv-last-updated${s}"></div>
 `;
+}
 
-  containers.forEach((el, i) => {
-    const s = i === 0 ? "" : "-2";
-    el.innerHTML = buildHTML(s);
-    _updateStatsView(s);
+export function renderStats() {
+  _targets.forEach(({ s, id }) => {
+    const el = document.getElementById(id);
+    if (!el) return;
 
-    // Add event listeners for filters
+    el.innerHTML = _buildStatsHTML(s);
     el.querySelectorAll(".filter-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         setStatsFilter(btn.dataset.filter, btn.dataset.s);
       });
     });
+    _updateStatsView(s);
   });
 }
 
 export function setStatsFilter(f, s = "") {
-  _currentFilter = f;
-  const labels = {
-    daily: "günlük",
-    weekly: "haftalık",
-    monthly: "aylık",
-    all: "tümü",
-  };
-  const container = document.getElementById("stats-overview");
+  _filters[s] = f;
+  const target = _targets.find((t) => t.s === s);
+  const container = target && document.getElementById(target.id);
   if (container) {
     container.querySelectorAll(".filter-btn").forEach((b) => {
-      b.classList.toggle(
-        "active",
-        b.textContent.trim().toLowerCase() === labels[f]
-      );
+      b.classList.toggle("active", b.dataset.filter === f);
     });
   }
   _updateStatsView(s);
@@ -123,6 +131,7 @@ export function setStatsFilter(f, s = "") {
 function _updateStatsView(s = "") {
   const analytics = window.analytics || {};
   const sessions = analytics.sessions || {};
+  const filter = _filters[s] || "daily";
   const map = {
     daily: sessions.daily,
     weekly: sessions.weekly,
@@ -134,24 +143,19 @@ function _updateStatsView(s = "") {
     monthly: "aylık",
     all: "günlük (tüm)",
   };
-  const data =
-    _currentFilter === "all"
-      ? sessions.daily || {}
-      : map[_currentFilter] || {};
+  const data = filter === "all" ? sessions.daily || {} : map[filter] || {};
   const cnt = Object.values(data).reduce((a, b) => a + b, 0);
 
   const el = (id) => document.getElementById(id + s);
 
   if (el("sv-sessions")) el("sv-sessions").textContent = cnt;
   if (el("sv-sessions-sub"))
-    el("sv-sessions-sub").textContent =
-      periodLabel[_currentFilter] + " toplamı";
+    el("sv-sessions-sub").textContent = periodLabel[filter] + " toplamı";
   if (el("sv-period")) el("sv-period").textContent = Object.keys(data).length;
   if (el("sv-period-sub"))
-    el("sv-period-sub").textContent =
-      "kayıtlı " + periodLabel[_currentFilter];
+    el("sv-period-sub").textContent = "kayıtlı " + periodLabel[filter];
   if (el("chart-period-label"))
-    el("chart-period-label").textContent = periodLabel[_currentFilter];
+    el("chart-period-label").textContent = periodLabel[filter];
 
   if (analytics.last_updated && el("sv-last-updated")) {
     el("sv-last-updated").textContent =

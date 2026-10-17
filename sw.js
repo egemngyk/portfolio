@@ -7,7 +7,7 @@
   └─────────────────────────────────────────────────────┘
 */
 
-const CACHE_NAME = "portfolio-panel-v1";
+const CACHE_NAME = "portfolio-panel-v2";
 
 // Önbelleğe alınacak statik dosyalar 
 const PRECACHE_ASSETS = [
@@ -21,10 +21,12 @@ const PRECACHE_ASSETS = [
   "/shared/modules/languages.js",
   "/shared/modules/projects.js",
   "/shared/modules/messages.js",
+  "/shared/modules/collapsible.js",
   "/shared/modules/themes.js",
   "/shared/components/project-card.js",
   "/shared/components/message-card.js",
   "/shared/css/panel-core.css",
+  "/shared/css/panel-extras.css",
 ];
 
 // ── INSTALL: Statik dosyaları önceden önbelleğe al ──

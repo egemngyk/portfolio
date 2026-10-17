@@ -1,0 +1,108 @@
+/* ─── panel-extras.css ───────────────────────────────────────────────────────
+   Tema bağımsız ek panel stilleri: açılır kartlar, mesaj kartı düzeltmeleri,
+   "Cevap Ver" butonu. Tema CSS'inden SONRA yüklenir (panel.html), renkler
+   temanın değişkenlerinden gelir (--surface, --border, --accent ...).
+────────────────────────────────────────────────────────────────────────────── */
+
+/* ── MESAJ KARTI ── */
+/* Özel elementler (<message-card>) varsayılan olarak inline'dır; kart düzeni bu yüzden bozuluyordu */
+message-card {
+  display: block;
+}
+.msg-card {
+  display: block;
+  box-sizing: border-box;
+}
+.msg-meta {
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+.msg-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.msg-email {
+  overflow-wrap: anywhere;
+}
+.msg-body {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.msg-actions {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* ── CEVAP VER (mailto) ── */
+a.btn-reply {
+  display: inline-block;
+  text-decoration: none;
+  line-height: normal;
+  color: var(--accent);
+  border-color: var(--accent);
+}
+a.btn-reply:hover {
+  background: var(--accent-dim);
+}
+
+/* ── AÇILIR KARTLAR ── */
+.section-card.collapsible {
+  padding: 0;
+}
+.sc-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 20px 32px;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.sc-toggle:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: -3px;
+}
+.sc-toggle-title {
+  font-family: var(--syne);
+  font-weight: 700;
+  font-size: 1rem;
+}
+.sc-count {
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 0.72rem;
+}
+.sc-chevron {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.sc-toggle:hover .sc-chevron {
+  color: var(--accent);
+}
+/* kapalı: sağı gösterir, açık: aşağı */
+.sc-toggle[aria-expanded="false"] .sc-chevron {
+  transform: rotate(-90deg);
+}
+.collapsible-body {
+  padding: 4px 32px 28px;
+}
+.collapsible-body[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .sc-toggle {
+    padding: 16px 18px;
+  }
+  .collapsible-body {
+    padding: 4px 18px 20px;
+  }
+}
