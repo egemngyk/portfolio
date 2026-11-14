@@ -172,10 +172,17 @@
   async function loadTheme() {
     let theme = DEFAULT_THEME;
 
-    try {
-      theme = await getActiveTheme();
-    } catch (err) {
-      console.warn("[index] Tema alınamadı, varsayılan kullanılıyor:", err.message);
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramTheme = urlParams.get("preview") || urlParams.get("theme");
+
+    if (paramTheme && /^[\w-]+$/.test(paramTheme)) {
+      theme = paramTheme;
+    } else {
+      try {
+        theme = await getActiveTheme();
+      } catch (err) {
+        console.warn("[index] Tema alınamadı, varsayılan kullanılıyor:", err.message);
+      }
     }
 
     // Geçerli bir tema klasör adı mı kontrol et

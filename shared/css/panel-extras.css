@@ -186,3 +186,219 @@ project-card {
 .proj-row.drag-over-bottom {
   border-bottom: 2px solid var(--accent) !important;
 }
+
+/* ── CANLI TEMA ÖNİZLEME MODALI (LIVE PREVIEW) ── */
+.theme-preview-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: tpFadeIn 0.2s ease-out;
+}
+@keyframes tpFadeIn {
+  from { opacity: 0; transform: scale(0.99); }
+  to { opacity: 1; transform: scale(1); }
+}
+.tp-modal-header {
+  height: 56px;
+  background: #111;
+  border-bottom: 1px solid #222;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  gap: 16px;
+  flex-shrink: 0;
+  user-select: none;
+}
+.tp-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tp-modal-badge {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(200, 255, 0, 0.12);
+  color: #c8ff00;
+  border: 1px solid rgba(200, 255, 0, 0.3);
+  font-weight: 600;
+}
+.tp-theme-name {
+  font-family: var(--syne, sans-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: capitalize;
+}
+.tp-devices {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #0a0a0a;
+  border: 1px solid #222;
+  padding: 3px;
+  border-radius: 6px;
+}
+.tp-device-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  font-size: 0.72rem;
+  font-family: inherit;
+  color: #888;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.tp-device-btn:hover {
+  color: #fff;
+}
+.tp-device-btn.active {
+  background: #222;
+  color: #c8ff00;
+  font-weight: 600;
+}
+.tp-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 0.75rem;
+  font-family: inherit;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  font-weight: 600;
+}
+.tp-btn-secondary {
+  background: #1c1c1c;
+  color: #ccc;
+  border: 1px solid #333;
+}
+.tp-btn-secondary:hover {
+  background: #252525;
+  color: #fff;
+  border-color: #444;
+}
+.tp-btn-primary {
+  background: #c8ff00;
+  color: #000;
+  border: 1px solid #c8ff00;
+}
+.tp-btn-primary:hover {
+  background: #d8ff33;
+}
+.tp-btn-close {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 1.2rem;
+  padding: 4px 10px;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.15s ease;
+  border-radius: 4px;
+}
+.tp-btn-close:hover {
+  color: #ff4444;
+}
+.tp-modal-body {
+  flex: 1;
+  background: #080808;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  overflow: hidden;
+  position: relative;
+}
+.tp-iframe-wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: max-width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  background: #000;
+  overflow: hidden;
+}
+.tp-iframe-wrap.device-desktop {
+  max-width: 100%;
+  border-radius: 0;
+  box-shadow: none;
+}
+.tp-iframe-wrap.device-tablet {
+  max-width: 768px;
+  border-radius: 12px;
+  border: 2px solid #2a2a2a;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+.tp-iframe-wrap.device-mobile {
+  max-width: 375px;
+  border-radius: 18px;
+  border: 3px solid #2a2a2a;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+.tp-iframe-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #0a0a0a;
+}
+.tp-loading {
+  position: absolute;
+  inset: 0;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #888;
+  font-size: 0.8rem;
+  z-index: 10;
+  transition: opacity 0.2s ease;
+}
+.tp-loading.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.tp-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #333;
+  border-top-color: #c8ff00;
+  border-radius: 50%;
+  animation: tpSpin 0.7s linear infinite;
+}
+@keyframes tpSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Tema Kartlarındaki Önizle Butonu */
+.theme-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.btn-theme-preview {
+  margin-top: 10px;
+  cursor: pointer;
+}
