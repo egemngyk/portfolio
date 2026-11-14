@@ -11,13 +11,16 @@ export function renderProjectsList(projects) {
   }
 
   container.innerHTML = "";
-  projects.forEach(p => {
+  const total = projects.length;
+  projects.forEach((p, index) => {
     const card = document.createElement("project-card");
     card.setAttribute("data-id", p.id);
-    card.setAttribute("data-num", p.num);
+    card.setAttribute("data-num", p.num || String(index + 1).padStart(2, "0"));
     card.setAttribute("data-title", p.title);
     card.setAttribute("data-tags", JSON.stringify(p.tags || []));
     card.setAttribute("data-status", p.status);
+    card.setAttribute("data-index", index);
+    card.setAttribute("data-total", total);
     container.appendChild(card);
   });
 }
@@ -69,7 +72,7 @@ export async function saveProject() {
   
   let body;
   if (id) {
-    proj.id = parseInt(id);
+    proj.id = parseInt(id, 10);
     body = { action: "update", project: proj };
   } else {
     body = { action: "add", project: proj };
@@ -87,6 +90,67 @@ export async function deleteProject(id) {
   if (res.ok) reloadData();
 }
 
+let isReordering = false;
+
+async function handleReorder(detail) {
+  if (isReordering) return;
+  const projects = [...(window.projects || [])];
+  if (!projects.length) return;
+
+  let newProjects = [...projects];
+
+  if (detail.direction) {
+    const id = detail.id;
+    const currentIndex = newProjects.findIndex((p) => Number(p.id) === Number(id));
+    if (currentIndex === -1) return;
+
+    const targetIndex = detail.direction === "up" ? currentIndex - 1 : currentIndex + 1;
+    if (targetIndex < 0 || targetIndex >= newProjects.length) return;
+
+    const [moved] = newProjects.splice(currentIndex, 1);
+    newProjects.splice(targetIndex, 0, moved);
+  } else if (detail.fromId != null && detail.toId != null) {
+    const fromId = Number(detail.fromId);
+    const toId = Number(detail.toId);
+    if (fromId === toId) return;
+
+    const fromIndex = newProjects.findIndex((p) => Number(p.id) === fromId);
+    if (fromIndex === -1) return;
+
+    const [moved] = newProjects.splice(fromIndex, 1);
+    const targetIndexAfterRemoval = newProjects.findIndex((p) => Number(p.id) === toId);
+    if (targetIndexAfterRemoval === -1) return;
+
+    const insertIndex = detail.position === "after" ? targetIndexAfterRemoval + 1 : targetIndexAfterRemoval;
+    newProjects.splice(insertIndex, 0, moved);
+  } else {
+    return;
+  }
+
+  // Anında UI optimistik güncelleme
+  newProjects = newProjects.map((p, idx) => ({
+    ...p,
+    num: String(idx + 1).padStart(2, "0"),
+  }));
+
+  window.projects = newProjects;
+  renderProjectsList(newProjects);
+
+  isReordering = true;
+  try {
+    const order = newProjects.map((p) => p.id);
+    const res = await window.ADMIN.updateProjects({ action: "reorder", order });
+    if (!res || !res.ok) {
+      reloadData();
+    }
+  } catch (err) {
+    console.error("[projects] Sıralama hatası:", err);
+    reloadData();
+  } finally {
+    isReordering = false;
+  }
+}
+
 export function initProjects() {
   document.getElementById("btn-add-project")?.addEventListener("click", openAddProject);
   document.getElementById("btn-modal-cancel")?.addEventListener("click", closeModal);
@@ -99,11 +163,16 @@ export function initProjects() {
   });
 
   // Listen to Web Component events
-  document.getElementById("project-list")?.addEventListener('edit-project', (e) => {
+  const projectList = document.getElementById("project-list");
+  projectList?.addEventListener("edit-project", (e) => {
     openEditProject(e.detail.id);
   });
   
-  document.getElementById("project-list")?.addEventListener('delete-project', (e) => {
+  projectList?.addEventListener("delete-project", (e) => {
     deleteProject(e.detail.id);
+  });
+
+  projectList?.addEventListener("reorder-project", (e) => {
+    handleReorder(e.detail);
   });
 }

@@ -579,18 +579,19 @@
     if (!grid) return;
 
     grid.innerHTML = (window.projects || [])
-      .map((p) => {
+      .map((p, idx) => {
         const hasGithub = p.github && p.github.trim() !== "";
         const linkHtml = hasGithub
           ? `<a href="${esc(p.github)}" target="_blank" rel="noopener" class="project-link">GitHub →</a>`
           : `<span class="project-link-none" style="font-size:.75rem;color:var(--text-dim)">—</span>`;
         const statusLabel =
           p.status === "active" ? t.status_active : t.status_done;
+        const projectNum = String(idx + 1).padStart(2, "0");
 
         return `
         <div class="project-card reveal">
           <div class="project-header">
-            <div class="project-num">${esc(p.num)}</div>
+            <div class="project-num">${esc(p.num || projectNum)}</div>
             <div class="project-tags">
               ${(p.tags || []).map((tag) => `<span>${esc(tag)}</span>`).join("")}
             </div>

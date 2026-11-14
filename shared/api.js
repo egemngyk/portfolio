@@ -81,9 +81,9 @@ function applyI18n(data, lang) {
   const languages = (data.languages || []).filter((l) => l.visible !== false);
   const stack_tools = (data.stack_tools || []).filter((t) => t.visible !== false);
 
-  // Projeler: _en alanlarını uygula ve temizle
-  const projects = (data.projects || []).map((proj) => {
-    const p = { ...proj };
+  // Projeler: _en alanlarını uygula ve temizle, numarasını sırasına göre normalize et
+  const projects = (data.projects || []).map((proj, idx) => {
+    const p = { ...proj, num: String(idx + 1).padStart(2, "0") };
     if (lang === "en" && p.description_en) {
       p.description = p.description_en;
     }
@@ -231,8 +231,14 @@ const API = {
       getMessages(),
     ]);
 
+    const rawProjects = ((mainData && mainData.projects) || []).map((p, idx) => ({
+      ...p,
+      num: String(idx + 1).padStart(2, "0"),
+    }));
+
     return {
       ...(mainData || {}),
+      projects: rawProjects,
       messages,
       analytics: analyticsData || {},
       themes: themesToPanelFormat(
@@ -313,7 +319,7 @@ const API = {
     return { ok: true };
   },
 
-  /** Projeleri güncelle (add / update / delete) */
+  /** Projeleri güncelle (add / update / delete / reorder) */
   async updateProjects(body) {
     await ensureAuth();
 
@@ -328,7 +334,7 @@ const API = {
       if (typeof tags === "string") tags = tags.split(",").map((t) => t.trim()).filter(Boolean);
       projects.push({
         id: newId,
-        num: String(newId).padStart(2, "0"),
+        num: String(projects.length + 1).padStart(2, "0"),
         title: proj.title || "Yeni Proje",
         description: proj.description || "",
         description_en: proj.description_en || "",
@@ -356,10 +362,32 @@ const API = {
     } else if (action === "delete") {
       const pid = body.id;
       projects = projects.filter((p) => p.id !== pid);
+    } else if (action === "reorder") {
+      if (Array.isArray(body.order)) {
+        const orderIds = body.order.map((id) => Number(id));
+        const projectMap = new Map(projects.map((p) => [Number(p.id), p]));
+        const reordered = [];
+        for (const id of orderIds) {
+          if (projectMap.has(id)) {
+            reordered.push(projectMap.get(id));
+            projectMap.delete(id);
+          }
+        }
+        for (const p of projectMap.values()) {
+          reordered.push(p);
+        }
+        projects = reordered;
+      }
     }
 
+    // Her zaman num alanlarını liste sırasına göre 01, 02, ... olarak normalize et
+    projects = projects.map((p, idx) => ({
+      ...p,
+      num: String(idx + 1).padStart(2, "0"),
+    }));
+
     await updatePortfolioMain({ projects });
-    return { ok: true };
+    return { ok: true, projects };
   },
 
   /** Mesajları getir (admin) */
