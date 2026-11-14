@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <base href="/themes/cobalt/html/">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Egemen Geyik — Cobalt</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="shortcut icon" href="../assets/favicon.png" type="image/png" />
+    <script type="module">
+      import { injectSpeedInsights } from 'https://esm.sh/@vercel/speed-insights';
+      injectSpeedInsights();
+    </script>
+  </head>
+  <body>
+    <!-- BACKGROUND SENSORS & AMBIENT DEPTH -->
+    <div class="noise"></div>
+    <div class="cyber-grid"></div>
+    <div class="radial-beam radial-beam-1"></div>
+    <div class="radial-beam radial-beam-2"></div>
+
+    <!-- TOP TELEMETRY NAVIGATION -->
+    <nav id="nav">
+      <div class="nav-brand">
+        <span class="nav-mark">COBALT //</span>
+        <span class="nav-logo">EG</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#about" data-i18n="nav_about">Hakkımda</a></li>
+        <li><a href="#stack" data-i18n="nav_stack">Stack</a></li>
+        <li><a href="#projects" data-i18n="nav_projects">Projeler</a></li>
+        <li><a href="#tedx" data-i18n="nav_tedx">TEDx</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">İletişim</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-status">
+          <span class="status-beacon"></span>
+          <span id="nav-status-text" class="status-label"></span>
+        </div>
+        <button class="lang-toggle" id="lang-toggle" title="Switch language" aria-label="Switch language">
+          <span id="lang-flag"></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- MAIN CONTAINER -->
+    <main class="page-frame">
+
+      <!-- HERO // ASYMMETRIC COMMAND DECK -->
+      <section class="hero" id="hero">
+        <div class="hero-layout">
+          <!-- Left: Monolithic Editorial Identity -->
+          <div class="hero-primary">
+            <div class="hero-chip fade-up" id="hero-tag"></div>
+            <h1 class="hero-heading fade-up delay-1">
+              <span class="hero-name-block" id="hero-name"></span>
+              <span class="hero-signature-line">
+                <span class="age-bracket">[</span>
+                <span id="hero-age" class="age-glow"></span>
+                <span class="age-suffix" data-i18n="hero_age_suffix">yaşında</span>
+                <span class="age-bracket">]</span>
+              </span>
+            </h1>
+            <p class="hero-sub fade-up delay-2" id="hero-sub"></p>
+            
+            <div class="hero-actions fade-up delay-3">
+              <a href="#projects" class="cobalt-btn primary">
+                <span data-i18n="hero_cta">Projelere Bak</span>
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+              <a href="#contact" class="cobalt-btn ghost">
+                <span data-i18n="nav_contact">İletişim</span>
+                <span class="corner-dot"></span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Telemetry HUD Deck -->
+          <div class="hero-deck fade-up delay-2">
+            <div class="deck-frame">
+              <div class="deck-header">
+                <div class="deck-dots">
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="deck-title">TELEMETRY_STREAM // 01</div>
+              </div>
+              <div class="deck-body">
+                <div class="deck-cell">
+                  <span class="cell-tag">NODE_HOST</span>
+                  <span class="cell-val" id="meta-host">—</span>
+                </div>
+                <div class="deck-cell">
+                  <span class="cell-tag">NET_DOMAIN</span>
+                  <span class="cell-val" id="meta-domain">—</span>
+                </div>
+                <div class="deck-cell">
+                  <span class="cell-tag">GEO_LOC</span>
+                  <span class="cell-val" id="meta-location">—</span>
+                </div>
+                <div class="deck-cell">
+                  <span class="cell-tag" data-i18n="hero_age_label">SYS_AGE</span>
+                  <span class="cell-val" id="meta-age">—</span>
+                </div>
+              </div>
+              <div class="deck-footer">
+                <div class="system-pulse-bar">
+                  <span class="pulse-active"></span>
+                </div>
+                <span class="deck-subtext">COBALT ENGINE READY</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-scroll-indicator">
+          <div class="scroll-label">SCROLL_DOWN</div>
+          <div class="scroll-track">
+            <div class="scroll-bullet"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT SECTION -->
+      <section id="about" class="section-block">
+        <div class="section-rail">
+          <span class="rail-index">01</span>
+          <span class="rail-line"></span>
+          <span class="rail-title" data-i18n="section_about">Hakkımda</span>
+        </div>
+
+        <div class="about-container">
+          <div class="about-manifesto reveal">
+            <div class="tag-pill">MANIFESTO // INTRO</div>
+            <h2 id="about-heading" class="about-title"></h2>
+          </div>
+
+          <div class="about-narrative reveal delay-1">
+            <div class="narrative-card">
+              <p id="about-p1" class="narrative-p"></p>
+              <p id="about-p2" class="narrative-p"></p>
+            </div>
+
+            <!-- Telemetry Stats Grid -->
+            <div class="telemetry-stats">
+              <div class="stat-unit">
+                <div class="stat-header">
+                  <span class="stat-glyph">/01</span>
+                  <span class="stat-light"></span>
+                </div>
+                <span class="stat-value" id="stat-projects" data-count="0">0</span>
+                <span class="stat-desc" data-i18n="stat_projects">Aktif Proje</span>
+              </div>
+              <div class="stat-unit">
+                <div class="stat-header">
+                  <span class="stat-glyph">/02</span>
+                  <span class="stat-light"></span>
+                </div>
+                <span class="stat-value" id="stat-langs" data-count="0">0</span>
+                <span class="stat-desc" data-i18n="stat_langs">Programlama Dili</span>
+              </div>
+              <div class="stat-unit">
+                <div class="stat-header">
+                  <span class="stat-glyph">/03</span>
+                  <span class="stat-light"></span>
+                </div>
+                <span class="stat-value" id="stat-year" data-count="0">0</span>
+                <span class="stat-desc" data-i18n="stat_year">Yıl</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TECH STACK -->
+      <section id="stack" class="section-block">
+        <div class="section-rail">
+          <span class="rail-index">02</span>
+          <span class="rail-line"></span>
+          <span class="rail-title" data-i18n="section_stack">Teknoloji Stack</span>
+        </div>
+
+        <div class="stack-header-row reveal">
+          <h2 class="section-heading" data-i18n="stack_title">Araçlarım</h2>
+          <span class="tech-chip">SYSTEM CAPABILITIES</span>
+        </div>
+
+        <!-- Stack Groups Grid -->
+        <div class="stack-grid" id="stack-grid"></div>
+
+        <!-- Tech Badges Cloud -->
+        <div class="tech-badges-wrap reveal">
+          <div class="badges-label">ALL_TECHNOLOGIES_&_TOOLS</div>
+          <div class="tech-badges" id="tech-badges"></div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="section-block">
+        <div class="section-rail">
+          <span class="rail-index">03</span>
+          <span class="rail-line"></span>
+          <span class="rail-title" data-i18n="section_projects">Projeler</span>
+        </div>
+
+        <div class="projects-header-row reveal">
+          <h2 class="section-heading" data-i18n="projects_title">Ne İnşa Ettim</h2>
+          <span class="tech-chip">ARCHITECTURAL WORKS</span>
+        </div>
+
+        <div class="projects-grid" id="projects-grid"></div>
+      </section>
+
+      <!-- GOAL // PHILOSOPHY MANIFESTO -->
+      <section class="section-goal">
+        <div class="goal-backdrop"></div>
+        <div class="goal-box reveal">
+          <div class="goal-meta">
+            <span class="meta-bracket">[</span>
+            <span class="meta-name" data-i18n="section_goal">04 / Hedef</span>
+            <span class="meta-bracket">]</span>
+          </div>
+          <blockquote id="goal-quote" class="goal-statement"></blockquote>
+          <p id="goal-desc" class="goal-explanation"></p>
+        </div>
+      </section>
+
+      <!-- TEDX PRESENTATION -->
+      <section id="tedx" class="section-block">
+        <div class="section-rail">
+          <span class="rail-index">06</span>
+          <span class="rail-line"></span>
+          <span class="rail-title" data-i18n="section_tedx">TEDx</span>
+        </div>
+
+        <div class="tedx-header-row reveal">
+          <h2 class="section-heading" data-i18n="tedx_title">TEDx Konuşması</h2>
+          <span class="tech-chip">PUBLIC ADDRESS</span>
+        </div>
+
+        <div class="tedx-showcase reveal">
+          <div class="tedx-stage-wrap">
+            <div class="stage-corner top-left"></div>
+            <div class="stage-corner top-right"></div>
+            <div class="stage-corner btm-left"></div>
+            <div class="stage-corner btm-right"></div>
+            <div class="tedx-video-container">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/BgNjGG_GllA"
+                title="Muhammed Egemen Geyik – TEDx"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </div>
+          <div class="tedx-info-deck">
+            <p class="tedx-desc" data-i18n="tedx_desc"></p>
+            <div class="tedx-links" id="tedx-links"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT & UPLINK -->
+      <section id="contact" class="section-block">
+        <div class="section-rail">
+          <span class="rail-index">05</span>
+          <span class="rail-line"></span>
+          <span class="rail-title" data-i18n="section_contact">İletişim</span>
+        </div>
+
+        <div class="contact-terminal">
+          <div class="terminal-left reveal">
+            <div class="terminal-badge">DIRECT_UPLINK</div>
+            <h2 class="terminal-title" data-i18n="contact_heading">Birlikte bir şeyler<br /><em>üretelim.</em></h2>
+            <div id="contact-links" class="contact-links-deck"></div>
+          </div>
+
+          <div class="terminal-right reveal delay-1">
+            <div class="cobalt-form-deck">
+              <div class="form-header">
+                <span class="form-dot"></span>
+                <span class="form-title" data-i18n="form_title">Doğrudan Yaz</span>
+                <span class="form-code">TRANS_SECURE_V2</span>
+              </div>
+              <div class="form-fields">
+                <div class="field-wrap">
+                  <label data-i18n="form_name">Ad Soyad</label>
+                  <input type="text" id="form-name" data-i18n-placeholder="form_name_ph" placeholder="Adın" autocomplete="name" />
+                  <span class="field-focus-line"></span>
+                </div>
+                <div class="field-wrap">
+                  <label data-i18n="form_email">E-posta</label>
+                  <input type="email" id="form-email" data-i18n-placeholder="form_email_ph" placeholder="email@ornek.com" autocomplete="email" />
+                  <span class="field-focus-line"></span>
+                </div>
+                <div class="field-wrap">
+                  <label data-i18n="form_message">Mesaj</label>
+                  <textarea id="form-message" rows="4" data-i18n-placeholder="form_message_ph" placeholder="Merhaba Egemen..."></textarea>
+                  <span class="field-focus-line"></span>
+                </div>
+                <button class="cobalt-submit-btn" id="form-submit">
+                  <span data-i18n="form_send">Gönder</span>
+                  <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="form-feedback" id="form-feedback"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER TERMINAL BAR -->
+    <footer class="cobalt-footer">
+      <div class="footer-grid">
+        <div class="footer-col-left" id="footer-copy"></div>
+        <div class="footer-col-center">
+          <span class="sys-label">HOST:</span>
+          <span id="footer-host" class="sys-val"></span>
+          <span class="divider">/</span>
+          <span class="sys-label">DOMAIN:</span>
+          <span id="footer-domain" class="sys-val"></span>
+        </div>
+        <div class="footer-col-right">
+          <span class="online-pulse"></span>
+          <span class="footer-status">ONLINE // COBALT_CORE</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- RUNTIME BOOTSTRAP -->
+    <script src="../js/main/main.js"></script>
+  </body>
+</html>
+
