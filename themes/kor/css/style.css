@@ -151,6 +151,16 @@ html.has-cursor * {
   rotate: 45deg;
 }
 
+/* kırmızı zeminli butonlarda imleç siyaha döner */
+.cursor.invert::before,
+.cursor.invert::after {
+  background: #0a0302;
+}
+.cursor.invert i {
+  border-color: #0a0302;
+  background: transparent;
+}
+
 /* ── ISI ÖLÇER (sol kenar) ── */
 .gauge {
   position: fixed;

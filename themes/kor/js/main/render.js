@@ -261,6 +261,10 @@
       "a,button,input,textarea,.ledger-head,.contact-link,.badge,.lang-toggle,.form-submit";
     document.addEventListener("mouseover", (e) => {
       cursor.classList.toggle("hover", !!e.target.closest(hoverTargets));
+      cursor.classList.toggle(
+        "invert",
+        !!e.target.closest(".hero-cta,.form-submit,.nav-logo"),
+      );
     });
     document.documentElement.addEventListener("mouseleave", () => {
       cursor.style.opacity = "0";
