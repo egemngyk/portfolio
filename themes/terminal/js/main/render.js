@@ -37,6 +37,7 @@
       stat_langs: "Programlama Dili",
       stat_year: "Yıl",
       status_active: "Aktif Geliştirme",
+      status_hold: "Beklemede",
       status_done: "Tamamlandı",
       form_err_empty: "Lütfen tüm alanları doldur.",
       form_err_long: "Mesaj çok uzun. Maksimum {n} karakter.",
@@ -584,8 +585,15 @@
         const linkHtml = hasGithub
           ? `<a href="${esc(p.github)}" target="_blank" rel="noopener" class="project-link">GitHub →</a>`
           : `<span class="project-link-none" style="font-size:.75rem;color:var(--text-dim)">—</span>`;
-        const statusLabel =
-          p.status === "active" ? t.status_active : t.status_done;
+        let statusLabel = t.status_done;
+        let statusClass = "";
+        if (p.status === "active") {
+          statusLabel = t.status_active;
+          statusClass = "active";
+        } else if (p.status === "hold" || p.status === "on-hold") {
+          statusLabel = t.status_hold;
+          statusClass = "hold";
+        }
         const projectNum = String(idx + 1).padStart(2, "0");
 
         return `
@@ -599,7 +607,7 @@
           <h3>${esc(p.title)}</h3>
           <p>${esc(p.description)}</p>
           <div class="project-footer">
-            <div class="project-status ${p.status === "active" ? "active" : ""}">
+            <div class="project-status ${statusClass}">
               <span class="dot"></span>${statusLabel}
             </div>
             ${linkHtml}

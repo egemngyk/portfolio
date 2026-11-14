@@ -18,10 +18,12 @@ export class ProjectCard extends HTMLElement {
     const isFirst = index === 0;
     const isLast = index >= total - 1;
 
-    const statusBadge =
-      status === "active"
-        ? '<span class="proj-status-badge active">Aktif</span>'
-        : '<span class="proj-status-badge done">Tamamlandı</span>';
+    let statusBadge = '<span class="proj-status-badge done">Tamamlandı</span>';
+    if (status === "active") {
+      statusBadge = '<span class="proj-status-badge active">Aktif</span>';
+    } else if (status === "hold" || status === "on-hold") {
+      statusBadge = '<span class="proj-status-badge hold">Beklemede</span>';
+    }
 
     const tagsHtml = tags.map((t) => `<span class="proj-tag">${esc(t)}</span>`).join("");
 
