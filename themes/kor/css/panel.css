@@ -1,0 +1,33 @@
+/*
+  ┌─────────────────────────────────────────────────────┐
+  │  KOR — Panel Tema Değişkenleri                      │
+  │  Sadece bu temaya özel renk ve tasarım token'ları.  │
+  │  Yapısal stiller shared/css/panel-core.css'dedir.  │
+  └─────────────────────────────────────────────────────┘
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Martian+Mono:wght@300;400;500&display=swap");
+@import url("/shared/css/panel-core.css");
+
+:root {
+  /* Renkler */
+  --bg:         #090505;
+  --surface:    #120a0a;
+  --surface-2:  #1b0f0e;
+  --border:     #2e1a18;
+  --border-2:   #4a2622;
+  --text:       #eadfd8;
+  --muted:      #a18f89;
+  --dim:        #5c4a45;
+  --accent:     #ff3b24;
+  --accent-dim: rgba(255, 59, 36, 0.14);
+  --red:        #ff8a7a;   /* hata/uyarı: vurgu kırmızısından ayrışsın diye açık ton */
+  --green:      #4fc47a;
+
+  /* Fontlar */
+  --font:  "Martian Mono", "DM Mono", monospace;
+  --syne:  "Big Shoulders Display", "Oswald", "Arial Narrow", sans-serif;
+
+  /* Layout */
+  --sidebar-w: 220px;
+}

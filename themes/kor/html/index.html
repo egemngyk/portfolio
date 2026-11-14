@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <base href="/themes/kor/html/">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090505" />
+    <title>Egemen Geyik</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="shortcut icon" href="../assets/favicon.png" type="image/x-icon" />
+    <script>document.documentElement.classList.add("js");</script>
+    <script type="module">
+      import { injectSpeedInsights } from 'https://esm.sh/@vercel/speed-insights';
+      injectSpeedInsights();
+    </script>
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+
+    <!-- ISI ÖLÇER: sayfa ilerledikçe dolar -->
+    <div class="gauge" aria-hidden="true"><div class="gauge-fill" id="gauge-fill"></div></div>
+
+    <!-- NAV -->
+    <nav id="nav">
+      <a class="nav-logo" href="#hero" aria-label="Egemen Geyik"><span>EG</span></a>
+      <ul class="nav-links">
+        <li><a href="#about"    data-i18n="nav_about">Hakkımda</a></li>
+        <li><a href="#stack"    data-i18n="nav_stack">Stack</a></li>
+        <li><a href="#projects" data-i18n="nav_projects">Projeler</a></li>
+        <li><a href="#contact"  data-i18n="nav_contact">İletişim</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-status">
+          <span class="status-dot"></span>
+          <span id="nav-status-text"></span>
+        </div>
+        <button class="lang-toggle" id="lang-toggle" title="Switch language" aria-label="Switch language"></button>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-main">
+          <p class="hero-tag" id="hero-tag"></p>
+          <h1 class="hero-title"><span id="hero-name" class="hero-name"></span></h1>
+          <p class="hero-sub" id="hero-sub"></p>
+        </div>
+        <div class="hero-age">
+          <span class="heat hero-age-num" id="hero-age"></span>
+          <span class="hero-age-unit" data-i18n="hero_age_suffix">yaşında</span>
+        </div>
+      </div>
+
+      <div class="hero-barline">
+      <div class="wrap hero-bar">
+        <dl class="spec">
+          <div><dt data-i18n="meta_host">sunucu</dt><dd id="meta-host"></dd></div>
+          <div><dt data-i18n="meta_domain">alan adı</dt><dd id="meta-domain"></dd></div>
+          <div><dt data-i18n="meta_loc">konum</dt><dd id="meta-location"></dd></div>
+          <div><dt data-i18n="meta_time">yerel saat</dt><dd id="meta-time" class="tnum">--:--:--</dd></div>
+        </dl>
+        <span id="meta-age" hidden></span>
+        <a href="#projects" class="hero-cta">
+          <span data-i18n="hero_cta">Projelere bak</span>
+          <i aria-hidden="true"></i>
+        </a>
+      </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section-about">
+      <div class="wrap about-grid">
+        <div class="about-left">
+          <h2 id="about-heading"></h2>
+        </div>
+        <div class="about-right">
+          <p id="about-p1" class="lead"></p>
+          <p id="about-p2"></p>
+          <div class="about-stats crop">
+            <div class="stat">
+              <span class="stat-num tnum" id="stat-projects" data-count="0">0</span>
+              <span class="stat-label" data-i18n="stat_projects">Aktif Proje</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num tnum" id="stat-langs" data-count="0">0</span>
+              <span class="stat-label" data-i18n="stat_langs">Programlama Dili</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num tnum" id="stat-year" data-count="0">0</span>
+              <span class="stat-label" data-i18n="stat_year">Yıl</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section id="stack" class="section-stack">
+      <div class="wrap">
+        <h2 class="section-title" data-i18n="stack_title">Araçlarım</h2>
+        <div class="stack-grid" id="stack-grid"></div>
+        <div class="tools" id="tools-wrap">
+          <h3 class="tools-title" data-i18n="stack_tools_title">Araç çantası</h3>
+          <div class="tech-badges" id="tech-badges"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section-projects">
+      <div class="wrap">
+        <h2 class="section-title" data-i18n="projects_title">Ne İnşa Ettim</h2>
+        <div class="ledger" id="projects-grid"></div>
+      </div>
+    </section>
+
+    <!-- GOAL: kelimeler scroll ile tutuşur -->
+    <section class="section-goal" id="goal">
+      <div class="goal-pin">
+        <blockquote id="goal-quote"></blockquote>
+        <p id="goal-desc"></p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section-contact">
+      <div class="wrap contact-grid">
+        <div class="contact-left">
+          <h2 data-i18n="contact_heading">Birlikte bir şeyler<br /><em>üretelim.</em></h2>
+          <div id="contact-links" class="contact-links-list"></div>
+        </div>
+        <div class="contact-right">
+          <div class="contact-form-wrap crop">
+            <div class="form-title" data-i18n="form_title">Doğrudan Yaz</div>
+            <div class="form-group">
+              <label for="form-name" data-i18n="form_name">Ad Soyad</label>
+              <input type="text" id="form-name" autocomplete="name" data-i18n-placeholder="form_name_ph" placeholder="Adın" />
+            </div>
+            <div class="form-group">
+              <label for="form-email" data-i18n="form_email">E-posta</label>
+              <input type="email" id="form-email" autocomplete="email" data-i18n-placeholder="form_email_ph" placeholder="email@ornek.com" />
+            </div>
+            <div class="form-group">
+              <label for="form-message" data-i18n="form_message">Mesaj</label>
+              <textarea id="form-message" rows="5" data-i18n-placeholder="form_message_ph" placeholder="Merhaba Egemen..."></textarea>
+            </div>
+            <button class="form-submit" id="form-submit" type="button">
+              <span data-i18n="form_send">Gönder</span>
+            </button>
+            <div class="form-feedback" id="form-feedback" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap footer-inner">
+        <div class="footer-left" id="footer-copy"></div>
+        <div class="footer-center">
+          <span id="footer-host"></span>
+          <span id="footer-domain"></span>
+        </div>
+        <div class="footer-right">
+          <span class="status-dot small"></span>
+          <span data-i18n="footer_online">Çevrimiçi</span>
+          <a href="#hero" class="to-top" data-i18n="footer_top">Başa dön</a>
+        </div>
+      </div>
+      <div class="wordmark heat" id="footer-wordmark" aria-hidden="true"></div>
+    </footer>
+
+    <script src="../js/main/main.js"></script>
+  </body>
+</html>
