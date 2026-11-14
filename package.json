@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "npx http-server -p 3000",
+    "sync:themes": "node scripts/sync-themes.mjs",
     "lint": "echo 'No linter configured'"
   },
   "dependencies": {

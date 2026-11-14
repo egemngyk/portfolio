@@ -422,6 +422,45 @@ const API = {
     );
   },
 
+  /** Temaları senkronize et — /shared/themes.json içindeki temaları Firestore ile eşitle */
+  async syncThemes() {
+    await ensureAuth();
+
+    let diskThemes = [];
+    try {
+      const res = await fetch(`/shared/themes.json?t=${Date.now()}`);
+      if (res.ok) {
+        diskThemes = await res.json();
+      }
+    } catch (e) {
+      console.warn("[API] themes.json okunamadı:", e);
+    }
+
+    const config = await getPortfolioConfig();
+    const existingThemes = Array.isArray(config?.themes) ? config.themes : [];
+
+    // Dosyada olan ama Firestore kaydı olmayanlar
+    const addedThemes = (diskThemes || []).filter(
+      (t) => typeof t === "string" && !existingThemes.includes(t)
+    );
+
+    if (addedThemes.length > 0) {
+      const mergedThemes = [...existingThemes, ...addedThemes];
+      await updatePortfolioConfig({ themes: mergedThemes });
+    }
+
+    const updatedConfig = await getPortfolioConfig();
+    return {
+      ok: true,
+      added: addedThemes,
+      themes: themesToPanelFormat(
+        updatedConfig?.themes || [],
+        updatedConfig?.activeTheme || "claudemade",
+        updatedConfig?.selectedTheme
+      ),
+    };
+  },
+
   /** Tema seç (sadece selected günceller, apply ayrı adım) */
   async selectTheme(folder) {
     await ensureAuth();

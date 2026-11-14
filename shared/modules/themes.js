@@ -110,11 +110,35 @@ export function renderThemesList(themes) {
 }
 
 export function initThemes() {
-  document
-    .getElementById("btn-refresh-themes")
-    ?.addEventListener("click", async () => {
-      await loadThemes();
+  const btnSync = document.getElementById("btn-refresh-themes");
+  if (btnSync) {
+    btnSync.addEventListener("click", async () => {
+      const origText = btnSync.textContent;
+      btnSync.disabled = true;
+      btnSync.textContent = "Senkronize Ediliyor...";
+      try {
+        const res = await window.ADMIN.syncThemes();
+        await loadThemes();
+        if (res && res.ok) {
+          if (res.added && res.added.length > 0) {
+            btnSync.textContent = `✓ ${res.added.length} Yeni Tema Eklendi!`;
+          } else {
+            btnSync.textContent = "✓ Tüm Temalar Güncel";
+          }
+        } else {
+          btnSync.textContent = "Hata Oluştu";
+        }
+      } catch (err) {
+        console.error("[panel] Tema senkronizasyon hatası:", err);
+        btnSync.textContent = "Hata Oluştu";
+      } finally {
+        setTimeout(() => {
+          btnSync.disabled = false;
+          btnSync.textContent = origText;
+        }, 2500);
+      }
     });
+  }
 
   const btnRestartApply = document.getElementById("btn-restart-apply");
   if (btnRestartApply) {

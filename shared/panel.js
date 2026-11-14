@@ -134,6 +134,15 @@ window.ADMIN.getThemes = async function () {
   }
 };
 
+window.ADMIN.syncThemes = async function () {
+  try {
+    const res = await API.syncThemes();
+    return res;
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
+};
+
 window.ADMIN.selectTheme = async function (id) {
   try {
     await API.selectTheme(id);
