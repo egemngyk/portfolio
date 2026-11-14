@@ -83,24 +83,53 @@ export function buildNoscriptHTML(c) {
   );
 }
 
-export function buildTedxHTML(c) {
-  const t = c.tedx;
-  // showInTedx: false olan bağlantılar bu bölümde gösterilmez (JSON-LD'de yine yer alır)
-  const links = c.sameAs
+export function buildTedxHTML(c, lang) {
+  const currentLang = lang || (typeof window !== "undefined" && window.Lang ? window.Lang.get() : "tr");
+  const isEn = currentLang === "en";
+  const t = c.tedx || {};
+
+  const heading = isEn ? (t.heading_en || t.heading) : t.heading;
+  const text = isEn ? (t.text_en || t.text) : t.text;
+  const sectionLabel = isEn ? (t.sectionLabel_en || t.sectionLabel || "06 / TEDx") : (t.sectionLabel || "06 / TEDx");
+
+  // showInTedx: false olan bağlantılar bu bölümde gösterilmez
+  const links = (c.sameAs || [])
     .filter((l) => l.showInTedx !== false)
-    .map((l) => `<a href="${esc(l.url)}" rel="me noopener" target="_blank">${esc(l.label)}</a>`)
-    .join(" · ");
+    .map((l) => {
+      const label = isEn ? (l.label_en || l.label) : l.label;
+      return (
+        `<a href="${esc(l.url)}" class="tedx-link" rel="me noopener" target="_blank">` +
+        `<span>${esc(label)}</span>` +
+        `<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>` +
+        `</a>`
+      );
+    })
+    .join("");
+
   return (
-    `<section id="tedx" data-seo-section style="max-width:960px;margin:0 auto;padding:80px 24px;scroll-margin-top:80px;color:inherit;font-family:inherit;">` +
-    `<h2 style="margin-bottom:16px;">${esc(t.heading)}</h2>` +
-    `<p style="max-width:640px;margin-bottom:28px;line-height:1.7;opacity:.8;">${esc(t.text)}</p>` +
-    `<div style="max-width:720px;aspect-ratio:16/9;">` +
+    `<section id="tedx" class="section-tedx" data-seo-section>` +
+    `<style>` +
+    `.section-tedx { max-width: 1200px; margin: 0 auto; padding: 100px 32px; box-sizing: border-box; }` +
+    `.tedx-container { max-width: 900px; }` +
+    `.tedx-desc { max-width: 680px; margin: 16px 0 28px; line-height: 1.8; color: var(--text-muted, var(--muted, rgba(255,255,255,0.7))); font-size: 0.95rem; }` +
+    `.tedx-video-wrap { max-width: 800px; width: 100%; aspect-ratio: 16/9; margin-bottom: 24px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border, var(--border-2, rgba(255,255,255,0.12))); background: var(--surface, var(--surface-2, #111)); box-shadow: 0 16px 36px rgba(0,0,0,0.35); }` +
+    `.tedx-video-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }` +
+    `.tedx-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }` +
+    `.tedx-link { display: inline-flex; align-items: center; gap: 7px; padding: 8px 16px; border-radius: 6px; font-size: 0.8rem; font-family: inherit; text-decoration: none; border: 1px solid var(--border, rgba(255,255,255,0.18)); background: var(--surface-2, var(--surface, rgba(255,255,255,0.04))); color: var(--text, #fff); transition: all 0.2s ease; }` +
+    `.tedx-link:hover { border-color: var(--accent, #c8ff00); color: var(--accent, #c8ff00); background: var(--accent-dim, rgba(200,255,0,0.08)); transform: translateY(-2px); }` +
+    `@media (max-width: 768px) { .section-tedx { padding: 60px 20px; } }` +
+    `</style>` +
+    `<div class="tedx-container">` +
+    `<div class="section-label">${esc(sectionLabel)}</div>` +
+    `<h2 class="section-title reveal">${esc(heading)}</h2>` +
+    `<p class="tedx-desc reveal">${esc(text)}</p>` +
+    `<div class="tedx-video-wrap reveal">` +
     `<iframe src="https://www.youtube-nocookie.com/embed/${esc(t.youtubeId)}" ` +
-    `title="${esc(t.heading)}" loading="lazy" ` +
-    `style="width:100%;height:100%;border:0;border-radius:12px;" ` +
-    `allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>` +
+    `title="${esc(heading)}" loading="lazy" ` +
+    `allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` +
     `</div>` +
-    `<p style="margin-top:20px;line-height:1.9;">${links}</p>` +
+    `<div class="tedx-links reveal">${links}</div>` +
+    `</div>` +
     `</section>`
   );
 }
@@ -129,11 +158,15 @@ function addTedxNavLink(c) {
   const list = document.querySelector(".nav-links") || document.querySelector("nav ul");
   if (!list || list.querySelector('a[href="#tedx"]')) return;
 
+  const currentLang = typeof window !== "undefined" && window.Lang ? window.Lang.get() : "tr";
+  const isEn = currentLang === "en";
+  const label = isEn ? (c.tedx?.navLabel_en || c.tedx?.navLabel || "TEDx") : (c.tedx?.navLabel || "TEDx");
+
   const li = document.createElement("li");
   const a = document.createElement("a");
   a.href = "#tedx";
-  a.textContent = c.tedx.navLabel || "TEDx";
-  // Temadaki <base href> yüzünden düz #tedx linki yanlış adrese gidebilir; kaydırmayı kendimiz yapıyoruz.
+  a.textContent = label;
+  a.id = "nav-link-tedx";
   a.addEventListener("click", (e) => {
     e.preventDefault();
     document.getElementById("tedx")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -146,14 +179,35 @@ function addTedxNavLink(c) {
 export function injectTedx(c) {
   if (!c.tedx?.enabled) return;
 
-  if (!document.getElementById("tedx")) {
+  function renderOrUpdateTedx() {
+    const lang = typeof window !== "undefined" && window.Lang ? window.Lang.get() : "tr";
+    const existing = document.getElementById("tedx");
     const tpl = document.createElement("template");
-    tpl.innerHTML = buildTedxHTML(c);
-    const section = tpl.content.firstElementChild;
-    const footer = document.querySelector("footer");
-    if (footer) footer.before(section);
-    else document.body.appendChild(section);
+    tpl.innerHTML = buildTedxHTML(c, lang);
+    const newSection = tpl.content.firstElementChild;
+
+    if (existing) {
+      existing.replaceWith(newSection);
+    } else {
+      const footer = document.querySelector("footer");
+      if (footer) footer.before(newSection);
+      else document.body.appendChild(newSection);
+    }
+
+    // Navbar link metnini de güncelle
+    const navTedx = document.getElementById("nav-link-tedx");
+    if (navTedx) {
+      const isEn = lang === "en";
+      navTedx.textContent = isEn ? (c.tedx?.navLabel_en || c.tedx?.navLabel || "TEDx") : (c.tedx?.navLabel || "TEDx");
+    }
   }
 
+  renderOrUpdateTedx();
   addTedxNavLink(c);
+
+  if (typeof window !== "undefined") {
+    window.addEventListener("langChanged", () => {
+      renderOrUpdateTedx();
+    });
+  }
 }

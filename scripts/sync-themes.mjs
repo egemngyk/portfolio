@@ -35,3 +35,4 @@ try {
   console.error("Tema senkronizasyon hatası:", err);
   process.exit(1);
 }
+

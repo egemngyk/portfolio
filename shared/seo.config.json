@@ -11,15 +11,21 @@
   "image": "/og.png",
   "googleSiteVerification": "OvJt5ugw6Y4u91lII2UehiVa2UtjGLpzmW43Y_w0aDk",
   "sameAs": [
-    { "label": "TED sayfası", "url": "https://www.ted.com/talks/muhammed_egemen_geyik_inovasyon" },
-    { "label": "YouTube", "url": "https://www.youtube.com/watch?v=BgNjGG_GllA" },
-    { "label": "Facebook paylaşımı", "url": "https://www.facebook.com/adiyamanmem/posts/tedxin-en-k%C3%BC%C3%A7%C3%BCk-konu%C5%9Fmac%C4%B1s%C4%B1-muhammed-egemen-geyik-kendisinin-yapt%C4%B1%C4%9F%C4%B1-oyuncak-ara/150071992387567/" },
-    { "label": "GitHub", "url": "https://github.com/egemngyk", "showInTedx": false }
+    { "label": "TED Konuşması", "label_en": "TED Talk", "url": "https://www.ted.com/talks/muhammed_egemen_geyik_inovasyon" },
+    { "label": "YouTube", "label_en": "YouTube", "url": "https://www.youtube.com/watch?v=BgNjGG_GllA" },
+    { "label": "Facebook Paylaşımı", "label_en": "Facebook Post", "url": "https://www.facebook.com/adiyamanmem/posts/tedxin-en-k%C3%BC%C3%A7%C3%BCk-konu%C5%9Fmac%C4%B1s%C4%B1-muhammed-egemen-geyik-kendisinin-yapt%C4%B1%C4%9F%C4%B1-oyuncak-ara/150071992387567/" },
+    { "label": "GitHub", "label_en": "GitHub", "url": "https://github.com/egemngyk", "showInTedx": false }
   ],
   "tedx": {
     "enabled": true,
+    "navLabel": "TEDx",
+    "navLabel_en": "TEDx",
+    "sectionLabel": "06 / TEDx",
+    "sectionLabel_en": "06 / TEDx",
     "heading": "Muhammed Egemen Geyik – TEDx Konuşması",
+    "heading_en": "Muhammed Egemen Geyik – TEDx Talk",
     "text": "Muhammed Egemen Geyik'in TEDx sahnesinde yaptığı \"İnovasyon\" başlıklı konuşma.",
+    "text_en": "Muhammed Egemen Geyik's speech titled \"Innovation\" on the TEDx stage.",
     "youtubeId": "BgNjGG_GllA"
   },
   "sitemapPaths": ["/"]
