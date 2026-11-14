@@ -105,3 +105,4 @@
 
   console.log('[TouchEmulation] Aktif — mouse olayları touch\'a dönüştürülüyor.');
 })();
+
