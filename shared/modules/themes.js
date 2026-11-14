@@ -13,6 +13,7 @@ export function updateRestartButtonVisibility(themes) {
 }
 
 let currentPreviewFolder = null;
+let currentDevice = 'desktop';
 
 export function openThemePreview(folder, name) {
   if (!folder) return;
@@ -31,16 +32,23 @@ export function openThemePreview(folder, name) {
   const previewUrl = `/?preview=${encodeURIComponent(folder)}`;
   if (externalLink) externalLink.href = previewUrl;
 
-  if (loading) loading.classList.remove("hidden");
-
-  iframe.onload = () => {
-    if (loading) loading.classList.add("hidden");
-    _applyTouchMode();
-  };
-
-  iframe.src = `${previewUrl}&t=${Date.now()}`;
+  _loadPreviewIframe(iframe, previewUrl, loading);
   modal.style.display = "flex";
   document.body.style.overflow = "hidden";
+}
+
+function _buildIframeSrc(previewUrl) {
+  const touch = currentDevice === 'tablet' || currentDevice === 'mobile';
+  return `${previewUrl}&t=${Date.now()}${touch ? '&touch=1' : ''}`;
+}
+
+function _loadPreviewIframe(iframe, previewUrl, loading) {
+  if (!iframe) return;
+  if (loading) loading.classList.remove("hidden");
+  iframe.onload = () => {
+    if (loading) loading.classList.add("hidden");
+  };
+  iframe.src = _buildIframeSrc(previewUrl);
 }
 
 export function closeThemePreview() {
@@ -309,93 +317,17 @@ export function initThemes() {
       deviceBtns.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       const device = btn.dataset.device;
+      currentDevice = device;
       if (iframeWrap) {
         iframeWrap.className = `tp-iframe-wrap device-${device}`;
       }
-      _applyTouchMode();
+      // iframe'i touch=1 ile (veya olmadan) yeniden yükle
+      const iframe = document.getElementById("tp-iframe");
+      const loading = document.getElementById("tp-loading");
+      if (iframe && currentPreviewFolder) {
+        const previewUrl = `/?preview=${encodeURIComponent(currentPreviewFolder)}`;
+        _loadPreviewIframe(iframe, previewUrl, loading);
+      }
     });
   });
-}
-
-// --- Touch/finger cursor simülasyonu ---
-function _applyTouchMode() {
-  const iframe = document.getElementById("tp-iframe");
-  const iframeWrap = document.getElementById("tp-iframe-wrap");
-  if (!iframe || !iframeWrap) return;
-
-  const isTouch =
-    iframeWrap.classList.contains("device-tablet") ||
-    iframeWrap.classList.contains("device-mobile");
-
-  // Mevcut finger elementi varsa kaldır
-  let finger = document.getElementById("tp-touch-finger");
-  if (!finger) {
-    finger = document.createElement("div");
-    finger.id = "tp-touch-finger";
-    finger.innerHTML = `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="20" cy="10" r="7" fill="rgba(30,30,30,0.75)" stroke="white" stroke-width="2"/>
-      <rect x="17" y="16" width="6" height="18" rx="3" fill="rgba(30,30,30,0.75)" stroke="white" stroke-width="2"/>
-    </svg>`;
-    document.body.appendChild(finger);
-  }
-
-  // iframe içi stil inject
-  try {
-    const doc = iframe.contentDocument || iframe.contentWindow?.document;
-    if (!doc) return;
-
-    // Önceki inject'i temizle
-    doc.getElementById("__tp_touch_style__")?.remove();
-
-    if (isTouch) {
-      const style = doc.createElement("style");
-      style.id = "__tp_touch_style__";
-      style.textContent = `
-        * { cursor: none !important; }
-        ::-webkit-scrollbar { display: none !important; }
-        html, body { scrollbar-width: none !important; overflow-x: hidden !important; }
-      `;
-      doc.head.appendChild(style);
-    }
-  } catch (e) {
-    // cross-origin guard — no-op
-  }
-
-  // Parmak imlecini iframe üzerinde takip et
-  if (iframeWrap._tpMouseHandler) {
-    iframeWrap.removeEventListener("mousemove", iframeWrap._tpMouseHandler);
-    iframeWrap.removeEventListener("mouseleave", iframeWrap._tpMouseLeave);
-  }
-
-  if (isTouch) {
-    finger.style.display = "block";
-    const handler = (e) => {
-      finger.style.left = e.clientX + "px";
-      finger.style.top = e.clientY + "px";
-    };
-    const leaveHandler = () => {
-      finger.style.display = "none";
-    };
-    const enterHandler = () => {
-      finger.style.display = "block";
-    };
-    iframeWrap._tpMouseHandler = handler;
-    iframeWrap._tpMouseLeave = leaveHandler;
-    iframeWrap.addEventListener("mousemove", handler);
-    iframeWrap.addEventListener("mouseleave", leaveHandler);
-    iframeWrap.addEventListener("mouseenter", enterHandler);
-    // iframe içinde de takip et
-    try {
-      const doc = iframe.contentDocument || iframe.contentWindow?.document;
-      if (doc) {
-        doc.addEventListener("mousemove", (e) => {
-          const rect = iframe.getBoundingClientRect();
-          finger.style.left = rect.left + e.clientX + "px";
-          finger.style.top = rect.top + e.clientY + "px";
-        });
-      }
-    } catch (e) {}
-  } else {
-    finger.style.display = "none";
-  }
 }

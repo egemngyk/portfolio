@@ -211,6 +211,13 @@
   }
 
   loadTheme();
+
+  // ?touch=1 → Mobil/tablet touch emülasyonu aktif et
+  if (new URLSearchParams(window.location.search).get('touch') === '1') {
+    const s = document.createElement('script');
+    s.src = '/shared/js/touch-emulation.js';
+    document.head.appendChild(s);
+  }
 </script>
 
 <!-- Service Worker Kaydı -->
