@@ -252,7 +252,8 @@
       "mousemove",
       (e) => {
         cursor.style.opacity = "1";
-        cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        // transform değil translate: rotate/scale konum vektörünü bozmasın
+        cursor.style.translate = `${e.clientX}px ${e.clientY}px`;
       },
       { passive: true },
     );
