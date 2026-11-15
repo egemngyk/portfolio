@@ -17,7 +17,7 @@
       section_tedx: "06 / TEDx",
       tedx_title: "TEDx Konuşması",
       tedx_desc: "Muhammed Egemen Geyik'in TEDx sahnesinde yaptığı \"İnovasyon\" başlıklı konuşma.",
-      tedx_link_talk: "TED Konuşması",
+      tedx_link_talk: "TEDx Konuşması",
       tedx_link_yt: "YouTube",
       tedx_link_fb: "Facebook Paylaşımı",
 
@@ -64,7 +64,7 @@
       section_tedx: "06 / TEDx",
       tedx_title: "TEDx Talk",
       tedx_desc: "Muhammed Egemen Geyik's speech titled \"Innovation\" on the TEDx stage.",
-      tedx_link_talk: "TED Talk",
+      tedx_link_talk: "TEDx Talk",
       tedx_link_yt: "YouTube",
       tedx_link_fb: "Facebook Post",
 
