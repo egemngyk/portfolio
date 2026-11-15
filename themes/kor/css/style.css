@@ -941,6 +941,78 @@ html.has-cursor * {
 }
 
 /* ═══════════════════════════════════════════
+   TEDX
+═══════════════════════════════════════════ */
+.section-tedx {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.tedx-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.75fr);
+  gap: clamp(32px, 6vw, 80px);
+  align-items: start;
+}
+.tedx-stage {
+  position: relative;
+  background: #000;
+  overflow: hidden;
+}
+.tedx-stage iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+}
+.tedx-info {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 4vw, 40px);
+  padding-top: 4px;
+}
+.tedx-desc {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.8;
+  max-width: 46ch;
+}
+.tedx-links {
+  border-top: 1px solid var(--border-hover);
+}
+.tedx-link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 12px;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  transition: padding-left 0.35s var(--ease), background 0.3s;
+  text-decoration: none;
+}
+.tedx-link:hover {
+  padding-left: 14px;
+  background: linear-gradient(90deg, var(--accent-dim), transparent 80%);
+}
+.tedx-link .contact-type {
+  font-size: 0.82rem;
+  color: var(--text);
+  transition: color 0.25s;
+}
+.tedx-link:hover .contact-type {
+  color: var(--accent);
+}
+.tedx-link .contact-mark {
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--accent);
+  transition: background 0.3s;
+}
+.tedx-link:hover .contact-mark {
+  background: var(--accent);
+}
+
+/* ═══════════════════════════════════════════
    HEDEF — kelimeler scroll ile tutuşur
 ═══════════════════════════════════════════ */
 .section-goal {
@@ -1265,7 +1337,8 @@ footer {
     font-size: clamp(6rem, 30vw, 12rem);
   }
   .about-grid,
-  .contact-grid {
+  .contact-grid,
+  .tedx-grid {
     grid-template-columns: 1fr;
   }
   .about-left {

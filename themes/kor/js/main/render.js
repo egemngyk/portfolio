@@ -16,6 +16,7 @@
       nav_about: "Hakkımda",
       nav_stack: "Stack",
       nav_projects: "Projeler",
+      nav_tedx: "TEDx",
       nav_contact: "İletişim",
       hero_age_suffix: "yaşında",
       hero_age_label: "Yaş",
@@ -31,6 +32,12 @@
       section_projects: "Projeler",
       projects_title: "Ne İnşa Ettim",
       section_goal: "Hedef",
+      section_tedx: "TEDx",
+      tedx_title: "TEDx Konuşması",
+      tedx_desc: "Muhammed Egemen Geyik'in TEDx sahnesinde yaptığı \"İnovasyon\" başlıklı konuşma.",
+      tedx_link_talk: "TED Konuşması",
+      tedx_link_yt: "YouTube",
+      tedx_link_fb: "Facebook Paylaşımı",
       section_contact: "İletişim",
       contact_heading: "Birlikte bir şeyler<br><em>üretelim.</em>",
       form_title: "Doğrudan Yaz",
@@ -63,6 +70,7 @@
       nav_about: "About",
       nav_stack: "Stack",
       nav_projects: "Projects",
+      nav_tedx: "TEDx",
       nav_contact: "Contact",
       hero_age_suffix: "years old",
       hero_age_label: "Age",
@@ -78,6 +86,12 @@
       section_projects: "Projects",
       projects_title: "What I've Built",
       section_goal: "Goal",
+      section_tedx: "TEDx",
+      tedx_title: "TEDx Talk",
+      tedx_desc: "Muhammed Egemen Geyik's speech titled \"Innovation\" on the TEDx stage.",
+      tedx_link_talk: "TED Talk",
+      tedx_link_yt: "YouTube",
+      tedx_link_fb: "Facebook Post",
       section_contact: "Contact",
       contact_heading: "Let's build something<br><em>together.</em>",
       form_title: "Write Directly",
@@ -814,9 +828,28 @@
     });
   }
 
+  /* ══ RENDER: TEDX ═══════════════════════════ */
+  function renderTedx() {
+    const linksEl = document.getElementById("tedx-links");
+    if (!linksEl) return;
+
+    const links = [
+      { label: t.tedx_link_talk, url: "https://www.ted.com/talks/muhammed_egemen_geyik_inovasyon" },
+      { label: t.tedx_link_yt,   url: "https://www.youtube.com/watch?v=BgNjGG_GllA" },
+      { label: t.tedx_link_fb,   url: "https://www.facebook.com/adiyamanmem/posts/tedxin-en-k%C3%BC%C3%A7%C3%BCk-konu%C5%9Fmac%C4%B1s%C4%B1-muhammed-egemen-geyik-kendisinin-yapt%C4%B1%C4%9F%C4%B1-oyuncak-ara/150071992387567/" },
+    ];
+
+    linksEl.innerHTML = links
+      .map((l) => `
+      <a href="${esc(l.url)}" class="tedx-link" target="_blank" rel="noopener">
+        <span class="contact-type">${esc(l.label)}</span>
+        <i class="contact-mark" aria-hidden="true"></i>
+      </a>`)
+      .join("");
+  }
+
   /* ══ RENDER: İLETİŞİM ═══════════════════════ */
-  function renderContact() {
-    const c = window.contact || {};
+  function renderContact() {    const c = window.contact || {};
     const linksEl = document.getElementById("contact-links");
     if (!linksEl) return;
 
@@ -911,6 +944,7 @@
     renderStats();
     renderStack();
     renderProjects();
+    renderTedx();
     renderContact();
     renderGoal();
     renderHeroTag();
