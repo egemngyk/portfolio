@@ -182,6 +182,13 @@ export function injectTedx(c) {
   function renderOrUpdateTedx() {
     const lang = typeof window !== "undefined" && window.Lang ? window.Lang.get() : "tr";
     const existing = document.getElementById("tedx");
+
+    // Eğer temada zaten özel tasarlanmış bir #tedx bölümü varsa (data-seo-section taşımıyorsa),
+    // temanın kendi tasarımını ezme!
+    if (existing && !existing.hasAttribute("data-seo-section")) {
+      return;
+    }
+
     const tpl = document.createElement("template");
     tpl.innerHTML = buildTedxHTML(c, lang);
     const newSection = tpl.content.firstElementChild;
