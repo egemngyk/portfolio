@@ -1,49 +1,58 @@
 # Egemen Portfolio
 
-A premium, modern, and highly interactive developer portfolio website. Built with clean ESM-structured Vanilla JS, CSS, and Firebase, featuring multiple customizable themes, a secure admin control panel, real-time visitor stats, and a contact form.
+A modern, interactive developer portfolio built with clean, ESM-structured Vanilla JavaScript, CSS, and Firebase. Features multiple customizable themes, a secure admin panel, real-time visitor analytics, and an integrated contact form.
 
-## 🚀 Live Demo & Hosting
-The application is optimized for deployment on **Vercel** and connects directly to **Firebase** for backend database services.
+## Live Demo & Hosting
 
-You can visit the live website at any of the following domains:
-- 🌐 [egemen.is-a.dev](https://egemen.is-a.dev) (Primary)
-- 🌐 [muhammedegemen.is-a.dev](https://muhammedegemen.is-a.dev)
-- 🌐 [geyik.is-a.dev](https://geyik.is-a.dev)
-- 🌐 [gyk.is-a.dev](https://gyk.is-a.dev)
-- 🌐 [egemengeyik.is-a.dev](https://egemengeyik.is-a.dev)
-- 🌐 [egemngyk.is-a.dev](https://egemngyk.is-a.dev)
-- 🌐 [egemen-portfolio-six.vercel.app](https://egemen-portfolio-six.vercel.app)
+The application is optimized for deployment on **Vercel** and uses **Firebase** for backend and database services.
 
----
+The live website is available at:
 
-## ✨ Features
-- 🎨 **Multi-Theme Engine**: 10+ premium designed themes (Terminal, Cosmic, Minimal, Glass, Ledger, Midnight, Ivory, Brutalist, Royal, Claudemade).
-- 🔐 **Admin Control Panel**: Manage your portfolio projects, languages, and settings directly from the web interface.
-- 📊 **Real-time Analytics**: Built-in self-hosted database dashboard tracking unique visitors, average durations, active projects, and page views.
-- 📬 **Interactive Contact Form**: Allows visitors to leave messages, which are instantly readable in the Admin Panel.
-- ⚡ **Offline Support & Speed**: Service Worker implementation for static resource caching and offline resilience.
-- 🔒 **Secrets Protection**: Credentials and Firebase configurations are externalized into environment variables to keep your public repository safe.
+- [egemen.is-a.dev](https://egemen.is-a.dev) — Primary
+- [muhammedegemen.is-a.dev](https://muhammedegemen.is-a.dev)
+- [geyik.is-a.dev](https://geyik.is-a.dev)
+- [gyk.is-a.dev](https://gyk.is-a.dev)
+- [egemengeyik.is-a.dev](https://egemengeyik.is-a.dev)
+- [egemngyk.is-a.dev](https://egemngyk.is-a.dev)
+- [egemen-portfolio-six.vercel.app](https://egemen-portfolio-six.vercel.app)
 
 ---
 
-## 🛠️ Tech Stack
-- **Frontend**: Vanilla HTML5, CSS3, ESM JavaScript Modules, Web Components
-- **Backend/Database**: Firebase (Authentication, Firestore Database)
-- **Analytics & Speed**: Custom JS Analytics, Vercel Speed Insights
-- **Hosting/Deployment**: Vercel
+## Features
+
+- **Multi-Theme Engine:** More than 10 professionally designed themes, including Terminal, Cosmic, Minimal, Glass, Ledger, Midnight, Ivory, Brutalist, Royal, and Claudemade.
+- **Admin Control Panel:** Manage portfolio projects, languages, and application settings directly through the web interface.
+- **Real-Time Analytics:** A built-in, self-hosted analytics dashboard tracking unique visitors, average session duration, active projects, and page views.
+- **Contact Form:** An interactive contact form that allows visitors to send messages, which can be viewed directly from the Admin Panel.
+- **Offline Support & Performance:** Service Worker implementation for static resource caching and improved offline accessibility.
+- **Environment-Based Configuration:** Firebase credentials and sensitive configuration values are managed through environment variables to protect the public repository.
 
 ---
 
-## 📦 Getting Started & Running Locally
+## Tech Stack
 
-### 1. Clone the repository
+| Category | Technologies |
+|---|---|
+| Frontend | Vanilla HTML5, CSS3, ESM JavaScript Modules, Web Components |
+| Backend & Database | Firebase Authentication, Firestore |
+| Analytics & Performance | Custom JavaScript Analytics, Vercel Speed Insights |
+| Hosting & Deployment | Vercel |
+
+---
+
+## Getting Started
+
+### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/egemngyk/egemen-portfolio.git
 cd egemen-portfolio
 ```
 
 ### 2. Configure Environment Variables
-Create a `.env` file at the root of the project:
+
+Create a `.env` file in the root directory:
+
 ```env
 FIREBASE_API_KEY="your-api-key"
 FIREBASE_AUTH_DOMAIN="your-auth-domain"
@@ -54,25 +63,39 @@ FIREBASE_APP_ID="your-app-id"
 ADMIN_EMAIL="admin@portfolio.dev"
 ```
 
-### 3. Build & Run
-Install dependencies (or use `npx http-server` directly) and start the local development server:
-```bash
-# Install packages
-npm install
+Replace the placeholder values with your Firebase project credentials and administrator email.
 
-# Run build and start development server
+### 3. Install Dependencies & Run
+
+Install the required dependencies and start the local development server:
+
+```bash
+npm install
 npm run dev
 ```
 
+Alternatively, you can use `npx http-server` to serve the project locally.
+
 ---
 
-## ☁️ Deploying to Vercel
+## Deployment
 
-To deploy your portfolio securely on Vercel:
+The project is optimized for deployment on **Vercel**.
 
-1. Connect your repository to Vercel.
-2. In your Vercel Project Dashboard, navigate to **Settings > Environment Variables**.
-3. Add the keys from your `.env` file (`FIREBASE_API_KEY`, `ADMIN_EMAIL`, etc.) as Vercel Environment Variables.
-4. Set the **Build Command** to: `npm run build`.
-5. Set the **Output Directory** to: `.` (or select `Other` framework).
-6. Deploy!
+1. Import your GitHub repository into Vercel.
+2. Navigate to **Settings → Environment Variables** in your Vercel project dashboard.
+3. Add the required environment variables listed in the configuration section above.
+4. Set the **Build Command** to:
+
+   ```bash
+   npm run build
+   ```
+
+5. Set the **Output Directory** to `.` or select the `Other` framework preset.
+6. Deploy your project.
+
+---
+
+## License
+
+This project is maintained by [Egemen Geyik](https://github.com/egemngyk).
