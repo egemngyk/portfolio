@@ -12,54 +12,9 @@ export function updateRestartButtonVisibility(themes) {
   btn.hidden = !hasPending;
 }
 
-let currentPreviewFolder = null;
-let currentDevice = 'desktop';
-
-export function openThemePreview(folder, name) {
+export function openThemePreview(folder) {
   if (!folder) return;
-  currentPreviewFolder = folder;
-
-  const modal = document.getElementById("theme-preview-modal");
-  const iframe = document.getElementById("tp-iframe");
-  const titleEl = document.getElementById("tp-theme-name");
-  const externalLink = document.getElementById("tp-btn-external");
-  const loading = document.getElementById("tp-loading");
-
-  if (!modal || !iframe) return;
-
-  if (titleEl) titleEl.textContent = name || folder;
-
-  const previewUrl = `/?preview=${encodeURIComponent(folder)}`;
-  if (externalLink) externalLink.href = previewUrl;
-
-  _loadPreviewIframe(iframe, previewUrl, loading);
-  modal.style.display = "flex";
-  document.body.style.overflow = "hidden";
-}
-
-function _buildIframeSrc(previewUrl) {
-  const touch = currentDevice === 'tablet' || currentDevice === 'mobile';
-  return `${previewUrl}&t=${Date.now()}${touch ? '&touch=1' : ''}`;
-}
-
-function _loadPreviewIframe(iframe, previewUrl, loading) {
-  if (!iframe) return;
-  if (loading) loading.classList.remove("hidden");
-  iframe.onload = () => {
-    if (loading) loading.classList.add("hidden");
-  };
-  iframe.src = _buildIframeSrc(previewUrl);
-}
-
-export function closeThemePreview() {
-  const modal = document.getElementById("theme-preview-modal");
-  const iframe = document.getElementById("tp-iframe");
-  if (!modal) return;
-
-  modal.style.display = "none";
-  if (iframe) iframe.src = "about:blank";
-  currentPreviewFolder = null;
-  document.body.style.overflow = "";
+  window.location.href = `/?preview=${encodeURIComponent(folder)}`;
 }
 
 export function renderThemesList(themes) {
@@ -88,8 +43,8 @@ export function renderThemesList(themes) {
       const previewEl = clone.querySelector(".theme-preview");
       previewEl.innerHTML = previewImageHtml(theme.preview, theme.name);
       previewEl.style.cursor = "pointer";
-      previewEl.title = "Canlı Önizlemek için tıkla";
-      previewEl.addEventListener("click", () => openThemePreview(theme.folder, theme.name));
+      previewEl.title = "Önizlemek için tıkla";
+      previewEl.addEventListener("click", () => openThemePreview(theme.folder));
 
       clone.querySelector(".theme-name").textContent = theme.name;
       clone.querySelector(".theme-badge-container").innerHTML = badgeHtml;
@@ -97,14 +52,15 @@ export function renderThemesList(themes) {
       const actionsContainer = clone.querySelector(".theme-actions");
       actionsContainer.innerHTML = "";
 
-      // Önizle butonu her temada yer alır
-      const btnPreview = document.createElement("button");
-      btnPreview.type = "button";
+      // Önizle butonu doğrudan /?preview=tema ile yönlendirir
+      const btnPreview = document.createElement("a");
       btnPreview.className = "btn-secondary btn-theme-preview";
+      btnPreview.href = `/?preview=${encodeURIComponent(theme.folder)}`;
       btnPreview.textContent = "Önizle";
-      btnPreview.dataset.folder = theme.folder;
-      btnPreview.dataset.name = theme.name;
-      btnPreview.addEventListener("click", () => openThemePreview(theme.folder, theme.name));
+      btnPreview.style.textDecoration = "none";
+      btnPreview.style.display = "inline-flex";
+      btnPreview.style.alignItems = "center";
+      btnPreview.style.justifyContent = "center";
       actionsContainer.appendChild(btnPreview);
 
       // Seç / Aktif butonu
@@ -165,7 +121,7 @@ export function renderThemesList(themes) {
         }
         return `
       <div class="theme-card" data-folder="${esc(theme.folder)}">
-        <div class="theme-preview" style="cursor: pointer;" title="Canlı Önizlemek için tıkla" data-folder="${esc(theme.folder)}" data-name="${esc(theme.name)}">
+        <div class="theme-preview" style="cursor: pointer;" title="Önizlemek için tıkla" data-folder="${esc(theme.folder)}">
           ${previewImageHtml(theme.preview, theme.name)}
         </div>
         <div class="theme-info">
@@ -173,7 +129,7 @@ export function renderThemesList(themes) {
           <div class="theme-badge-container">${badge}</div>
         </div>
         <div class="theme-actions">
-          <button type="button" class="btn-secondary btn-theme-preview" data-folder="${esc(theme.folder)}" data-name="${esc(theme.name)}">Önizle</button>
+          <a href="/?preview=${encodeURIComponent(theme.folder)}" class="btn-secondary btn-theme-preview" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Önizle</a>
           ${
             theme.selected && theme.applied
               ? `<button type="button" class="btn-secondary" style="margin-top:10px;font-weight:bold;cursor:default;" disabled>Aktif</button>`
@@ -187,15 +143,9 @@ export function renderThemesList(themes) {
       })
       .join("");
 
-    container.querySelectorAll(".btn-theme-preview").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        openThemePreview(btn.getAttribute("data-folder"), btn.getAttribute("data-name"));
-      });
-    });
-
     container.querySelectorAll(".theme-preview[data-folder]").forEach((el) => {
       el.addEventListener("click", () => {
-        openThemePreview(el.getAttribute("data-folder"), el.getAttribute("data-name"));
+        openThemePreview(el.getAttribute("data-folder"));
       });
     });
 
@@ -266,68 +216,4 @@ export function initThemes() {
       }
     });
   }
-
-  // Live Preview Modal Etkileşimleri
-  const btnClosePreview = document.getElementById("tp-btn-close");
-  btnClosePreview?.addEventListener("click", closeThemePreview);
-
-  // ESC ile kapatma
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      const modal = document.getElementById("theme-preview-modal");
-      if (modal && modal.style.display !== "none") {
-        closeThemePreview();
-      }
-    }
-  });
-
-  // Modal içindeki "Bu Temayı Uygula" butonu
-  const btnApplyModal = document.getElementById("tp-btn-apply");
-  if (btnApplyModal) {
-    btnApplyModal.addEventListener("click", async () => {
-      if (!currentPreviewFolder) return;
-      btnApplyModal.disabled = true;
-      btnApplyModal.textContent = "Uygulanıyor...";
-      try {
-        await window.ADMIN.selectTheme(currentPreviewFolder);
-        await window.ADMIN.triggerRestartLog();
-        await loadThemes();
-        btnApplyModal.textContent = "✓ Uygulandı!";
-        setTimeout(() => {
-          closeThemePreview();
-          btnApplyModal.disabled = false;
-          btnApplyModal.textContent = "Bu Temayı Uygula";
-        }, 800);
-      } catch (err) {
-        console.error("[panel] Tema uygulanamadı:", err);
-        btnApplyModal.disabled = false;
-        btnApplyModal.textContent = "Hata Oluştu";
-        setTimeout(() => {
-          btnApplyModal.textContent = "Bu Temayı Uygula";
-        }, 2000);
-      }
-    });
-  }
-
-  // Cihaz simülasyon butonları (Masaüstü, Tablet, Mobil)
-  const deviceBtns = document.querySelectorAll(".tp-device-btn");
-  const iframeWrap = document.getElementById("tp-iframe-wrap");
-  deviceBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      deviceBtns.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      const device = btn.dataset.device;
-      currentDevice = device;
-      if (iframeWrap) {
-        iframeWrap.className = `tp-iframe-wrap device-${device}`;
-      }
-      // iframe'i touch=1 ile (veya olmadan) yeniden yükle
-      const iframe = document.getElementById("tp-iframe");
-      const loading = document.getElementById("tp-loading");
-      if (iframe && currentPreviewFolder) {
-        const previewUrl = `/?preview=${encodeURIComponent(currentPreviewFolder)}`;
-        _loadPreviewIframe(iframe, previewUrl, loading);
-      }
-    });
-  });
 }

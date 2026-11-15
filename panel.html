@@ -600,49 +600,6 @@
       </main>
     </div>
 
-    <!-- THEME LIVE PREVIEW MODAL -->
-    <div id="theme-preview-modal" class="theme-preview-modal" style="display: none;">
-      <div class="tp-modal-header">
-        <div class="tp-modal-title">
-          <span class="tp-modal-badge">Canlı Önizleme</span>
-          <span id="tp-theme-name" class="tp-theme-name">Tema Adı</span>
-        </div>
-        <div class="tp-devices">
-          <button type="button" class="tp-device-btn active" data-device="desktop" title="Masaüstü (Tam Genişlik)">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            <span>Masaüstü</span>
-          </button>
-          <button type="button" class="tp-device-btn" data-device="tablet" title="Tablet (768px)">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-            <span>Tablet</span>
-          </button>
-          <button type="button" class="tp-device-btn" data-device="mobile" title="Mobil (375px)">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-            <span>Mobil</span>
-          </button>
-        </div>
-        <div class="tp-actions">
-          <a id="tp-btn-external" href="#" target="_blank" rel="noopener" class="tp-btn tp-btn-secondary" title="Yeni Sekmede Aç">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            <span>Yeni Sekme</span>
-          </a>
-          <button type="button" id="tp-btn-apply" class="tp-btn tp-btn-primary">
-            Bu Temayı Uygula
-          </button>
-          <button type="button" id="tp-btn-close" class="tp-btn-close" title="Kapat (ESC)">✕</button>
-        </div>
-      </div>
-      <div class="tp-modal-body">
-        <div id="tp-iframe-wrap" class="tp-iframe-wrap device-desktop">
-          <div id="tp-loading" class="tp-loading">
-            <div class="tp-spinner"></div>
-            <span>Tema Yükleniyor...</span>
-          </div>
-          <iframe id="tp-iframe" src="about:blank"></iframe>
-        </div>
-      </div>
-    </div>
-
     <script src="/shared/panel-loader.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 
