@@ -673,8 +673,6 @@
   }
 
   /* ══ RENDER: STACK ══════════════════════════ */
-  const METER_CELLS = 20;
-
   function renderStack() {
     const langs = (window.languages || []).filter((l) => l.visible !== false);
     const tools = (window.stack_tools || []).filter((x) => x.visible !== false);
@@ -695,20 +693,19 @@
             ${group
               .map((l) => {
                 const lvl = clamp(Math.round(Number(l.level) || 0), 0, 100);
-                const lit = Math.round((lvl / 100) * METER_CELLS);
                 const logo = LANG_LOGOS[l.name];
                 const logoHtml = logo
                   ? `<img class="logo-mono" src="${logo}" alt="" onerror="this.style.display='none'">`
                   : "";
-                const cells = Array.from(
-                  { length: METER_CELLS },
-                  (_, k) => `<i class="${k < lit ? "on" : ""}" style="--i:${k}"></i>`,
-                ).join("");
                 return `
                 <div class="stack-item">
                   <span class="stack-name">${logoHtml}${esc(l.name)}</span>
                   <span class="stack-level tnum">${lvl}%</span>
-                  <div class="meter" role="img" aria-label="${esc(l.name)} ${lvl}%">${cells}</div>
+                  <div class="meter-track" role="progressbar" aria-valuenow="${lvl}" aria-valuemin="0" aria-valuemax="100" aria-label="${esc(l.name)}">
+                    <div class="meter-fill" style="--lvl:${lvl}%">
+                      <span class="meter-head"></span>
+                    </div>
+                  </div>
                 </div>`;
               })
               .join("")}
@@ -717,7 +714,7 @@
         )
         .join("");
 
-      grid.querySelectorAll(".meter").forEach((m) => meterObs.observe(m));
+      grid.querySelectorAll(".meter-track").forEach((m) => meterObs.observe(m));
     }
 
     const toolsWrap = document.getElementById("tools-wrap");
