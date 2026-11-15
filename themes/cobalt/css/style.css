@@ -974,20 +974,45 @@ body {
   background: #f59e0b;
 }
 
+/* ── PROJECT LINK (GITHUB) ── */
 .project-link {
-  font-size: 0.78rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  transition: color 0.2s, transform 0.2s;
+  gap: 8px;
+  padding: 7px 15px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  border-radius: 6px;
   text-decoration: none;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
+  transition: all 0.2s ease;
+}
+.project-link .project-link-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.project-link .project-link-arrow {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
 }
 .project-link:hover {
-  color: var(--cyan);
-  transform: translateX(3px);
+  color: #030712;
+  background: var(--cyan);
+  border-color: var(--cyan);
+  box-shadow: 0 0 22px rgba(56, 189, 248, 0.55);
+  transform: translateY(-2px);
+}
+.project-link:hover .project-link-arrow {
+  transform: translate(2px, -2px);
 }
 
 /* ═══════════════════════════════════════════

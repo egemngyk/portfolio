@@ -614,18 +614,46 @@ section {
 }
 
 
+/* ── PROJECT LINK (GITHUB) ── */
 .project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
   font-family: var(--mono);
   font-size: 0.74rem;
   font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
   text-decoration: none;
-  background: var(--grad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  transition: opacity 0.2s;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
 }
-.project-link:hover { opacity: 0.7; }
+.project-link .project-link-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.project-link .project-link-arrow {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+.project-link:hover {
+  background: var(--grad);
+  border-color: transparent;
+  box-shadow: 0 6px 24px rgba(124, 58, 237, 0.5);
+  transform: translateY(-2px);
+}
+.project-link:hover .project-link-arrow {
+  transform: translate(2px, -2px);
+}
 
 /* ── GOAL ── */
 .section-goal {

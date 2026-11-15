@@ -887,25 +887,45 @@ section {
 .ledger-foot .ledger-status {
   display: none;
 }
+/* ── PROJECT LINK (GITHUB) ── */
 .project-link {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 0;
-  font-size: 0.78rem;
-  color: var(--text);
-  border-bottom: 1px solid var(--accent);
-  transition: color 0.25s, gap 0.3s var(--ease);
+  gap: 8px;
+  padding: 7px 16px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: #141010;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.15);
+  text-decoration: none;
+  transition: all 0.25s var(--ease);
 }
-.project-link::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  background: var(--accent);
+.project-link .project-link-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.project-link .project-link-arrow {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
 }
 .project-link:hover {
-  color: var(--accent);
-  gap: 16px;
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 20px var(--glow);
+  transform: translateY(-2px);
+}
+.project-link:hover .project-link-arrow {
+  transform: translate(2px, -2px);
 }
 .project-link-none {
   font-size: 0.75rem;

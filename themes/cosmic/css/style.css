@@ -661,15 +661,45 @@ section {
 }
 
 
+/* ── PROJECT LINK (GITHUB) ── */
 .project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
   font-family: var(--mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-decoration: none;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   color: var(--gold);
-  transition: opacity 0.2s;
+  background: rgba(245, 197, 24, 0.1);
+  border: 1px solid rgba(245, 197, 24, 0.45);
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 0 14px rgba(245, 197, 24, 0.2);
+  transition: all 0.25s ease;
 }
-.project-link:hover { opacity: 0.65; }
+.project-link .project-link-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.project-link .project-link-arrow {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+.project-link:hover {
+  color: #0a0612;
+  background: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 24px rgba(245, 197, 24, 0.55);
+  transform: translateY(-2px);
+}
+.project-link:hover .project-link-arrow {
+  transform: translate(2px, -2px);
+}
 
 /* ── GOAL ── */
 .section-goal {
