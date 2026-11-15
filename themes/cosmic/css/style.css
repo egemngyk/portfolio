@@ -994,25 +994,26 @@ footer {
    TEDX SECTION
 ═══════════════════════════════════════════ */
 .section-tedx {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 100px 40px;
   position: relative;
+  border-top: 1px solid var(--border);
 }
 .tedx-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr);
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.85fr);
   gap: clamp(32px, 5vw, 64px);
   align-items: start;
   margin-top: 36px;
 }
 .tedx-stage {
   position: relative;
-  background: var(--surface, #111);
-  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
-  border-radius: 10px;
+  background: var(--deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 35px rgba(240, 192, 96, 0.12), 0 20px 50px rgba(4, 5, 15, 0.8);
 }
 .tedx-stage iframe {
   display: block;
@@ -1025,8 +1026,15 @@ footer {
   flex-direction: column;
   gap: 24px;
 }
+.tedx-info h3 {
+  font-family: var(--font);
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+}
 .tedx-desc {
-  color: var(--text-muted, #888);
+  color: var(--text-dim);
   font-size: 0.95rem;
   line-height: 1.85;
 }
@@ -1034,31 +1042,36 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  border-top: 1px solid var(--border, rgba(255, 255, 255, 0.12));
-  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
 }
 .tedx-link {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--surface, rgba(255, 255, 255, 0.03));
-  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
-  border-radius: 6px;
-  padding: 14px 20px;
-  color: var(--text, #fff);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 14px 24px;
+  color: var(--text);
+  font-family: var(--mono);
   font-size: 0.82rem;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-decoration: none;
+  box-shadow: 0 0 12px rgba(240, 192, 96, 0.05);
   transition: all 0.25s ease;
 }
 .tedx-link:hover {
-  border-color: var(--accent, #fff);
-  color: var(--accent, #fff);
-  background: var(--surface-2, rgba(255, 255, 255, 0.08));
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(240, 192, 96, 0.12);
+  box-shadow: 0 0 24px var(--gold-glow);
   transform: translateX(4px);
 }
 .tedx-link svg {
   flex-shrink: 0;
+  color: var(--gold);
   transition: transform 0.25s ease;
 }
 .tedx-link:hover svg {

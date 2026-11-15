@@ -248,7 +248,7 @@
   function initScrollProgress() {
     const bar = document.createElement("div");
     bar.style.cssText =
-      "position:fixed;top:0;left:0;height:2px;background:#c8ff00;z-index:9999;width:0;transition:width .2s ease;pointer-events:none;";
+      "position:fixed;top:0;left:0;height:2px;background:var(--accent, #1d4ed8);z-index:9999;width:0;transition:width .2s ease;pointer-events:none;";
     document.body.appendChild(bar);
     addEventListener(
       "scroll",

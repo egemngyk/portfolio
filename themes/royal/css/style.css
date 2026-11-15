@@ -463,36 +463,36 @@ section {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 16px;
+  padding: 6px 16px;
   font-family: var(--mono);
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
-  color: #d4af37;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.45);
+  letter-spacing: 0.06em;
+  color: #c99436;
+  background: rgba(201, 148, 54, 0.08);
+  border: 1px solid rgba(201, 148, 54, 0.45);
   border-radius: 999px;
-  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 2px 8px rgba(201, 148, 54, 0.1);
   text-decoration: none;
   transition: all 0.25s ease;
 }
 .project-link .project-link-icon {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
   flex-shrink: 0;
 }
 .project-link .project-link-arrow {
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
   flex-shrink: 0;
   transition: transform 0.2s ease;
 }
 .project-link:hover {
-  color: #0b1120;
-  background: #d4af37;
-  border-color: #d4af37;
-  box-shadow: 0 4px 18px rgba(212, 175, 55, 0.45);
-  transform: translateY(-2px);
+  color: #070913;
+  background: #c99436;
+  border-color: #c99436;
+  box-shadow: 0 4px 16px rgba(201, 148, 54, 0.35);
+  transform: translateY(-1px);
 }
 .project-link:hover .project-link-arrow {
   transform: translate(2px, -2px);
@@ -799,10 +799,11 @@ body {
    TEDX SECTION
 ═══════════════════════════════════════════ */
 .section-tedx {
-  max-width: 1200px;
+  max-width: var(--max);
   margin: 0 auto;
-  padding: 100px 40px;
+  padding: 100px 48px;
   position: relative;
+  border-top: var(--border);
 }
 .tedx-grid {
   display: grid;
@@ -813,11 +814,11 @@ body {
 }
 .tedx-stage {
   position: relative;
-  background: var(--surface, #111);
-  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
-  border-radius: 10px;
+  background: #000;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 35px rgba(201, 148, 54, 0.12);
 }
 .tedx-stage iframe {
   display: block;
@@ -831,7 +832,7 @@ body {
   gap: 24px;
 }
 .tedx-desc {
-  color: var(--text-muted, #888);
+  color: var(--mid);
   font-size: 0.95rem;
   line-height: 1.85;
 }
@@ -839,31 +840,36 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  border-top: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  border-top: 1px solid var(--light);
   padding-top: 20px;
 }
 .tedx-link {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--surface, rgba(255, 255, 255, 0.03));
-  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
-  border-radius: 6px;
-  padding: 14px 20px;
-  color: var(--text, #fff);
+  background: var(--white);
+  border: 1px solid rgba(201, 148, 54, 0.35);
+  border-radius: 999px;
+  padding: 14px 22px;
+  color: var(--black);
+  font-family: var(--mono);
   font-size: 0.82rem;
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  letter-spacing: 0.05em;
   text-decoration: none;
+  box-shadow: 0 2px 8px rgba(201, 148, 54, 0.06);
   transition: all 0.25s ease;
 }
 .tedx-link:hover {
-  border-color: var(--accent, #fff);
-  color: var(--accent, #fff);
-  background: var(--surface-2, rgba(255, 255, 255, 0.08));
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--off);
+  box-shadow: 0 4px 16px rgba(201, 148, 54, 0.2);
   transform: translateX(4px);
 }
 .tedx-link svg {
   flex-shrink: 0;
+  color: var(--accent);
   transition: transform 0.25s ease;
 }
 .tedx-link:hover svg {
@@ -871,6 +877,9 @@ body {
 }
 
 @media (max-width: 900px) {
+  .section-tedx {
+    padding: 60px 24px;
+  }
   .tedx-grid {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -878,6 +887,6 @@ body {
 }
 @media (max-width: 600px) {
   .section-tedx {
-    padding: 60px 20px;
+    padding: 48px 16px;
   }
 }
