@@ -14,7 +14,7 @@ export function updateRestartButtonVisibility(themes) {
 
 export function openThemePreview(folder) {
   if (!folder) return;
-  window.location.href = `/?preview=${encodeURIComponent(folder)}`;
+  window.open(`/?preview=${encodeURIComponent(folder)}`, "_blank", "noopener");
 }
 
 export function renderThemesList(themes) {
@@ -52,10 +52,12 @@ export function renderThemesList(themes) {
       const actionsContainer = clone.querySelector(".theme-actions");
       actionsContainer.innerHTML = "";
 
-      // Önizle butonu doğrudan /?preview=tema ile yönlendirir
+      // Önizle butonu: doğrudan /?preview=tema ile yeni sekmede açar
       const btnPreview = document.createElement("a");
       btnPreview.className = "btn-secondary btn-theme-preview";
       btnPreview.href = `/?preview=${encodeURIComponent(theme.folder)}`;
+      btnPreview.target = "_blank";
+      btnPreview.rel = "noopener";
       btnPreview.textContent = "Önizle";
       btnPreview.style.textDecoration = "none";
       btnPreview.style.display = "inline-flex";
@@ -129,7 +131,7 @@ export function renderThemesList(themes) {
           <div class="theme-badge-container">${badge}</div>
         </div>
         <div class="theme-actions">
-          <a href="/?preview=${encodeURIComponent(theme.folder)}" class="btn-secondary btn-theme-preview" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Önizle</a>
+          <a href="/?preview=${encodeURIComponent(theme.folder)}" target="_blank" rel="noopener" class="btn-secondary btn-theme-preview" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Önizle</a>
           ${
             theme.selected && theme.applied
               ? `<button type="button" class="btn-secondary" style="margin-top:10px;font-weight:bold;cursor:default;" disabled>Aktif</button>`
