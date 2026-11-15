@@ -82,4 +82,32 @@ window.sendMessage = async function ({ name, email, message }) {
   }
 };
 
+/* Favicon Güvencesi: Aktif tema ikonunu head'e garantile */
+try {
+  const baseEl = document.querySelector("base");
+  const baseHref = baseEl ? baseEl.getAttribute("href") : "";
+  const match = baseHref.match(/themes\/([^\/]+)/);
+  const currentTheme = match ? match[1] : (new URLSearchParams(window.location.search).get("theme") || new URLSearchParams(window.location.search).get("preview"));
+  if (currentTheme) {
+    const iconUrl = `/themes/${currentTheme}/assets/favicon.png`;
+    document.querySelectorAll("link[rel*='icon']").forEach((el) => el.remove());
+    const l1 = document.createElement("link");
+    l1.rel = "icon";
+    l1.type = "image/png";
+    l1.href = iconUrl;
+    document.head.appendChild(l1);
+    const l2 = document.createElement("link");
+    l2.rel = "shortcut icon";
+    l2.type = "image/png";
+    l2.href = iconUrl;
+    document.head.appendChild(l2);
+    const l3 = document.createElement("link");
+    l3.rel = "apple-touch-icon";
+    l3.href = iconUrl;
+    document.head.appendChild(l3);
+  }
+} catch {
+  // no-op
+}
+
 });

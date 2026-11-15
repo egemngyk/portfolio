@@ -439,17 +439,20 @@ const API = {
     const config = await getPortfolioConfig();
     const existingThemes = Array.isArray(config?.themes) ? config.themes : [];
 
-    // Dosyada olan ama Firestore kaydı olmayanlar
-    const addedThemes = (diskThemes || []).filter(
-      (t) => typeof t === "string" && !existingThemes.includes(t)
+    // Disk'teki temaları kaynak kabul et: Firestore'u tam olarak bunlarla eşitle
+    // (silinen temalar Firestore'dan da kaldırılır, yeniler eklenir)
+    const validDiskThemes = (diskThemes || []).filter(
+      (t) => typeof t === "string" && t.trim().length > 0
     );
 
-    if (addedThemes.length > 0) {
-      const mergedThemes = [...existingThemes, ...addedThemes];
-      await updatePortfolioConfig({ themes: mergedThemes });
+    if (validDiskThemes.length > 0) {
+      await updatePortfolioConfig({ themes: validDiskThemes });
     }
 
     const updatedConfig = await getPortfolioConfig();
+    const addedThemes = validDiskThemes.filter(
+      (t) => !existingThemes.includes(t)
+    );
     return {
       ok: true,
       added: addedThemes,

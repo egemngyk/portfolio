@@ -63,7 +63,9 @@
 </script>
 <!-- SEO:END -->
 
-<link rel="icon" href="data:," />
+<link rel="icon" type="image/png" href="/themes/claudemade/assets/favicon.png" />
+<link rel="shortcut icon" type="image/png" href="/themes/claudemade/assets/favicon.png" />
+<link rel="apple-touch-icon" href="/themes/claudemade/assets/favicon.png" />
 <script type="module">
   import { injectSpeedInsights } from 'https://esm.sh/@vercel/speed-insights';
   injectSpeedInsights();
@@ -146,14 +148,25 @@
   }
 
   function setFavicon(theme) {
-    setTimeout(() => {
-      document.querySelectorAll("link[rel~='icon']").forEach((e) => e.remove());
-      const iconLink = document.createElement("link");
-      iconLink.rel = "shortcut icon";
-      iconLink.type = "image/png";
-      iconLink.href = `/themes/${theme}/assets/favicon.png?v=${Date.now()}`;
-      document.head.appendChild(iconLink);
-    }, 50);
+    const faviconUrl = `/themes/${theme}/assets/favicon.png`;
+    document.querySelectorAll("link[rel*='icon']").forEach((e) => e.remove());
+
+    const iconLink = document.createElement("link");
+    iconLink.rel = "icon";
+    iconLink.type = "image/png";
+    iconLink.href = faviconUrl;
+    document.head.appendChild(iconLink);
+
+    const shortcutLink = document.createElement("link");
+    shortcutLink.rel = "shortcut icon";
+    shortcutLink.type = "image/png";
+    shortcutLink.href = faviconUrl;
+    document.head.appendChild(shortcutLink);
+
+    const appleLink = document.createElement("link");
+    appleLink.rel = "apple-touch-icon";
+    appleLink.href = faviconUrl;
+    document.head.appendChild(appleLink);
   }
 
   async function showTheme(theme) {
@@ -165,8 +178,20 @@
     document.write(html);
     document.close();
 
+    // document.write yeni bir DOM oluşturur; favicon inject için parse tamamlanana kadar bekle
+    function injectFavicon() {
+      setFavicon(theme);
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", injectFavicon, { once: true });
+    } else {
+      injectFavicon();
+    }
+    // Yedek: bazı tarayıcılarda parse sonrası da tekrar inject et
+    setTimeout(() => setFavicon(theme), 100);
+    setTimeout(() => setFavicon(theme), 500);
+
     finalizeSeo();
-    setFavicon(theme);
 
     // Navigasyon tıklamalarında URL'nin /themes/.../html/#... olarak değişmesini engelle
     document.addEventListener("click", (e) => {
