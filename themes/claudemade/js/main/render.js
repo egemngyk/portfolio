@@ -292,16 +292,23 @@
     );
   }
 
-  /* ══ SMOOTH SCROLL ══════════════════════════ */
+    /* ══ SMOOTH SCROLL ══════════════════════════ */
   function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener("click", (e) => {
-        const t = document.querySelector(link.getAttribute("href"));
-        if (t) {
-          e.preventDefault();
-          t.scrollIntoView({ behavior: "smooth" });
-        }
-      });
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest("a");
+      if (!link) return;
+      const href = link.getAttribute("href") || "";
+      const hashIdx = href.indexOf("#");
+      if (hashIdx === -1) return;
+      const hash = href.slice(hashIdx);
+      if (!hash || hash === "#") return;
+
+      const target = document.querySelector(hash);
+      if (target) {
+        e.preventDefault();
+        e.stopPropagation();
+        target.scrollIntoView({ behavior: "smooth" });
+      }
     });
   }
 

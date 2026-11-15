@@ -167,6 +167,24 @@
 
     finalizeSeo();
     setFavicon(theme);
+
+    // Navigasyon tıklamalarında URL'nin /themes/.../html/#... olarak değişmesini engelle
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest("a");
+      if (!link) return;
+      const href = link.getAttribute("href") || "";
+      const hashIdx = href.indexOf("#");
+      if (hashIdx === -1) return;
+      const hash = href.slice(hashIdx);
+      if (!hash || hash === "#") return;
+
+      const target = document.querySelector(hash);
+      if (target) {
+        e.preventDefault();
+        e.stopPropagation();
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }, true);
   }
 
   async function loadTheme() {

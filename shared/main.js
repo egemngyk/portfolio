@@ -1,3 +1,31 @@
+// Eğer sayfa doğrudan /themes/.../html/ altından açılmışsa ana sayfaya temiz yönlendir
+if (typeof window !== "undefined" && window.location.pathname.includes("/themes/")) {
+  const match = window.location.pathname.match(/\/themes\/([^\/]+)\//);
+  const themeName = match ? match[1] : "";
+  const hash = window.location.hash || "";
+  window.location.replace(`/${themeName ? `?theme=${themeName}` : ""}${hash}`);
+}
+
+// Sayfa içi navigasyon tıklamalarında URL'nin (base href nedeniyle) bozulmasını engelle
+if (typeof document !== "undefined") {
+  document.addEventListener("click", function (e) {
+    const link = e.target.closest("a");
+    if (!link) return;
+    const href = link.getAttribute("href") || "";
+    const hashIdx = href.indexOf("#");
+    if (hashIdx === -1) return;
+    const hash = href.slice(hashIdx);
+    if (!hash || hash === "#") return;
+
+    const target = document.querySelector(hash);
+    if (target) {
+      e.preventDefault();
+      e.stopPropagation();
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  }, true);
+}
+
 window.portfolioPromise = API.getPortfolio().then(portfolio => {
 
 /* ROOT */

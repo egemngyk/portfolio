@@ -648,7 +648,28 @@
   }
 
   /* ══ SYSTEM INIT ═════════════════════════════ */
-  function init() {
+    /* ══ SMOOTH SCROLL ══════════════════════════ */
+  function initSmoothScroll() {
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest("a");
+      if (!link) return;
+      const href = link.getAttribute("href") || "";
+      const hashIdx = href.indexOf("#");
+      if (hashIdx === -1) return;
+      const hash = href.slice(hashIdx);
+      if (!hash || hash === "#") return;
+
+      const target = document.querySelector(hash);
+      if (target) {
+        e.preventDefault();
+        e.stopPropagation();
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  }
+
+function init() {
+    initSmoothScroll();
     ensureMandatoryUI();
     applyStaticTranslations();
     initScrollProgress();
