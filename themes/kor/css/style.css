@@ -837,6 +837,12 @@ html.has-cursor * {
   background: var(--accent);
   animation: pulse-dot 2.4s infinite;
 }
+.ledger-status.hold {
+  color: #f59e0b;
+}
+.ledger-status.hold .dot {
+  background: #f59e0b;
+}
 .ledger-toggle {
   position: relative;
   width: 22px;

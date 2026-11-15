@@ -45,6 +45,7 @@
       stat_langs: "Programlama Dili",
       stat_year: "Yıl",
       status_active: "Aktif Geliştirme",
+      status_hold: "Beklemede",
       status_done: "Tamamlandı",
       form_err_empty: "Lütfen tüm alanları doldur.",
       form_err_long: "Mesaj çok uzun. Maksimum {n} karakter.",
@@ -91,6 +92,7 @@
       stat_langs: "Languages",
       stat_year: "Year",
       status_active: "Active Development",
+      status_hold: "On Hold",
       status_done: "Completed",
       form_err_empty: "Please fill in all fields.",
       form_err_long: "Message too long. Maximum {n} characters.",
@@ -756,12 +758,21 @@
     grid.innerHTML = (window.projects || [])
       .map((p, i) => {
         const open = i === 0;
-        const active = p.status === "active";
         const hasGithub = p.github && p.github.trim() !== "";
         const tags = (p.tags || []).map((x) => `<span>${esc(x)}</span>`).join("");
-        const statusLabel = active ? t.status_active : t.status_done;
+
+        let statusLabel = t.status_done;
+        let statusClass = "";
+        if (p.status === "active") {
+          statusLabel = t.status_active;
+          statusClass = " active";
+        } else if (p.status === "hold" || p.status === "on-hold" || p.status === "beklemede") {
+          statusLabel = t.status_hold;
+          statusClass = " hold";
+        }
+
         const statusHtml = (cls) =>
-          `<span class="ledger-status${active ? " active" : ""}${cls}"><span class="dot"></span>${esc(statusLabel)}</span>`;
+          `<span class="ledger-status${statusClass}${cls}"><span class="dot"></span>${esc(statusLabel)}</span>`;
         const linkHtml = hasGithub
           ? `<a href="${esc(p.github)}" target="_blank" rel="noopener" class="project-link">GitHub</a>`
           : "";
