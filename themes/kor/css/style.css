@@ -105,62 +105,6 @@ section {
   background-size: 200px 200px;
 }
 
-/* ── İMLEÇ: kayıt (registration) işareti ── */
-html.has-cursor,
-html.has-cursor * {
-  cursor: none !important;
-}
-.cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 28px;
-  height: 28px;
-  margin: -14px 0 0 -14px;
-  pointer-events: none;
-  z-index: 9999;
-  transition: scale 0.25s var(--ease), rotate 0.4s var(--ease), opacity 0.2s;
-}
-.cursor::before,
-.cursor::after {
-  content: "";
-  position: absolute;
-  background: var(--accent);
-}
-.cursor::before {
-  left: 50%;
-  top: -7px;
-  bottom: -7px;
-  width: 1px;
-}
-.cursor::after {
-  top: 50%;
-  left: -7px;
-  right: -7px;
-  height: 1px;
-}
-.cursor i {
-  position: absolute;
-  inset: 5px;
-  border: 1px solid var(--accent);
-  border-radius: 50%;
-  background: var(--bg);
-}
-.cursor.hover {
-  scale: 1.55;
-  rotate: 45deg;
-}
-
-/* kırmızı zeminli butonlarda imleç siyaha döner */
-.cursor.invert::before,
-.cursor.invert::after {
-  background: #0a0302;
-}
-.cursor.invert i {
-  border-color: #0a0302;
-  background: transparent;
-}
-
 /* ── ISI ÖLÇER (sol kenar) ── */
 .gauge {
   position: fixed;
@@ -1426,10 +1370,7 @@ footer {
 
 /* sadece dokunmatik: özel imleç yok */
 @media (hover: none), (pointer: coarse) {
-  .cursor {
-    display: none !important;
   }
-}
 
 /* hareketi azalt */
 @media (prefers-reduced-motion: reduce) {

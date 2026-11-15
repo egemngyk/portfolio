@@ -242,55 +242,7 @@
 
   }
 
-  /* ══ CUSTOM CURSOR ══════════════════════════ */
-  function initCursor() {
-    const cursor = document.createElement("div");
-    const cursorRing = document.createElement("div");
-    cursor.className = "cursor";
-    cursorRing.className = "cursor-ring";
-    document.body.append(cursor, cursorRing);
-
-    let mouseX = 0,
-      mouseY = 0,
-      ringX = 0,
-      ringY = 0;
-
-    document.addEventListener("mousemove", (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursor.style.transform = `translate(${mouseX - 4}px, ${mouseY - 4}px)`;
-    });
-
-    (function animateCursor() {
-      ringX += (mouseX - ringX - 18) * 0.12;
-      ringY += (mouseY - ringY - 18) * 0.12;
-      cursorRing.style.transform = `translate(${ringX}px, ${ringY}px)`;
-      requestAnimationFrame(animateCursor);
-    })();
-
-    const hoverTargets =
-      "a,button,.card,.project-card,.badge,.stack-item,.contact-link,.form-submit,.lang-toggle";
-    document.addEventListener("mouseover", (e) => {
-      if (e.target.closest(hoverTargets)) {
-        cursor.classList.add("hover");
-        cursorRing.classList.add("hover");
-      }
-    });
-    document.addEventListener("mouseout", (e) => {
-      if (e.target.closest(hoverTargets)) {
-        cursor.classList.remove("hover");
-        cursorRing.classList.remove("hover");
-      }
-    });
-    document.addEventListener("mouseleave", () => {
-      cursor.style.opacity = 0;
-      cursorRing.style.opacity = 0;
-    });
-    document.addEventListener("mouseenter", () => {
-      cursor.style.opacity = 1;
-      cursorRing.style.opacity = 1;
-    });
-  }
+  
 
   /* ══ SCROLL PROGRESS ════════════════════════ */
   function initScrollProgress() {
@@ -760,7 +712,6 @@
   function init() {
     ensureMandatoryUI();
     applyStaticTranslations();
-    initCursor();
     initScrollProgress();
     initNav();
     initSmoothScroll();

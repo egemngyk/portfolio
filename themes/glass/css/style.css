@@ -32,28 +32,9 @@ body {
   color: var(--text);
   font-family: var(--font);
   overflow-x: hidden;
-  cursor: none;
 }
 
-/* ── CURSOR ── */
-.cursor {
-  width: 8px; height: 8px;
-  background: var(--accent);
-  border-radius: 50%;
-  position: fixed; top: 0; left: 0;
-  pointer-events: none; z-index: 99999;
-  box-shadow: 0 0 12px var(--accent);
-}
-.cursor-ring {
-  width: 36px; height: 36px;
-  border: 1.5px solid rgba(139,92,246,0.6);
-  border-radius: 50%;
-  position: fixed; top: 0; left: 0;
-  pointer-events: none; z-index: 99998;
-  transition: border-color 0.3s;
-}
-.cursor.hover { transform: scale(2) !important; opacity: 0.7; }
-.cursor-ring.hover { border-color: var(--accent-2); transform: scale(1.5) !important; }
+
 
 /* ── BACKGROUND BLOBS ── */
 .bg-blobs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
@@ -175,7 +156,6 @@ body {
   font-size: 1.1rem;
   width: 40px; height: 40px;
   border-radius: 10px;
-  cursor: none;
   display: flex; align-items: center; justify-content: center;
   transition: border-color 0.2s, background 0.2s;
 }
@@ -781,7 +761,6 @@ section {
   border-radius: 10px;
   font-size: 0.88rem;
   font-weight: 600;
-  cursor: none;
   margin-top: 6px;
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -923,11 +902,6 @@ footer {
   .form-submit {
     cursor: auto !important;
   }
-  .cursor,
-  .cursor-ring {
-    display: none !important;
-  }
-}
 
 
 /* ── TEDX SECTION ── */

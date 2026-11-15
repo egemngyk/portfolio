@@ -35,7 +35,6 @@ body {
   color: var(--text);
   font-family: var(--font);
   overflow-x: hidden;
-  cursor: none;
 }
 
 /* ── STARS CANVAS ── */
@@ -86,24 +85,7 @@ body {
   66% { transform: translate(-20px, 40px); }
 }
 
-/* ── CURSOR ── */
-.cursor {
-  width: 8px; height: 8px;
-  background: var(--gold);
-  border-radius: 50%;
-  position: fixed; top: 0; left: 0;
-  pointer-events: none; z-index: 99999;
-  box-shadow: 0 0 12px var(--gold), 0 0 24px var(--gold-glow);
-}
-.cursor-ring {
-  width: 36px; height: 36px;
-  border: 1px solid var(--gold-dim);
-  border-radius: 50%;
-  position: fixed; top: 0; left: 0;
-  pointer-events: none; z-index: 99998;
-}
-.cursor.hover { transform: scale(2) translate(-25%,-25%) !important; }
-.cursor-ring.hover { border-color: var(--gold); }
+
 
 /* ── STAR DOT ── */
 .star-dot {
@@ -194,7 +176,6 @@ body {
   color: var(--text-dim);
   font-size: 1.1rem;
   width: 40px; height: 40px;
-  cursor: none;
   display: flex; align-items: center; justify-content: center;
   transition: border-color 0.2s, background 0.2s;
 }
@@ -834,7 +815,6 @@ section {
   font-family: var(--font);
   font-size: 0.9rem;
   font-weight: 600;
-  cursor: none;
   margin-top: 6px;
   transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
 }
@@ -978,11 +958,6 @@ footer {
   .form-submit {
     cursor: auto !important;
   }
-  .cursor,
-  .cursor-ring {
-    display: none !important;
-  }
-}
 
 
 /* ── TEDX SECTION ── */

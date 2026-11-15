@@ -254,40 +254,6 @@
     }
   }
 
-  /* ══ İMLEÇ: kayıt işareti ═══════════════════ */
-  function initCursor() {
-    if (!finePointer) return;
-    const cursor = document.createElement("div");
-    cursor.className = "cursor";
-    cursor.style.opacity = "0";
-    cursor.innerHTML = "<i></i>";
-    document.body.appendChild(cursor);
-    document.documentElement.classList.add("has-cursor");
-
-    document.addEventListener(
-      "mousemove",
-      (e) => {
-        cursor.style.opacity = "1";
-        // transform değil translate: rotate/scale konum vektörünü bozmasın
-        cursor.style.translate = `${e.clientX}px ${e.clientY}px`;
-      },
-      { passive: true },
-    );
-
-    const hoverTargets =
-      "a,button,input,textarea,.ledger-head,.contact-link,.badge,.lang-toggle,.form-submit";
-    document.addEventListener("mouseover", (e) => {
-      cursor.classList.toggle("hover", !!e.target.closest(hoverTargets));
-      cursor.classList.toggle(
-        "invert",
-        !!e.target.closest(".hero-cta,.form-submit,.nav-logo"),
-      );
-    });
-    document.documentElement.addEventListener("mouseleave", () => {
-      cursor.style.opacity = "0";
-    });
-  }
-
   /* ══ ISINAN METİN MOTORU ════════════════════
      .heat elementlerinin üstündeki kızıl kopya, imlecin
      etrafında maske ile görünür. Sayfa açılırken bir kez
@@ -937,7 +903,6 @@
   function init() {
     ensureMandatoryUI();
     applyStaticTranslations();
-    initCursor();
     initSmoothScroll();
 
     renderMeta();
