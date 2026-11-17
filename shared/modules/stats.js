@@ -1,18 +1,68 @@
 import { getVal, setVal, showMsg, reloadData } from "./utils.js";
 
-export function renderStatsForm(s) {
-  setVal("s-projects", s.active_projects);
-  setVal("s-langs", s.languages_count);
+// Otomatik tick açıkken input pasifleşir ve hesaplanan değeri gösterir.
+// El ile girilen değerler ayrıda saklanır; tick kaldırılınca geri yüklenir.
+let _manual = { active_projects: 0, languages_count: 0 };
+let _computed = { active_projects: 0, languages_count: 0 };
+
+const FIELD_MAP = {
+  projects: { input: "s-projects", hint: "s-projects-hint", key: "active_projects" },
+  langs: { input: "s-langs", hint: "s-langs-hint", key: "languages_count" },
+};
+
+function _applyAuto(field, enabled, computed) {
+  const { input: inputId, hint: hintId, key } = FIELD_MAP[field];
+  const input = document.getElementById(inputId);
+  if (!input) return;
+
+  input.disabled = !!enabled;
+  input.classList.toggle("auto-locked", !!enabled);
+  input.value = enabled
+    ? (computed ?? 0)
+    : (_manual[key] ?? 0);
+
+  const hint = document.getElementById(hintId);
+  if (hint) {
+    const source = field === "projects" ? "tüm projeler" : "görünür programlama dilleri";
+    hint.textContent = enabled
+      ? `Otomatik · ${computed ?? 0} (${source})`
+      : "";
+    hint.hidden = !enabled;
+  }
+}
+
+export function renderStatsForm(s, statsAuto) {
+  _manual = {
+    active_projects: s.active_projects ?? 0,
+    languages_count: s.languages_count ?? 0,
+  };
+
+  setVal("s-projects", _manual.active_projects);
+  setVal("s-langs", _manual.languages_count);
   setVal("s-year", s.year);
   setVal("s-message-limit", s.message_limit);
+
+  const autoProjects = document.getElementById("s-auto-projects");
+  const autoLangs = document.getElementById("s-auto-langs");
+  if (autoProjects) autoProjects.checked = s.auto_projects === true;
+  if (autoLangs) autoLangs.checked = s.auto_languages === true;
+
+  _computed = statsAuto || window.stats_auto || {
+    active_projects: s.active_projects ?? 0,
+    languages_count: s.languages_count ?? 0,
+  };
+  _applyAuto("projects", autoProjects?.checked, _computed.active_projects);
+  _applyAuto("langs", autoLangs?.checked, _computed.languages_count);
 }
 
 async function saveStats() {
   const body = {
-    active_projects: parseInt(getVal("s-projects")) || 0,
-    languages_count: parseInt(getVal("s-langs")) || 0,
+    active_projects: _manual.active_projects,
+    languages_count: _manual.languages_count,
     year: parseInt(getVal("s-year")) || new Date().getFullYear(),
     message_limit: parseInt(getVal("s-message-limit")) || 2500,
+    auto_projects: document.getElementById("s-auto-projects")?.checked === true,
+    auto_languages: document.getElementById("s-auto-langs")?.checked === true,
   };
   const res = await window.ADMIN.updateStats(body);
   showMsg(
@@ -323,4 +373,18 @@ export function initStats() {
   document
     .getElementById("btn-save-stats")
     ?.addEventListener("click", saveStats);
+
+  document.getElementById("s-auto-projects")?.addEventListener("change", (e) => {
+    _applyAuto("projects", e.target.checked, _computed.active_projects);
+  });
+  document.getElementById("s-auto-langs")?.addEventListener("change", (e) => {
+    _applyAuto("langs", e.target.checked, _computed.languages_count);
+  });
+
+  Object.entries(FIELD_MAP).forEach(([field, { input: inputId, key }]) => {
+    document.getElementById(inputId)?.addEventListener("input", (e) => {
+      if (e.target.disabled) return;
+      _manual[key] = parseInt(e.target.value, 10) || 0;
+    });
+  });
 }

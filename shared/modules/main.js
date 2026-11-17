@@ -32,11 +32,20 @@ function renderOverview(d) {
   const ovAge = document.getElementById("ov-age");
   if (ovAge) ovAge.textContent = age;
 
+  const derived = d.stats_auto || {};
   const ovProjects = document.getElementById("ov-projects");
-  if (ovProjects && d.stats) ovProjects.textContent = d.stats.active_projects;
+  if (ovProjects) {
+    ovProjects.textContent = d.stats?.auto_projects
+      ? (derived.active_projects ?? (d.projects || []).length)
+      : (d.stats?.active_projects ?? 0);
+  }
 
   const ovLangs = document.getElementById("ov-langs");
-  if (ovLangs && d.languages) ovLangs.textContent = d.languages.filter((l) => l.visible).length;
+  if (ovLangs) {
+    ovLangs.textContent = d.stats?.auto_languages
+      ? (derived.languages_count ?? 0)
+      : (d.languages || []).filter((l) => l.visible).length;
+  }
 
   const ovUnread = document.getElementById("ov-unread");
   if (ovUnread) ovUnread.textContent = unread;
@@ -55,10 +64,11 @@ export async function loadAllData() {
   window.projects = d.projects;
   window.messages = d.messages;
   window.analytics = d.analytics;
+  window.stats_auto = d.stats_auto || null;
 
   renderOverview(d);
   if (d.meta) renderMetaForm(d.meta);
-  if (d.stats) renderStatsForm(d.stats);
+  if (d.stats) renderStatsForm(d.stats, d.stats_auto);
   if (d.languages) renderLanguagesForm(d.languages);
   if (d.projects) renderProjectsList(d.projects);
   if (d.contact) renderContactForm(d.contact);

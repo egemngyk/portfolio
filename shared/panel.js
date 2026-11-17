@@ -192,6 +192,7 @@ window.panelPromise = API.getPortfolio().then((portfolio) => {
   window.goal_desc     = portfolio.meta.goal_desc;
 
   window.stats           = portfolio.stats;
+  window.stats_auto      = portfolio.stats_auto || null;
   window.active_projects = portfolio.stats.active_projects;
   window.languages_count = portfolio.stats.languages_count;
   window.year            = portfolio.stats.year;

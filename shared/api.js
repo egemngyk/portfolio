@@ -94,6 +94,7 @@ function applyI18n(data, lang) {
   return {
     ...data,
     meta,
+    stats: { ...(data.stats || {}), ...computeDerivedStats(data) },
     languages,
     stack_tools,
     projects,
@@ -112,6 +113,26 @@ function calcAge(birthdateStr) {
   } catch {
     return 0;
   }
+}
+
+// ─── Otomatik Sayaçlar ────────────────────────────────────────────────────────
+// stats.auto_* açıksa ilgili değer veriden anında hesaplanır; Firestore'a yazılmaz.
+// Böylece proje/beceri ekleyip silindiğinde sayaçlar kendiliğinden güncellenir.
+function computeDerivedStats(mainData) {
+  const stats = mainData?.stats || {};
+  const projects = mainData?.projects || [];
+  const languages = mainData?.languages || [];
+
+  return {
+    active_projects: stats.auto_projects
+      ? projects.length
+      : (stats.active_projects ?? 0),
+    languages_count: stats.auto_languages
+      ? languages.filter(
+          (l) => l.visible !== false && l.isProgrammingLanguage !== false
+        ).length
+      : (stats.languages_count ?? 0),
+  };
 }
 
 // ─── Tema ID → İsim dönüşümü (eski sayısal ID sistemi kaldırıldı) ─────────────
@@ -168,6 +189,7 @@ const API = {
 
     return {
       ...processed,
+      stats_auto: computeDerivedStats(mainData),
       messages,
       analytics: analyticsData || {},
       themes: themesToPanelFormat(
@@ -239,6 +261,12 @@ const API = {
     return {
       ...(mainData || {}),
       projects: rawProjects,
+      // Panel otomatik sayaçları ham el değerleriyle birlikte görmeli;
+      // render sırasında tick'e göre hangisinin gösterileceğine karar verilir.
+      stats_auto: computeDerivedStats({
+        ...(mainData || {}),
+        projects: rawProjects,
+      }),
       messages,
       analytics: analyticsData || {},
       themes: themesToPanelFormat(
@@ -281,6 +309,13 @@ const API = {
         if (!isNaN(val)) updates[`stats.${k}`] = val;
       }
     }
+    for (const k of ["auto_projects", "auto_languages"]) {
+      if (k in body) {
+        const v = body[k];
+        updates[`stats.${k}`] =
+          v === true || v === 1 || v === "1" || v === "true";
+      }
+    }
 
     await updatePortfolioMain(updates);
     return { ok: true };
@@ -299,24 +334,33 @@ const API = {
     return { ok: true };
   },
 
-  /** Dilleri güncelle */
+  /** Dilleri/becerileri güncelle — tüm listeyi kaydeder (ekleme/silme/yeniden adlandırma dahil) */
   async updateLanguages(body) {
     await ensureAuth();
 
-    const mainData = await getPortfolioMain();
-    const langMap = {};
-    for (const l of mainData.languages || []) langMap[l.name] = { ...l };
-
-    for (const upd of body.languages || []) {
-      const name = upd.name;
-      if (name in langMap) {
-        if ("visible" in upd) langMap[name].visible = Boolean(upd.visible);
-        if ("level" in upd) langMap[name].level = Math.max(0, Math.min(100, parseInt(upd.level, 10)));
-      }
+    if (!Array.isArray(body.languages)) {
+      throw new Error("Geçersiz beceri listesi.");
     }
 
-    await updatePortfolioMain({ languages: Object.values(langMap) });
-    return { ok: true };
+    const seen = new Set();
+    const languages = [];
+    for (const item of body.languages) {
+      const name = String(item?.name || "").trim();
+      if (!name || seen.has(name.toLocaleLowerCase("tr"))) continue;
+      seen.add(name.toLocaleLowerCase("tr"));
+
+      const rawLevel = parseInt(item.level, 10);
+      languages.push({
+        name,
+        visible: item.visible !== false,
+        level: Number.isNaN(rawLevel) ? 0 : Math.max(0, Math.min(100, rawLevel)),
+        icon: typeof item.icon === "string" ? item.icon : "",
+        isProgrammingLanguage: item.isProgrammingLanguage !== false,
+      });
+    }
+
+    await updatePortfolioMain({ languages });
+    return { ok: true, languages };
   },
 
   /** Projeleri güncelle (add / update / delete / reorder) */

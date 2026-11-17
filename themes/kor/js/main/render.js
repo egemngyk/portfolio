@@ -693,7 +693,7 @@
             ${group
               .map((l) => {
                 const lvl = clamp(Math.round(Number(l.level) || 0), 0, 100);
-                const logo = LANG_LOGOS[l.name];
+                const logo = l.icon || LANG_LOGOS[l.name];
                 const logoHtml = logo
                   ? `<img class="logo-mono" src="${logo}" alt="" onerror="this.style.display='none'">`
                   : "";
@@ -724,7 +724,7 @@
       } else {
         badges.innerHTML = tools
           .map((tool) => {
-            const logo = LANG_LOGOS[tool.name];
+            const logo = tool.icon || LANG_LOGOS[tool.name];
             const img = logo
               ? `<img src="${logo}" alt="" onerror="this.style.display='none'">`
               : "";

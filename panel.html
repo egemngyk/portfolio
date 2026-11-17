@@ -444,13 +444,23 @@
           <div class="section-card">
             <div class="sc-title">Sayaç Değerleri</div>
             <div class="form-grid">
-              <div class="form-group">
-                <label>Aktif Proje Sayısı</label>
-                <input id="s-projects" type="number" min="0" max="99" />
+              <div class="form-group auto-field">
+                <label class="auto-label" for="s-auto-projects">
+                  <input type="checkbox" id="s-auto-projects" />
+                  <span>Aktif Proje Sayısı</span>
+                  <em class="auto-tag">otomatik</em>
+                </label>
+                <input id="s-projects" type="number" min="0" max="9999" />
+                <span class="auto-hint" id="s-projects-hint" hidden></span>
               </div>
-              <div class="form-group">
-                <label>Programlama Dili Sayısı</label>
-                <input id="s-langs" type="number" min="0" max="99" />
+              <div class="form-group auto-field">
+                <label class="auto-label" for="s-auto-langs">
+                  <input type="checkbox" id="s-auto-langs" />
+                  <span>Programlama Dili Sayısı</span>
+                  <em class="auto-tag">otomatik</em>
+                </label>
+                <input id="s-langs" type="number" min="0" max="9999" />
+                <span class="auto-hint" id="s-langs-hint" hidden></span>
               </div>
               <div class="form-group">
                 <label>Yıl</label>
@@ -472,13 +482,53 @@
         <div class="tab-content" id="tab-languages">
           <div class="tab-header">
             <h1>Diller & Stack</h1>
-            <p>Görünür dilleri ve seviyelerini ayarla</p>
+            <p>Beceri ekle, ikon seç, seviye ayarla ve görünürlüğü yönet</p>
           </div>
-          <div class="section-card">
-            <div class="sc-title">Programlama Dilleri — havuzdan seç</div>
+
+          <div class="section-card skill-add-card">
+            <div class="sc-title">Yeni Beceri Ekle <span class="sc-count" id="lang-count"></span></div>
             <p class="sc-sub">
-              Yanındaki toggle'a tıklayarak hangi dillerin sayfada görüneceğini
-              seç. Kaydırıcıyla seviye ayarla.
+              İkon deposundan bir ikon seç, adını yaz ve seviyesini ayarla.
+              Değişiklikler <strong>Kaydet</strong>'e basana kadar taslakta kalır.
+            </p>
+            <div class="skill-add-grid">
+              <button type="button" class="icon-pick-btn" id="btn-pick-icon">
+                <span class="icon-pick-preview" id="new-icon-preview">+</span>
+                <span class="icon-pick-label" id="new-icon-label">İkon Seç</span>
+              </button>
+              <div class="form-group">
+                <label>Beceri Adı</label>
+                <input id="new-skill-name" type="text" placeholder="Örn. React" maxlength="40" />
+              </div>
+              <div class="form-group skill-level-field">
+                <label>Seviye</label>
+                <div class="level-control" data-level-control>
+                  <input type="range" min="0" max="100" value="50" id="new-skill-level" />
+                  <input type="number" min="0" max="100" value="50" class="level-num" />
+                  <span class="level-bubble">50%</span>
+                </div>
+                <div class="level-presets" data-level-presets>
+                  <button type="button" data-preset="0">0</button>
+                  <button type="button" data-preset="25">25</button>
+                  <button type="button" data-preset="50">50</button>
+                  <button type="button" data-preset="75">75</button>
+                  <button type="button" data-preset="100">100</button>
+                </div>
+              </div>
+              <label class="pl-check" for="new-skill-is-lang">
+                <input type="checkbox" id="new-skill-is-lang" checked />
+                <span>Programlama dili</span>
+              </label>
+              <button type="button" class="btn-primary btn-add-skill" id="btn-add-skill">+ Listeye Ekle</button>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="sc-title">Beceri Listesi</div>
+            <p class="sc-sub">
+              Görünürlüğü kapatılan becerilerin seviye ayarı pasifleşir.
+              <strong>Programlama dili</strong> tiki, Sayısal Değerler'deki otomatik
+              dil sayısını belirler. Silmek için ✕ düğmesine iki kez bas.
             </p>
             <div id="lang-list">Yükleniyor...</div>
             <button class="btn-primary" id="btn-save-langs">Kaydet</button>
@@ -603,19 +653,40 @@
     <script src="/shared/panel-loader.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 
+    <!-- İKON SEÇİM MODALI -->
+    <div class="modal-overlay" id="icon-modal" style="display: none">
+      <div class="modal icon-modal">
+        <div class="modal-title">İkon Deposu</div>
+        <p class="sc-sub">İkon seçmek için üzerine tıkla. Arama kutusuyla filtreleyebilirsin.</p>
+        <input type="text" id="icon-search" placeholder="İkon ara (örn. react, python, docker)..." autocomplete="off" />
+        <div class="icon-cat-legend" id="icon-cat-legend"></div>
+        <div class="icon-grid" id="icon-grid"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="btn-icon-cancel">Kapat</button>
+        </div>
+      </div>
+    </div>
+
     <!-- TEMPLATES -->
     <template id="tpl-lang-row">
       <div class="lang-row">
         <div class="lang-logo"></div>
-        <div class="lang-name"></div>
+        <div class="lang-info">
+          <div class="lang-name"></div>
+          <label class="lang-pl-check"><input type="checkbox" class="lang-pl"><span>Programlama dili</span></label>
+        </div>
         <div class="lang-toggle">
           <input type="checkbox">
           <label></label>
         </div>
         <div class="lang-level-wrap">
-          <input type="range" min="0" max="100">
-          <span class="lang-pct"></span>
+          <div class="level-control" data-level-control>
+            <input type="range" min="0" max="100">
+            <input type="number" min="0" max="100" class="level-num">
+            <span class="level-bubble"></span>
+          </div>
         </div>
+        <button type="button" class="lang-delete" title="Beceriyi sil">✕</button>
       </div>
     </template>
     

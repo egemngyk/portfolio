@@ -202,3 +202,475 @@ project-card {
   align-items: center;
   justify-content: center;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BECERİ / DİL YÖNETİMİ  (ikon deposu, modern seviye kontrolü, silme)
+   Tema CSS'inden sonra yüklendiği için temaya özel stilleri geçersiz kılar.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Ekleme kartı ── */
+.skill-add-card {
+  margin-bottom: 20px;
+}
+.skill-add-grid {
+  display: grid;
+  grid-template-columns: auto minmax(160px, 1fr) minmax(220px, 1.2fr) auto auto;
+  gap: 18px;
+  align-items: end;
+  margin-top: 18px;
+}
+.skill-add-grid .form-group {
+  margin: 0;
+}
+.skill-add-grid .form-group > label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.icon-pick-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 108px;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border: 1px dashed var(--border-2);
+  border-radius: 10px;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.16s, background 0.16s, transform 0.16s;
+}
+.icon-pick-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  transform: translateY(-1px);
+}
+.icon-pick-preview {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--muted);
+  border-radius: 8px;
+}
+.icon-pick-preview.has-icon {
+  color: var(--text);
+}
+.icon-pick-preview img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+.icon-pick-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.icon-pick-label.is-suggested {
+  color: var(--accent);
+}
+
+/* ── Ortak tick görünümü ── */
+.pl-check input,
+.lang-pl-check input,
+.auto-label input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  flex-shrink: 0;
+  border: 1px solid var(--border-2);
+  border-radius: 4px;
+  background: var(--surface-2);
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s, border-color 0.15s;
+}
+.pl-check input:checked,
+.lang-pl-check input:checked,
+.auto-label input:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.pl-check input:checked::after,
+.lang-pl-check input:checked::after,
+.auto-label input:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: solid #000;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.pl-check,
+.lang-pl-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.74rem;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+}
+.pl-check input:checked + span,
+.lang-pl-check input:checked + span {
+  color: var(--text);
+}
+.btn-add-skill {
+  white-space: nowrap;
+}
+
+/* ── Modern seviye ayarlayıcı ── */
+.level-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.lang-level-wrap .level-control {
+  width: 100%;
+}
+.lang-level-wrap .level-control input[type="range"],
+.level-control input[type="range"] {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 1;
+  min-width: 60px;
+  height: 6px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0;
+  cursor: pointer;
+  background: linear-gradient(
+    90deg,
+    var(--accent) 0%,
+    var(--accent) var(--pct, 50%),
+    var(--border-2) var(--pct, 50%),
+    var(--border-2) 100%
+  );
+  transition: background 0.12s ease;
+}
+.level-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--accent), 0 2px 6px rgba(0, 0, 0, 0.35);
+  cursor: grab;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+.level-control input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.18);
+  box-shadow: 0 0 0 4px var(--accent-dim), 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.level-control input[type="range"]::-webkit-slider-thumb:active {
+  cursor: grabbing;
+}
+.level-control input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--accent);
+  cursor: grab;
+}
+.level-control input[type="range"]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+.level-control input[type="range"]:disabled {
+  cursor: not-allowed;
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+.level-control input[type="range"]:disabled::-webkit-slider-thumb {
+  cursor: not-allowed;
+  transform: none;
+}
+.level-num {
+  width: 62px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  padding: 6px 4px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text);
+}
+.level-num:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.level-num:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.level-bubble {
+  min-width: 44px;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border-radius: 999px;
+  padding: 4px 8px;
+}
+.level-presets {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+.level-presets button {
+  flex: 1;
+  padding: 5px 0;
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.14s;
+}
+.level-presets button:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Beceri satırı ── */
+.lang-row {
+  display: grid;
+  grid-template-columns: 32px minmax(130px, 1fr) auto minmax(200px, 1.4fr) 30px;
+  gap: 14px;
+  align-items: center;
+}
+.lang-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.lang-info .lang-name {
+  width: auto;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.lang-row.is-hidden {
+  opacity: 0.55;
+}
+.lang-row.is-hidden .lang-level-wrap .level-bubble {
+  color: var(--muted);
+  background: var(--surface-2);
+}
+.lang-delete {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.lang-delete:hover {
+  color: #ff5c5c;
+  border-color: #ff5c5c;
+  background: rgba(255, 92, 92, 0.08);
+}
+.lang-delete.confirming {
+  width: auto;
+  min-width: 48px;
+  padding: 0 8px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  background: #d33;
+  border-color: #d33;
+}
+
+/* ── Otomatik sayaç alanları ── */
+.auto-field .auto-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.auto-tag {
+  font-style: normal;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 2px 6px;
+  border-radius: 999px;
+  opacity: 0;
+  transition: opacity 0.16s;
+}
+.auto-label input:checked ~ .auto-tag {
+  opacity: 1;
+}
+.auto-field input.auto-locked {
+  color: var(--accent);
+  font-weight: 700;
+  background: var(--surface-2);
+  cursor: not-allowed;
+}
+.auto-hint {
+  display: block;
+  margin-top: 7px;
+  font-size: 0.71rem;
+  color: var(--accent);
+}
+.auto-hint[hidden] {
+  display: none !important;
+}
+
+/* ── İkon deposu modalı ── */
+.icon-modal {
+  width: min(820px, 94vw);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 24px;
+}
+.icon-modal .modal-title {
+  margin-bottom: 6px;
+}
+.icon-modal .sc-sub {
+  margin: 0 0 12px;
+}
+.icon-modal > input[type="text"] {
+  width: 100%;
+  margin-bottom: 12px;
+}
+.icon-cat-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.icon-cat-legend button {
+  font-size: 0.68rem;
+  padding: 5px 9px;
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.14s;
+}
+.icon-cat-legend button:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  gap: 8px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 140px;
+  padding: 4px;
+  align-content: start;
+}
+.icon-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 12px 6px;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.14s, background 0.14s, transform 0.14s;
+}
+.icon-option:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.icon-option.selected {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  background: var(--accent-dim);
+}
+.icon-option img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+.icon-option span {
+  font-size: 0.67rem;
+  text-align: center;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.icon-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+/* ── Mobil / dar ekran ── */
+@media (max-width: 1100px) {
+  .skill-add-grid {
+    grid-template-columns: auto minmax(140px, 1fr);
+  }
+  .skill-add-grid .skill-level-field {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 768px) {
+  .skill-add-grid {
+    grid-template-columns: 1fr;
+  }
+  .skill-add-grid .icon-pick-btn {
+    width: 100%;
+  }
+  .lang-row {
+    grid-template-columns: 28px 1fr auto;
+    gap: 10px;
+  }
+  .lang-row .lang-level-wrap {
+    grid-column: 1 / -1;
+  }
+  .lang-row .lang-delete {
+    grid-column: 3;
+    grid-row: 2;
+  }
+  .icon-modal {
+    padding: 18px;
+  }
+  .icon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  }
+}

@@ -511,7 +511,7 @@
           <div class="stack-items">
             ${group
               .map((l) => {
-                const logo = LANG_LOGOS[l.name];
+                const logo = l.icon || LANG_LOGOS[l.name];
                 const logoHtml = logo
                   ? `<img class="stack-lang-logo" src="${logo}" alt="${esc(l.name)}"
                        onerror="this.style.display='none'"
@@ -531,16 +531,16 @@
     }
 
     if (badges) {
-      const all = [...langs.map((l) => l.name), ...tools.map((t) => t.name)];
+      const all = [...langs, ...tools];
       badges.innerHTML = all
-        .map((name) => {
-          const logo = LANG_LOGOS[name];
+        .map((item) => {
+          const logo = item.icon || LANG_LOGOS[item.name];
           const img = logo
-            ? `<img src="${logo}" alt="${esc(name)}"
+            ? `<img src="${logo}" alt="${esc(item.name)}"
                  style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:5px;"
                  onerror="this.style.display='none'">`
             : "";
-          return `<span class="badge">${img}${esc(name)}</span>`;
+          return `<span class="badge">${img}${esc(item.name)}</span>`;
         })
         .join("");
     }
