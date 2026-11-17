@@ -44,8 +44,9 @@ export function renderStatsForm(s, statsAuto) {
 
   const autoProjects = document.getElementById("s-auto-projects");
   const autoLangs = document.getElementById("s-auto-langs");
-  if (autoProjects) autoProjects.checked = s.auto_projects === true;
-  if (autoLangs) autoLangs.checked = s.auto_languages === true;
+  // Varsayılan açık: bayrak yoksa otomatik mod kullanılır (api.js ile aynı kural).
+  if (autoProjects) autoProjects.checked = s.auto_projects !== false;
+  if (autoLangs) autoLangs.checked = s.auto_languages !== false;
 
   _computed = statsAuto || window.stats_auto || {
     active_projects: s.active_projects ?? 0,

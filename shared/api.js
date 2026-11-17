@@ -123,11 +123,14 @@ function computeDerivedStats(mainData) {
   const projects = mainData?.projects || [];
   const languages = mainData?.languages || [];
 
+  // Bayrak hiç kaydedilmemişse otomatik mod varsayılandır: site gerçek
+  // proje/beceri sayısını gösterir. Elle değer ancak tik bilinçli kapatılırsa
+  // (auto_* === false) kullanılır.
   return {
-    active_projects: stats.auto_projects
+    active_projects: stats.auto_projects !== false
       ? projects.length
       : (stats.active_projects ?? 0),
-    languages_count: stats.auto_languages
+    languages_count: stats.auto_languages !== false
       ? languages.filter(
           (l) => l.visible !== false && l.isProgrammingLanguage !== false
         ).length
