@@ -89,6 +89,35 @@ const _filterLabels = {
   all: "Tümü",
 };
 
+// Grafik renklerini aktif temanın CSS değişkenlerinden oku.
+// Tema panel.css'i yüklendiği için --accent her temada farklıdır;
+// sabit #c8ff00 kullanıldığında tüm temalar yeşil görünüyordu.
+function _chartTheme() {
+  const cs = getComputedStyle(document.documentElement);
+  const hex = (cs.getPropertyValue("--accent") || "#c8ff00").trim() || "#c8ff00";
+  const border = (cs.getPropertyValue("--border") || "#1e1e1e").trim() || "#1e1e1e";
+  const grid = (cs.getPropertyValue("--border-2") || border).trim() || border;
+  const muted = (cs.getPropertyValue("--muted") || "#666").trim() || "#666";
+
+  // #rgb / #rrggbb → r,g,b (rgba üretmek için)
+  let h = hex.replace("#", "");
+  if (h.length === 3) h = h.split("").map((c) => c + c).join("");
+  const num = parseInt(h, 16);
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
+  const b = num & 255;
+  const rgba = (a) => `rgba(${r},${g},${b},${a})`;
+
+  return {
+    accent: hex,
+    fill: rgba(0.12),
+    soft: rgba(0.22),
+    border,
+    grid,
+    muted,
+  };
+}
+
 function _buildStatsHTML(s) {
   const analytics = window.analytics || {};
   const sessions = analytics.sessions || {};
@@ -263,6 +292,8 @@ function _renderSessionChart(data, s = "") {
   );
   if (!entries.length) return;
 
+  const c = _chartTheme();
+
   window["_sessionChart" + s] = new Chart(canvas.getContext("2d"), {
     type: "line",
     data: {
@@ -270,10 +301,10 @@ function _renderSessionChart(data, s = "") {
       datasets: [
         {
           data: entries.map((e) => e[1]),
-          borderColor: "#c8ff00",
-          backgroundColor: "rgba(200,255,0,0.12)",
+          borderColor: c.accent,
+          backgroundColor: c.fill,
           borderWidth: 2,
-          pointBackgroundColor: "#c8ff00",
+          pointBackgroundColor: c.accent,
           pointRadius: 4,
           tension: 0.35,
           fill: true,
@@ -287,18 +318,18 @@ function _renderSessionChart(data, s = "") {
       scales: {
         x: {
           ticks: {
-            color: "#555",
+            color: c.muted,
             font: { size: 10, family: "DM Mono,monospace" },
             maxRotation: 45,
             maxTicksLimit: 8,
           },
-          grid: { color: "#1e1e1e" },
-          border: { color: "#1e1e1e" },
+          grid: { color: c.grid },
+          border: { color: c.border },
         },
         y: {
-          ticks: { color: "#555", font: { size: 10 } },
-          grid: { color: "#1a1a1a" },
-          border: { color: "#1e1e1e" },
+          ticks: { color: c.muted, font: { size: 10 } },
+          grid: { color: c.grid },
+          border: { color: c.border },
           beginAtZero: true,
         },
       },
@@ -331,6 +362,8 @@ function _renderDurationChart(durations, s = "") {
     else buckets["300+"]++;
   });
 
+  const c = _chartTheme();
+
   window["_durationChart" + s] = new Chart(canvas.getContext("2d"), {
     type: "bar",
     data: {
@@ -339,7 +372,7 @@ function _renderDurationChart(durations, s = "") {
         {
           data: Object.values(buckets),
           backgroundColor: Object.keys(buckets).map((_, i) =>
-            i === 1 ? "#c8ff00" : "rgba(200,255,0,0.22)"
+            i === 1 ? c.accent : c.soft
           ),
           borderColor: "transparent",
           borderRadius: 2,
@@ -353,16 +386,16 @@ function _renderDurationChart(durations, s = "") {
       scales: {
         x: {
           ticks: {
-            color: "#555",
+            color: c.muted,
             font: { size: 10, family: "DM Mono,monospace" },
           },
-          grid: { color: "#1e1e1e" },
-          border: { color: "#1e1e1e" },
+          grid: { color: c.grid },
+          border: { color: c.border },
         },
         y: {
-          ticks: { color: "#555", font: { size: 10 }, stepSize: 1 },
-          grid: { color: "#1a1a1a" },
-          border: { color: "#1e1e1e" },
+          ticks: { color: c.muted, font: { size: 10 }, stepSize: 1 },
+          grid: { color: c.grid },
+          border: { color: c.border },
           beginAtZero: true,
         },
       },

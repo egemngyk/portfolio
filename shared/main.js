@@ -82,14 +82,21 @@ window.sendMessage = async function ({ name, email, message }) {
   }
 };
 
-/* Favicon Güvencesi: Aktif tema ikonunu head'e garantile */
+/* Favicon Güvencesi: Aktif/önizleme temasının ikonunu head'e garantile.
+   Öncelik: ?preview / ?theme URL parametresi > <base href> > Firestore'dan gelen aktif tema. */
 try {
+  const params = new URLSearchParams(window.location.search);
+  const urlTheme = params.get("preview") || params.get("theme");
   const baseEl = document.querySelector("base");
   const baseHref = baseEl ? baseEl.getAttribute("href") : "";
   const match = baseHref.match(/themes\/([^\/]+)/);
-  const currentTheme = match ? match[1] : (new URLSearchParams(window.location.search).get("theme") || new URLSearchParams(window.location.search).get("preview"));
-  if (currentTheme) {
-    const iconUrl = `/themes/${currentTheme}/assets/favicon.png`;
+  const baseTheme = match ? match[1] : "";
+  const valid = (t) => t && /^[\w-]+$/.test(t);
+
+  function applyFavicon(theme) {
+    if (!valid(theme)) return;
+    // Cache-busting: tema değişince eski favicon önbellekten gelmesin
+    const iconUrl = `/themes/${theme}/assets/favicon.png?v=${Date.now()}`;
     document.querySelectorAll("link[rel*='icon']").forEach((el) => el.remove());
     const l1 = document.createElement("link");
     l1.rel = "icon";
@@ -105,6 +112,20 @@ try {
     l3.rel = "apple-touch-icon";
     l3.href = iconUrl;
     document.head.appendChild(l3);
+  }
+
+  if (valid(urlTheme)) {
+    applyFavicon(urlTheme);
+  } else if (valid(baseTheme)) {
+    applyFavicon(baseTheme);
+  } else if (window.portfolioPromise && typeof window.portfolioPromise.then === "function") {
+    // base/URL yoksa aktif temayı Firestore verisinden al
+    window.portfolioPromise
+      .then((portfolio) => {
+        const applied = portfolio?.themes?.find((t) => t.applied);
+        if (applied?.folder) applyFavicon(applied.folder);
+      })
+      .catch(() => {});
   }
 } catch {
   // no-op

@@ -63,9 +63,9 @@
 </script>
 <!-- SEO:END -->
 
-<link rel="icon" type="image/png" href="/themes/claudemade/assets/favicon.png" />
-<link rel="shortcut icon" type="image/png" href="/themes/claudemade/assets/favicon.png" />
-<link rel="apple-touch-icon" href="/themes/claudemade/assets/favicon.png" />
+<!-- Favicon aktif/preview temaya göre JS ile set edilir (bkz. setFavicon / shared/main.js).
+     Statik bir tema ikonu koymak, tema yüklenene kadar yanlış (claudemade) ikonun görünmesine yol açıyor. -->
+<link rel="icon" href="data:," />
 <script type="module">
   import { injectSpeedInsights } from 'https://esm.sh/@vercel/speed-insights';
   injectSpeedInsights();
@@ -148,7 +148,8 @@
   }
 
   function setFavicon(theme) {
-    const faviconUrl = `/themes/${theme}/assets/favicon.png`;
+    // Cache-busting: tema değişince tarayıcı eski favicon'u önbellekten göstermesin
+    const faviconUrl = `/themes/${theme}/assets/favicon.png?v=${Date.now()}`;
     document.querySelectorAll("link[rel*='icon']").forEach((e) => e.remove());
 
     const iconLink = document.createElement("link");
