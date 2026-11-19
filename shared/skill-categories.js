@@ -47,6 +47,10 @@ for (const item of ICON_STORE) {
   CATEGORY_BY_NAME.set(String(item.label).toLowerCase(), item.category);
 }
 
+// Bir kategori 4'ten fazla beceri içeriyorsa aynı başlıkla yeni bir grup açılır;
+// uzun tek bir liste yerine kısa, okunabilir bloklar oluşur.
+const MAX_ITEMS_PER_GROUP = 4;
+
 export function skillCategory(name) {
   const key = String(name || "").trim().toLowerCase();
   const resolved = ALIASES[key] || key;
@@ -66,9 +70,17 @@ export function groupSkillsByCategory(skills, lang = "tr") {
   });
 
   const labels = TITLES[lang] || TITLES.tr;
-  return ORDER.filter((key) => buckets.has(key)).map((key) => ({
-    key,
-    title: labels[key],
-    items: buckets.get(key),
-  }));
+  const groups = [];
+  for (const key of ORDER) {
+    if (!buckets.has(key)) continue;
+    const items = buckets.get(key);
+    for (let i = 0; i < items.length; i += MAX_ITEMS_PER_GROUP) {
+      groups.push({
+        key,
+        title: labels[key],
+        items: items.slice(i, i + MAX_ITEMS_PER_GROUP),
+      });
+    }
+  }
+  return groups;
 }
