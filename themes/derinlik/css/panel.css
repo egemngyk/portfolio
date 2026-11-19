@@ -1,0 +1,33 @@
+/*
+  ┌─────────────────────────────────────────────────────┐
+  │  DERİNLİK — Panel Tema Değişkenleri                 │
+  │  Sadece bu temaya özel renk ve tasarım token'ları.  │
+  │  Yapısal stiller shared/css/panel-core.css'dedir.  │
+  └─────────────────────────────────────────────────────┘
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap");
+@import url("/shared/css/panel-core.css");
+
+:root {
+  /* Renkler */
+  --bg:         #040a11;
+  --surface:    #07131d;
+  --surface-2:  #0a1c29;
+  --border:     #143244;
+  --border-2:   #1e5069;
+  --text:       #dbeaf2;
+  --muted:      #8fb0c1;
+  --dim:        #577b8f;
+  --accent:     #3ddbff;
+  --accent-dim: rgba(61, 219, 255, 0.14);
+  --red:        #f0a184;   /* hata/uyarı: soğuk vurgudan ayrışsın diye sıcak ton */
+  --green:      #5ad3a3;
+
+  /* Fontlar */
+  --font:  "IBM Plex Mono", "DM Mono", monospace;
+  --syne:  "Chakra Petch", "Arial Narrow", sans-serif;
+
+  /* Layout */
+  --sidebar-w: 220px;
+}

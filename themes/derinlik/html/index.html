@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <base href="/themes/derinlik/html/">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Egemen Geyik</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon" type="image/png" href="../assets/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/favicon.png" />
+    <script type="module">
+      import { injectSpeedInsights } from 'https://esm.sh/@vercel/speed-insights';
+      injectSpeedInsights();
+    </script>
+  </head>
+  <body>
+    <!-- HARİTA DOKUSU -->
+    <div class="chart-layer" aria-hidden="true"></div>
+    <div class="chart-grain" aria-hidden="true"></div>
+
+    <!-- DERİNLİK CETVELİ -->
+    <div class="depth-rail" aria-hidden="true">
+      <span class="depth-cap">00</span>
+      <div class="depth-track">
+        <div class="depth-ticks"></div>
+        <div class="depth-fill" id="depth-fill"></div>
+        <div class="depth-head" id="depth-head"></div>
+      </div>
+      <span class="depth-readout tnum" id="depth-readout">000</span>
+      <span class="depth-cap">99</span>
+    </div>
+
+    <!-- NAV -->
+    <nav id="nav">
+      <a class="nav-logo" href="#hero" aria-label="Egemen Geyik"><span>EG</span></a>
+      <ul class="nav-links">
+        <li><a href="#about"    data-i18n="nav_about">Hakkımda</a></li>
+        <li><a href="#stack"    data-i18n="nav_stack">Stack</a></li>
+        <li><a href="#projects" data-i18n="nav_projects">Projeler</a></li>
+        <li><a href="#tedx"     data-i18n="nav_tedx">TEDx</a></li>
+        <li><a href="#contact"  data-i18n="nav_contact">İletişim</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-status">
+          <span class="status-dot"></span>
+          <span id="nav-status-text"></span>
+        </div>
+        <button class="lang-toggle" id="lang-toggle" title="Switch language" aria-label="Switch language"></button>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-main reveal">
+          <p class="hero-tag tnum" id="hero-tag"></p>
+          <h1 class="hero-title">
+            <span id="hero-name" class="hero-name" aria-label="Egemen Geyik"></span>
+          </h1>
+          <p class="hero-sub" id="hero-sub"></p>
+        </div>
+        <div class="hero-age reveal">
+          <span class="hero-age-num tnum" id="hero-age"></span>
+          <span class="hero-age-unit" data-i18n="hero_age_suffix">yaşında</span>
+        </div>
+      </div>
+
+      <div class="hero-barline">
+        <div class="wrap hero-bar reveal">
+          <dl class="spec">
+            <div><dt data-i18n="meta_host">sunucu</dt><dd id="meta-host"></dd></div>
+            <div><dt data-i18n="meta_domain">alan adı</dt><dd id="meta-domain"></dd></div>
+            <div><dt data-i18n="meta_loc">konum</dt><dd id="meta-location"></dd></div>
+            <div><dt data-i18n="meta_time">yerel saat</dt><dd id="meta-time" class="tnum">--:--:--</dd></div>
+          </dl>
+          <span id="meta-age" hidden></span>
+          <a href="#projects" class="hero-cta">
+            <span data-i18n="hero_cta">Projelere bak</span>
+            <i aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section-about">
+      <div class="wrap about-grid">
+        <div class="about-left reveal">
+          <div class="sec-idx tnum" aria-hidden="true">01 <span>/ 06</span></div>
+          <h2 id="about-heading"></h2>
+        </div>
+        <div class="about-right reveal">
+          <p id="about-p1" class="lead"></p>
+          <p id="about-p2"></p>
+          <div class="about-stats crop">
+            <div class="stat">
+              <span class="stat-num tnum" id="stat-projects" data-count="0">0</span>
+              <span class="stat-label" data-i18n="stat_projects">Aktif Proje</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num tnum" id="stat-langs" data-count="0">0</span>
+              <span class="stat-label" data-i18n="stat_langs">Programlama Dili</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num tnum" id="stat-year" data-count="0">0</span>
+              <span class="stat-label" data-i18n="stat_year">Yıl</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section id="stack" class="section-stack">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div class="sec-idx tnum" aria-hidden="true">02 <span>/ 06</span></div>
+          <h2 class="section-title" data-i18n="stack_title">Teknik Envanter</h2>
+        </div>
+        <div class="stack-grid" id="stack-grid"></div>
+        <div class="tools" id="tools-wrap">
+          <h3 class="tools-title" data-i18n="stack_tools_title">Araç Kutusu</h3>
+          <div class="tech-badges" id="tech-badges"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section-projects">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div class="sec-idx tnum" aria-hidden="true">03 <span>/ 06</span></div>
+          <h2 class="section-title" data-i18n="projects_title">İnşa Kayıtları</h2>
+        </div>
+        <div class="ledger" id="projects-grid"></div>
+      </div>
+    </section>
+
+    <!-- GOAL -->
+    <section class="section-goal" id="goal">
+      <div class="goal-pin">
+        <div class="sec-idx tnum" aria-hidden="true">04 <span>/ 06</span></div>
+        <blockquote id="goal-quote"></blockquote>
+        <p id="goal-desc"></p>
+      </div>
+    </section>
+
+    <!-- TEDX -->
+    <section id="tedx" class="section-tedx">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div class="sec-idx tnum" aria-hidden="true">05 <span>/ 06</span></div>
+          <h2 class="section-title" data-i18n="tedx_title">TEDx Konuşması</h2>
+        </div>
+        <div class="tedx-grid">
+          <div class="tedx-stage crop reveal">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/BgNjGG_GllA"
+              title="Muhammed Egemen Geyik – TEDx"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="tedx-info reveal">
+            <p class="tedx-desc" data-i18n="tedx_desc">Muhammed Egemen Geyik'in TEDx sahnesinde yaptığı "İnovasyon" başlıklı konuşma.</p>
+            <div class="tedx-links" id="tedx-links"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section-contact">
+      <div class="wrap contact-grid">
+        <div class="contact-left reveal">
+          <div class="sec-idx tnum" aria-hidden="true">06 <span>/ 06</span></div>
+          <h2 data-i18n="contact_heading">Birlikte bir şeyler<br /><em>üretelim.</em></h2>
+          <div id="contact-links" class="contact-links-list"></div>
+        </div>
+        <div class="contact-right reveal">
+          <div class="contact-form-wrap crop">
+            <div class="form-title tnum" data-i18n="form_title">Doğrudan Yaz</div>
+            <div class="form-group">
+              <label for="form-name" data-i18n="form_name">Ad Soyad</label>
+              <input type="text" id="form-name" autocomplete="name" data-i18n-placeholder="form_name_ph" placeholder="Adın" />
+            </div>
+            <div class="form-group">
+              <label for="form-email" data-i18n="form_email">E-posta</label>
+              <input type="email" id="form-email" autocomplete="email" data-i18n-placeholder="form_email_ph" placeholder="email@ornek.com" />
+            </div>
+            <div class="form-group">
+              <label for="form-message" data-i18n="form_message">Mesaj</label>
+              <textarea id="form-message" rows="5" data-i18n-placeholder="form_message_ph" placeholder="Merhaba Egemen..."></textarea>
+            </div>
+            <button class="form-submit" id="form-submit" type="button">
+              <span data-i18n="form_send">Gönder</span>
+              <i aria-hidden="true"></i>
+            </button>
+            <div class="form-feedback" id="form-feedback" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap footer-inner">
+        <div class="footer-left" id="footer-copy"></div>
+        <div class="footer-center">
+          <span id="footer-host"></span>
+          <span class="footer-sep" aria-hidden="true">/</span>
+          <span id="footer-domain"></span>
+        </div>
+        <div class="footer-right">
+          <span class="status-dot small"></span>
+          <span data-i18n="footer_online">Çevrimiçi</span>
+          <a href="#hero" class="to-top" data-i18n="footer_top">Başa dön</a>
+        </div>
+      </div>
+      <div class="wordmark" id="footer-wordmark" aria-hidden="true"></div>
+    </footer>
+
+    <script src="../js/main/main.js"></script>
+  </body>
+</html>
