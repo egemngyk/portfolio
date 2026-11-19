@@ -82,7 +82,9 @@ window.sendMessage = async function ({ name, email, message }) {
   }
 };
 
-/* Favicon Güvencesi: Aktif/önizleme temasının ikonunu head'e garantile.
+/* Favicon Güvencesi: Aktif/önizleme temasının ikonunu garantile.
+   Tek uygulayıcı index.html içindeki window.setFavicon'dur (ilk paint'te gerçek icon
+   zaten mevcut). Burada sadece doğru temayı seçip ona delegasyon yapılır.
    Öncelik: ?preview / ?theme URL parametresi > <base href> > Firestore'dan gelen aktif tema. */
 try {
   const params = new URLSearchParams(window.location.search);
@@ -92,27 +94,7 @@ try {
   const match = baseHref.match(/themes\/([^\/]+)/);
   const baseTheme = match ? match[1] : "";
   const valid = (t) => t && /^[\w-]+$/.test(t);
-
-  function applyFavicon(theme) {
-    if (!valid(theme)) return;
-    // Cache-busting: tema değişince eski favicon önbellekten gelmesin
-    const iconUrl = `/themes/${theme}/assets/favicon.png?v=${Date.now()}`;
-    document.querySelectorAll("link[rel*='icon']").forEach((el) => el.remove());
-    const l1 = document.createElement("link");
-    l1.rel = "icon";
-    l1.type = "image/png";
-    l1.href = iconUrl;
-    document.head.appendChild(l1);
-    const l2 = document.createElement("link");
-    l2.rel = "shortcut icon";
-    l2.type = "image/png";
-    l2.href = iconUrl;
-    document.head.appendChild(l2);
-    const l3 = document.createElement("link");
-    l3.rel = "apple-touch-icon";
-    l3.href = iconUrl;
-    document.head.appendChild(l3);
-  }
+  const applyFavicon = (t) => (valid(t) && window.setFavicon ? window.setFavicon(t) : undefined);
 
   if (valid(urlTheme)) {
     applyFavicon(urlTheme);

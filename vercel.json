@@ -61,7 +61,7 @@
   "rewrites": [
     {
       "source": "/favicon.ico",
-      "destination": "/themes/claudemade/assets/favicon.png"
+      "destination": "/themes/kor/assets/favicon.png"
     },
     {
       "source": "/panel",

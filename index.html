@@ -63,9 +63,13 @@
 </script>
 <!-- SEO:END -->
 
-<!-- Favicon aktif/preview temaya göre JS ile set edilir (bkz. setFavicon / shared/main.js).
-     Statik bir tema ikonu koymak, tema yüklenene kadar yanlış (claudemade) ikonun görünmesine yol açıyor. -->
-<link rel="icon" href="data:," />
+<!-- Favicon: ilk paint'ten itibaren GERÇEK bir ikon olsun.
+     data:, placeholder kullanmak Chrome'da site için "ikon yok" kaydı oluşturuyor ve
+     document.write() sonrası JS ile eklenen link'ler sekmede görünmüyordu.
+     Statik bağlantı aktif tema (kor); window.setFavicon preview/aktif temaya göre günceller. -->
+<link rel="icon" type="image/png" href="/themes/kor/assets/favicon.png" />
+<link rel="shortcut icon" type="image/png" href="/themes/kor/assets/favicon.png" />
+<link rel="apple-touch-icon" href="/themes/kor/assets/favicon.png" />
 <script type="module">
   import { injectSpeedInsights } from 'https://esm.sh/@vercel/speed-insights';
   injectSpeedInsights();
@@ -147,28 +151,39 @@
     }
   }
 
+  let currentFaviconTheme = null;
+
   function setFavicon(theme) {
+    if (!theme || !/^[\w-]+$/.test(theme)) return;
+    // Aynı tema için tekrar tekrar href değiştirmek Chrome'da favicon'u sıfırlıyor
+    if (currentFaviconTheme === theme) return;
+    currentFaviconTheme = theme;
+
     // Cache-busting: tema değişince tarayıcı eski favicon'u önbellekten göstermesin
     const faviconUrl = `/themes/${theme}/assets/favicon.png?v=${Date.now()}`;
-    document.querySelectorAll("link[rel*='icon']").forEach((e) => e.remove());
+    let links = [...document.querySelectorAll("link[rel*='icon']")];
 
-    const iconLink = document.createElement("link");
-    iconLink.rel = "icon";
-    iconLink.type = "image/png";
-    iconLink.href = faviconUrl;
-    document.head.appendChild(iconLink);
+    // Hiç icon linki yoksa (ör. tema HTML'i yüklenemediyse) oluştur
+    if (!links.length) {
+      [
+        ["icon", "image/png"],
+        ["shortcut icon", "image/png"],
+        ["apple-touch-icon", null],
+      ].forEach(([rel, type]) => {
+        const link = document.createElement("link");
+        link.rel = rel;
+        if (type) link.type = type;
+        link.href = faviconUrl;
+        document.head.appendChild(link);
+      });
+      return;
+    }
 
-    const shortcutLink = document.createElement("link");
-    shortcutLink.rel = "shortcut icon";
-    shortcutLink.type = "image/png";
-    shortcutLink.href = faviconUrl;
-    document.head.appendChild(shortcutLink);
-
-    const appleLink = document.createElement("link");
-    appleLink.rel = "apple-touch-icon";
-    appleLink.href = faviconUrl;
-    document.head.appendChild(appleLink);
+    // Mevcut linklerin href'sini YERİNDE güncelle — link silip yeniden eklemek
+    // document.write() sonrası sekme ikonunun yenilenmesini güvenilir kılmaz.
+    links.forEach((link) => link.setAttribute("href", faviconUrl));
   }
+  window.setFavicon = setFavicon;
 
   async function showTheme(theme) {
     const res = await fetch(`/themes/${theme}/html/index.html`);
