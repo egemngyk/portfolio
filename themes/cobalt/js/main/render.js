@@ -1,3 +1,5 @@
+import { groupSkillsByCategory } from "/shared/skill-categories.js";
+
 /* ─────────────────────────────────────────────────────────────
    COBALT — Portfolio Frontend Engine & Telemetry Renderer
    Integrates with portfolio shared API, i18n, stats and real-time backend.
@@ -429,24 +431,15 @@
     const grid = document.getElementById("stack-grid");
     const badges = document.getElementById("tech-badges");
 
-    const groupNames =
-      lang === "en"
-        ? ["Core Languages", "Frameworks & Engine", "Specializations"]
-        : ["Temel Diller", "Framework & Altyapı", "Uzmanlık Alanları"];
-
     if (grid) {
-      const groups = [];
-      for (let i = 0; i < langs.length; i += 3) {
-        groups.push(langs.slice(i, i + 3));
-      }
+      const groups = groupSkillsByCategory(langs, lang);
       grid.innerHTML = groups
         .map(
           (group, gi) => `
         <div class="stack-group reveal">
-          <div class="stack-group-title">${groupNames[gi] || "Capabilities"}</div>
+          <div class="stack-group-title">${esc(group.title)}</div>
           <div class="stack-items">
-            ${group
-              .map((l) => {
+            ${group.items.map((l) => {
                 const logo = l.icon || LANG_LOGOS[l.name];
                 const logoHtml = logo
                   ? `<img src="${logo}" alt="${esc(l.name)}"

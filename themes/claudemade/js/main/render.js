@@ -1,3 +1,5 @@
+import { groupSkillsByCategory } from "/shared/skill-categories.js";
+
 /* ─────────────────────────────────────────────
    RENDER.JS — Portfolio Frontend Renderer
    i18n: window._lang ("tr" | "en") üzerinden çalışır.
@@ -495,23 +497,15 @@
     const grid = document.getElementById("stack-grid");
     const badges = document.getElementById("tech-badges");
 
-    const groupNames =
-      lang === "en"
-        ? ["Languages", "Libraries & Frameworks", "Specializations"]
-        : ["Diller", "Kütüphane & Framework", "Uzmanlıklar"];
-
     if (grid) {
-      const groups = [];
-      for (let i = 0; i < langs.length; i += 3)
-        groups.push(langs.slice(i, i + 3));
+      const groups = groupSkillsByCategory(langs, lang);
       grid.innerHTML = groups
         .map(
           (group, gi) => `
         <div class="stack-group reveal">
-          <div class="stack-group-title">${groupNames[gi] || "Tools"}</div>
+          <div class="stack-group-title">${esc(group.title)}</div>
           <div class="stack-items">
-            ${group
-              .map((l) => {
+            ${group.items.map((l) => {
                 const logo = l.icon || LANG_LOGOS[l.name];
                 const logoHtml = logo
                   ? `<img class="stack-lang-logo" src="${logo}" alt="${esc(l.name)}"

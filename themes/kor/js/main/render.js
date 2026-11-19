@@ -1,3 +1,5 @@
+import { groupSkillsByCategory } from "/shared/skill-categories.js";
+
 /* ─────────────────────────────────────────────
    KOR — render.js
    Veri sözleşmesi orijinal temayla aynıdır (window.name, window.projects,
@@ -680,18 +682,15 @@
     const badges = document.getElementById("tech-badges");
 
     if (grid) {
-      const groups = [];
-      for (let i = 0; i < langs.length; i += 3)
-        groups.push(langs.slice(i, i + 3));
+      const groups = groupSkillsByCategory(langs, lang);
 
       grid.innerHTML = groups
         .map(
           (group, gi) => `
         <div class="stack-group">
-          <div class="stack-group-title">${esc(t.groups[gi] || "Tools")}</div>
+          <div class="stack-group-title">${esc(group.title)}</div>
           <div class="stack-items">
-            ${group
-              .map((l) => {
+            ${group.items.map((l) => {
                 const lvl = clamp(Math.round(Number(l.level) || 0), 0, 100);
                 const logo = l.icon || LANG_LOGOS[l.name];
                 const logoHtml = logo
